@@ -1,0 +1,3 @@
+a = frozenset([2, 3])
+b = a - {2}
+print(b)
