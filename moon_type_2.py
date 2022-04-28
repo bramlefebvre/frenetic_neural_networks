@@ -28,7 +28,7 @@ def _expand_basin(tournament, basin, free_vertices):
     if basin.not_expandable:
         return set()
     available_vertices = frozenset(free_vertices | basin.used_vertices | basin.pattern_vertices)
-    if not _is_strong(tournament, list(available_vertices)):
+    if not _is_strong(tournament, available_vertices):
         basin.not_expandable = True
         return set()
     pattern_vertex = _pattern_vertex_least_included_in_cycle(basin)

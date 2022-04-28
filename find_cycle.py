@@ -13,7 +13,7 @@ def find_cycle(tournament, available_vertices, pattern_vertex, cycles, used_vert
     else:
         cycle.insert(0, vertex_1)
 
-    possible_vertices = set(available_vertices - {pattern_vertex, vertex_1})
+    possible_vertices = available_vertices - {pattern_vertex, vertex_1}
     if not _complete_to_3_cycle(tournament, possible_vertices, cycle):
         _complete_to_4_cycle(tournament, possible_vertices, cycle)
     return _order_cycle(cycle)
@@ -23,7 +23,7 @@ def _complete_to_4_cycle(tournament, possible_vertices, cycle):
     pass
 
 def _complete_to_3_cycle(tournament, possible_vertices, cycle):
-    vertices = possible_vertices.copy()
+    vertices = set(possible_vertices.copy())
     found = False
     while not found:
         vertex_2 = _pick_one(vertices)

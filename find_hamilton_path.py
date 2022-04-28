@@ -1,23 +1,22 @@
 import math
 
-def find_hamiltonian_path(tournament):
-    number_of_vertices = len(tournament[0])
-    hamiltonian_path = [0]
-    if tournament[1][0] == 0:
-        hamiltonian_path.append(1)
+def find_hamilton_path(tournament, available_vertices):
+    hamiltonian_path = [available_vertices[0]]
+    if tournament[available_vertices[1]][available_vertices[0]] == 0:
+        hamiltonian_path.append(available_vertices[1])
     else:
-        hamiltonian_path.insert(0, 1)
+        hamiltonian_path.insert(0, available_vertices[1])
 
-    if tournament[2][hamiltonian_path[1]] == 0:
-        hamiltonian_path.append(2)
-    elif tournament[2][hamiltonian_path[0]] == 1:
-        hamiltonian_path.insert(0, 2)
+    if tournament[available_vertices[2]][hamiltonian_path[1]] == 0:
+        hamiltonian_path.append(available_vertices[2])
+    elif tournament[available_vertices[2]][hamiltonian_path[0]] == 1:
+        hamiltonian_path.insert(0, available_vertices[2])
     else:
-        hamiltonian_path.insert(1, 2)
+        hamiltonian_path.insert(1, available_vertices[2])
 
-    for vertex_to_add in range(3, number_of_vertices):
+    for vertex_to_add in available_vertices[3:]:
         _insert_in_path(tournament, hamiltonian_path, vertex_to_add)
-    return hamiltonian_path
+    return tuple(hamiltonian_path)
 
 def _insert_in_path(tournament, hamiltonian_path, vertex_to_add):
     left_search_boundary = 0
