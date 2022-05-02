@@ -7,6 +7,9 @@ def hamilton_cycle_exists(tournament, available_vertices):
 def find_hamilton_cycle_complete_tournament(tournament):
     return find_hamilton_cycle(tournament, range(len(tournament)))
 
+def hamilton_cycle_complete_tournament_exists(tournament):
+    return find_hamilton_cycle_complete_tournament(tournament) is not None
+
 def find_hamilton_cycle(tournament, available_vertices):
     hamilton_path = find_hamilton_path(tournament, tuple(available_vertices))
     index = _find_largest_index_vertex_that_makes_a_cycle(tournament, hamilton_path)

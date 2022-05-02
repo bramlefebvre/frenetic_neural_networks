@@ -18,8 +18,8 @@ def _to_exuberant_system(cycles, number_of_states):
     exuberant_system = -numpy.ones((number_of_states, number_of_states))
     arcs = _to_arcs(cycles)
     for arc in arcs:
-        exuberant_system[arc[0]][arc[1]] = 1
-        exuberant_system[arc[1]][arc[0]] = 0
+        exuberant_system[arc[0], arc[1]] = 1
+        exuberant_system[arc[1], arc[0]] = 0
     return exuberant_system
 
     

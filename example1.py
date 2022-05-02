@@ -9,4 +9,4 @@ tournament = [
     [1, 0, 1, 0, 0, 1, 0, -1]
 ]
 
-patterns = (frozenset([0]), frozenset([2]))
+patterns = ((0,),(2,))

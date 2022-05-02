@@ -51,7 +51,7 @@ def _order_cycle(cycle, pattern_vertex):
     return tuple(cycle[pattern_vertex_index:] + cycle[:pattern_vertex_index])
 
 def _pick_one(vertices):
-    return list(vertices)[random_number_generator.integers(0, len(vertices))]
+    return list(vertices)[random_number_generator.integers(len(vertices))]
 
 def _pattern_vertex_least_included_in_cycle(basin):
     pattern_vertices = basin.pattern_vertices
