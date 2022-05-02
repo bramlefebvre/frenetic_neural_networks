@@ -71,7 +71,7 @@ def _get_initial_free_vertices(tournament, patterns):
     all_pattern_vertices = set()
     for pattern_vertices in patterns:
         all_pattern_vertices = all_pattern_vertices | pattern_vertices
-    return frozenset(range(tournament[0])) - all_pattern_vertices
+    return frozenset(range(len(tournament))) - all_pattern_vertices
 
 class MoonType2Response:
     def __init__(self, exuberant_system, basins):

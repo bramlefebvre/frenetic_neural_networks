@@ -16,7 +16,7 @@ def find_cycle(tournament, available_vertices, basin):
     possible_vertices = available_vertices - {pattern_vertex, vertex_1}
     if not _complete_to_3_cycle(tournament, possible_vertices, cycle):
         _complete_to_4_cycle(tournament, possible_vertices, cycle)
-    return _order_cycle(cycle)
+    return _order_cycle(cycle, pattern_vertex)
 
 
 def _complete_to_4_cycle(tournament, possible_vertices, cycle):
@@ -37,7 +37,7 @@ def _check_if_completes_to_4_cycle(tournament, cycle, vertex_2, vertex_3):
 def _complete_to_3_cycle(tournament, possible_vertices, cycle):
     vertices = set(possible_vertices.copy())
     found = False
-    while not found:
+    while not found and len(vertices) > 0:
         vertex_2 = _pick_one(vertices)
         if tournament[vertex_2][cycle[0]] == 1 and tournament[cycle[1]][vertex_2] == 1:
             cycle.append(vertex_2)
@@ -51,7 +51,7 @@ def _order_cycle(cycle, pattern_vertex):
     return tuple(cycle[pattern_vertex_index:] + cycle[:pattern_vertex_index])
 
 def _pick_one(vertices):
-    return vertices[random_number_generator.integers(0, len(vertices))]
+    return list(vertices)[random_number_generator.integers(0, len(vertices))]
 
 def _pattern_vertex_least_included_in_cycle(basin):
     pattern_vertices = basin.pattern_vertices

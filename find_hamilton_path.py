@@ -18,6 +18,9 @@ def find_hamilton_path(tournament, available_vertices):
         _insert_in_path(tournament, hamiltonian_path, vertex_to_add)
     return tuple(hamiltonian_path)
 
+def find_hamilton_path_complete_tournament(tournament):
+    return find_hamilton_path(tournament, range(len(tournament)))
+
 def _insert_in_path(tournament, hamiltonian_path, vertex_to_add):
     left_search_boundary = 0
     right_search_boundary = len(hamiltonian_path) - 1

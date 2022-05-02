@@ -4,6 +4,9 @@ from find_hamilton_path import find_hamilton_path
 def hamilton_cycle_exists(tournament, available_vertices):
     return find_hamilton_cycle(tournament, available_vertices) is not None
 
+def find_hamilton_cycle_complete_tournament(tournament):
+    return find_hamilton_cycle(tournament, range(len(tournament)))
+
 def find_hamilton_cycle(tournament, available_vertices):
     hamilton_path = find_hamilton_path(tournament, tuple(available_vertices))
     index = _find_largest_index_vertex_that_makes_a_cycle(tournament, hamilton_path)
@@ -73,7 +76,9 @@ def _check_first_vertex_of_remaining_path_against_first_vertex_of_cycle(tourname
 
 def _find_largest_index_vertex_that_makes_a_cycle(tournament, hamilton_path):
     first_vertex = hamilton_path[0]
-    reverse_hamilton_path = list(hamilton_path).reverse()
+    hamilton_path_copy = list(hamilton_path)
+    hamilton_path_copy.reverse()
+    reverse_hamilton_path = hamilton_path_copy
     for index, vertex in enumerate(reverse_hamilton_path):
         if tournament[vertex][first_vertex] == 1:
             return len(hamilton_path) - index - 1
