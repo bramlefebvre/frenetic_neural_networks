@@ -13,7 +13,7 @@ def generate_random_strong_tournament(number_of_states):
 def _generate_random_tournament(number_of_states):
     tournament = _generate_upper_half_random_tournament(number_of_states)
     _complete_tournament(tournament)
-    return tournament
+    return tournament.tolist()
 
 def _generate_upper_half_random_tournament(number_of_states):
     tournament = -numpy.ones((number_of_states, number_of_states))
@@ -21,6 +21,7 @@ def _generate_upper_half_random_tournament(number_of_states):
         for column in range(number_of_states):
             if column > row:
                 tournament[row, column] = random_number_generator.integers(2)
+    return tournament
 
 def _complete_tournament(tournament):
     number_of_states = len(tournament)

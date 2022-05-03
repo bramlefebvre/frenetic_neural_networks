@@ -1,4 +1,5 @@
-a = [1, 2, 3, 4, 5, 6, 7]
-b = set(a)
-for number in b:
-    print(number)
+from generate_strong_tournament import generate_random_strong_tournament
+
+
+a = generate_random_strong_tournament(8)
+print(a)
