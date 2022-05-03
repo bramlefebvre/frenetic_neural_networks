@@ -1,8 +1,6 @@
 import json
 import os
 
-
-
 def read_tournament_and_patterns_array(filename):
     filepath = _to_path(filename)
     tournament_and_patterns_array = []

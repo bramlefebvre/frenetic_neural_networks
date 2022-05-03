@@ -21,14 +21,18 @@ def find_cycle(tournament, available_vertices, basin):
 
 def _complete_to_4_cycle(tournament, possible_vertices, cycle):
     vertices_2 = set(possible_vertices.copy())
-    vertices_3 = set(possible_vertices.copy())
-    for vertex_2 in vertices_2:
-        for vertex_3 in vertices_3:
+    while True:
+        vertex_2 = _pick_one(vertices_2)
+        vertices_3 = set(possible_vertices.copy())
+        while len(vertices_3) > 0:
+            vertex_3 = _pick_one(vertices_3)
             if _check_if_completes_to_4_cycle(tournament, cycle, vertex_2, vertex_3):
                 cycle.append(vertex_2)
                 cycle.append(vertex_3)
                 return
-
+            else:
+                vertices_3.remove(vertex_3)
+        vertices_2.remove(vertex_2)
 
 def _check_if_completes_to_4_cycle(tournament, cycle, vertex_2, vertex_3):
     return tournament[cycle[1]][vertex_2] == 1 and tournament[vertex_2][vertex_3] == 1 and \
