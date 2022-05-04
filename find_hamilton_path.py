@@ -2,14 +2,14 @@ import math
 
 def find_hamilton_path(tournament, available_vertices):
     hamiltonian_path = [available_vertices[0]]
-    if tournament[available_vertices[1]][available_vertices[0]] == 0:
+    if tournament[available_vertices[1], available_vertices[0]] == 0:
         hamiltonian_path.append(available_vertices[1])
     else:
         hamiltonian_path.insert(0, available_vertices[1])
 
-    if tournament[available_vertices[2]][hamiltonian_path[1]] == 0:
+    if tournament[available_vertices[2], hamiltonian_path[1]] == 0:
         hamiltonian_path.append(available_vertices[2])
-    elif tournament[available_vertices[2]][hamiltonian_path[0]] == 1:
+    elif tournament[available_vertices[2], hamiltonian_path[0]] == 1:
         hamiltonian_path.insert(0, available_vertices[2])
     else:
         hamiltonian_path.insert(1, available_vertices[2])
@@ -27,14 +27,14 @@ def _insert_in_path(tournament, hamiltonian_path, vertex_to_add):
     path_index_of_vertex_in_path = math.floor(len(hamiltonian_path)/2)
     while True:
         vertex_in_path = hamiltonian_path[path_index_of_vertex_in_path]
-        if tournament[vertex_to_add][vertex_in_path] == 0:
+        if tournament[vertex_to_add, vertex_in_path] == 0:
             if path_index_of_vertex_in_path == len(hamiltonian_path) - 1:
                 # success
                 # end of path
                 hamiltonian_path.append(vertex_to_add)
                 return
             next_vertex_in_path = hamiltonian_path[path_index_of_vertex_in_path + 1]
-            if tournament[vertex_to_add][next_vertex_in_path] == 1:
+            if tournament[vertex_to_add, next_vertex_in_path] == 1:
                 # success
                 # somewhere in between
                 hamiltonian_path.insert(path_index_of_vertex_in_path + 1, vertex_to_add)
