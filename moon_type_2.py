@@ -5,8 +5,8 @@ import numpy
 def run(tournament, patterns):
     basins = _find_cycles_per_basin(tournament, patterns)
     cycles = _gather_all_cycles(basins)
-    exuberant_system = _to_exuberant_system(cycles, len(tournament))
-    return MoonType2Response(exuberant_system, basins)
+    exuberant_system_tournament = _to_exuberant_system_tournament(cycles, len(tournament))
+    return ExuberantSystem(exuberant_system_tournament, basins)
 
 def _gather_all_cycles(basins):
     cycles = set()
@@ -14,7 +14,7 @@ def _gather_all_cycles(basins):
         cycles |= basin.cycles
     return cycles
 
-def _to_exuberant_system(cycles, number_of_states):
+def _to_exuberant_system_tournament(cycles, number_of_states):
     exuberant_system = -numpy.ones((number_of_states, number_of_states))
     arcs = _to_arcs(cycles)
     for arc in arcs:
@@ -73,9 +73,9 @@ def _get_initial_free_vertices(tournament, patterns):
         all_pattern_vertices = all_pattern_vertices | pattern_vertices
     return frozenset(range(len(tournament))) - all_pattern_vertices
 
-class MoonType2Response:
-    def __init__(self, exuberant_system, basins):
-        self.exuberant_system = exuberant_system
+class ExuberantSystem:
+    def __init__(self, tournament, basins):
+        self.tournament = tournament
         self.basins = basins
 
 class Basin:

@@ -13,6 +13,6 @@ tournament = example1.tournament
 response = moon_type_2.run(tournament, patterns)
 
 print('exuberant_system:')
-print(response.exuberant_system)
+print(response.tournament)
 print('basins:')
 print([basin.vertices for basin in response.basins])
