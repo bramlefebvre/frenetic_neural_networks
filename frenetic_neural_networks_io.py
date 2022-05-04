@@ -37,7 +37,7 @@ def add_ids(iterable_of_maps):
         map['id'] = str(uuid.uuid4())
 
 def strip_ids(iterable_of_maps_with_id_field):
-    frozenset(map(_remove_id_field, iterable_of_maps_with_id_field))
+    return frozenset(map(_remove_id_field, iterable_of_maps_with_id_field))
 
 def _remove_id_field(map_with_id_field):
     copy = map_with_id_field.copy()

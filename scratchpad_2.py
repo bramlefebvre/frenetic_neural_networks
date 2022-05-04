@@ -1,11 +1,13 @@
-import frenetic_neural_networks_io
-import example1
 import generate_tournaments
+import example1
+import frenetic_neural_networks_io
 
-patterns_1 = generate_tournaments.to_tuple_of_sets(example1.patterns)
-patterns_2 = generate_tournaments.to_tuple_of_sets(example1.patterns_2)
+patterns = example1.patterns
+tournament = example1.tournament
 
-tournament_and_patterns_1 = {'tournament': example1.tournament, 'patterns': patterns_1}
-tournament_and_patterns_2 = {'tournament': example1.tournament_2, 'patterns': patterns_2}
+new_tournament = {
+            'tournament': tournament, 
+            'patterns': patterns,
+            'pattern_description_key': 'A'}
 
-print(tournament_and_patterns_1 == tournament_and_patterns_2)
+frenetic_neural_networks_io.add_data_no_duplicates([new_tournament], 'testfile_2.json')
