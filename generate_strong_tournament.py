@@ -13,7 +13,7 @@ def generate_random_strong_tournament(number_of_states):
 def _generate_random_tournament(number_of_states):
     tournament = _generate_upper_half_random_tournament(number_of_states)
     _complete_tournament(tournament)
-    return tournament.tolist()
+    return tournament
 
 def _generate_upper_half_random_tournament(number_of_states):
     tournament = -numpy.ones((number_of_states, number_of_states))

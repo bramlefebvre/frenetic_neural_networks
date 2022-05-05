@@ -19,11 +19,11 @@ def _map_tournament_to_rate_matrix(tournament):
 
 def _map_element(exuberant_system_value):
     rate_matrix_value = 0
-    if exuberant_system_value == 0:
-        rate_matrix_value = initial_activity_parameter_value * exp(-e)
-    else:
-        assert exuberant_system_value == 1
-        rate_matrix_value = initial_activity_parameter_value
+    match exuberant_system_value:
+        case 0:
+            rate_matrix_value = initial_activity_parameter_value * exp(-e)
+        case 1:
+            rate_matrix_value = initial_activity_parameter_value
     return rate_matrix_value
 
 def _map_basins(exuberant_system_basins):

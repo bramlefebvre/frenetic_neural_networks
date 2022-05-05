@@ -24,7 +24,7 @@ def find_hamilton_path_complete_tournament(tournament):
 def _insert_in_path(tournament, hamiltonian_path, vertex_to_add):
     left_search_boundary = 0
     right_search_boundary = len(hamiltonian_path) - 1
-    path_index_of_vertex_in_path = math.floor(len(hamiltonian_path)/2)
+    path_index_of_vertex_in_path = math.floor(len(hamiltonian_path) / 2)
     while True:
         vertex_in_path = hamiltonian_path[path_index_of_vertex_in_path]
         if tournament[vertex_to_add, vertex_in_path] == 0:
@@ -41,8 +41,8 @@ def _insert_in_path(tournament, hamiltonian_path, vertex_to_add):
                 return
             else:
                 # search more to the right
-                left_search_boundary = path_index_of_vertex_in_path
-                path_index_of_vertex_in_path = math.ceil((right_search_boundary - left_search_boundary) / 2) + left_search_boundary
+                left_search_boundary = path_index_of_vertex_in_path + 1
+                path_index_of_vertex_in_path = math.floor((right_search_boundary - left_search_boundary) / 2) + left_search_boundary
         else:
             if path_index_of_vertex_in_path == 0:
                 # success 
@@ -50,5 +50,5 @@ def _insert_in_path(tournament, hamiltonian_path, vertex_to_add):
                 hamiltonian_path.insert(0, vertex_to_add)
                 return
             # search more to the left
-            right_search_boundary = path_index_of_vertex_in_path
+            right_search_boundary = path_index_of_vertex_in_path - 1
             path_index_of_vertex_in_path = math.floor((right_search_boundary - left_search_boundary) / 2) + left_search_boundary
