@@ -1,4 +1,4 @@
-import generate_tournaments
+import step_1.generate_tournaments as generate_tournaments
 import example1
 import dao
 

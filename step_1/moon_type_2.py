@@ -1,5 +1,5 @@
-from find_cycle import find_cycle
-from find_hamilton_cycle import hamilton_cycle_exists
+from step_1.find_cycle import find_cycle
+from step_1.find_hamilton_cycle import hamilton_cycle_exists
 import numpy
 
 def run(tournament, patterns):

@@ -1,5 +1,5 @@
 import numpy
-from find_hamilton_cycle import hamilton_cycle_complete_tournament_exists
+from step_1.find_hamilton_cycle import hamilton_cycle_complete_tournament_exists
 
 random_number_generator = numpy.random.default_rng()
 

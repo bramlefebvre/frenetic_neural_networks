@@ -1,4 +1,4 @@
-from generate_strong_tournament import generate_random_strong_tournament
+from step_1.generate_strong_tournament import generate_random_strong_tournament
 import dao
 
 simplest_pattern_description = 'two patterns, each with one state'
@@ -8,6 +8,8 @@ pattern_description_map = {
     'B': ''}
 
 def generate_tournaments(number_of_states, number_to_generate, patterns, pattern_description_key, filename):
+    if pattern_description_key not in pattern_description_map:
+        raise ValueError
     new_tournaments = []
     while len(new_tournaments) < number_to_generate:
         generated_tournament = generate_random_strong_tournament(number_of_states)

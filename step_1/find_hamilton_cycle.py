@@ -1,4 +1,4 @@
-from find_hamilton_path import find_hamilton_path
+from step_1.find_hamilton_path import find_hamilton_path
 
 
 def hamilton_cycle_exists(tournament, available_vertices):

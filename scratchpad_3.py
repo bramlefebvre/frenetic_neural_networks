@@ -1,8 +1,8 @@
 import numpy
 import example1
-from generate_tournaments import to_tuple_of_sets
-from moon_type_2 import run
-import initialize_dynamics
+from step_1.generate_tournaments import to_tuple_of_sets
+from step_1.moon_type_2 import run
+import step_2.initialize_dynamics as initialize_dynamics
 
 patterns = to_tuple_of_sets(example1.patterns)
 tournament = numpy.array(example1.tournament)
