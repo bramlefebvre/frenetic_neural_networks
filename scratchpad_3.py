@@ -1,6 +1,6 @@
 import numpy
 import example1
-from step_1.generate_tournaments import to_tuple_of_sets
+from daos.generate_tournaments import to_tuple_of_sets
 from step_1.moon_type_2 import run
 import step_2.initialize_dynamics as initialize_dynamics
 

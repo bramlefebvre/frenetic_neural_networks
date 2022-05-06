@@ -1,6 +1,6 @@
-import step_1.generate_tournaments as generate_tournaments
+import daos.generate_tournaments as generate_tournaments
 import example1
-import dao
+import daos.base_dao as base_dao
 
 patterns = example1.patterns
 tournament = example1.tournament
@@ -10,4 +10,4 @@ new_tournament = {
             'patterns': patterns,
             'pattern_description_key': 'A'}
 
-dao.add_data_no_duplicates([new_tournament], 'testfile_2.json')
+base_dao.add_data_no_duplicates([new_tournament], 'testfile_4.json')

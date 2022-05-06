@@ -1,8 +1,9 @@
 import numpy
 from math import exp
+from step_2.data_structures import Basin, Basins, Dynamics
 
 e = 3
-initial_activity_parameter_value = 0.5
+initial_activity_parameter_value = 2
 
 def map_exuberant_system_to_dynamics(exuberant_system):
     rate_matrix = _map_tournament_to_rate_matrix(exuberant_system.tournament)
@@ -32,23 +33,5 @@ def _map_basins(exuberant_system_basins):
 def _map_basin(exuberant_system_basin):
     return Basin(exuberant_system_basin.index, exuberant_system_basin.pattern_vertices, exuberant_system_basin.vertices)
 
-class Dynamics:
-    def __init__(self, rate_matrix, basins):
-        self.rate_matrix = rate_matrix
-        self.basins = basins
 
-class Basins:
-    def __init__(self, basins):
-        self.basins = basins
-    
-    def get_basin_for_state(self, state):
-        for basin in self.basins:
-            if state in basin.states:
-                return basin
-
-class Basin:
-    def __init__(self, index, pattern_states, states):
-        self.index = index
-        self.pattern_states = pattern_states
-        self.states = states
     

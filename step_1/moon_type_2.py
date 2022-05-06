@@ -1,12 +1,16 @@
 from step_1.find_cycle import find_cycle
 from step_1.find_hamilton_cycle import hamilton_cycle_exists
+from step_1.data_structures import ExuberantSystem
+from step_1.data_structures import BasinUnderConstruction
+from step_1.data_structures import CompletedBasin
 import numpy
 
 def run(tournament, patterns):
     basins = _find_cycles_per_basin(tournament, patterns)
     cycles = _gather_all_cycles(basins)
     exuberant_system_tournament = _to_exuberant_system_tournament(cycles, len(tournament))
-    return ExuberantSystem(exuberant_system_tournament, basins)
+    completed_basins = tuple(map(_to_completed_basin, basins))
+    return ExuberantSystem(exuberant_system_tournament, completed_basins)
 
 def _gather_all_cycles(basins):
     cycles = set()
@@ -15,12 +19,12 @@ def _gather_all_cycles(basins):
     return cycles
 
 def _to_exuberant_system_tournament(cycles, number_of_states):
-    exuberant_system = -numpy.ones((number_of_states, number_of_states))
+    tournament = -numpy.ones((number_of_states, number_of_states))
     arcs = _to_arcs(cycles)
     for arc in arcs:
-        exuberant_system[arc[0], arc[1]] = 1
-        exuberant_system[arc[1], arc[0]] = 0
-    return exuberant_system
+        tournament[arc[0], arc[1]] = 1
+        tournament[arc[1], arc[0]] = 0
+    return tournament
 
     
 def _to_arcs(cycles):
@@ -40,8 +44,6 @@ def _find_cycles_per_basin(tournament, patterns):
         set_vertices_new_cycle = _expand_basin(tournament, basin, free_vertices)
         free_vertices -= set_vertices_new_cycle
         pattern = (pattern + 1) % number_of_patterns
-    for basin in basins:
-        basin.finalize()
     return basins
     
 def _expand_basin(tournament, basin, free_vertices):
@@ -65,7 +67,7 @@ def _initialize_basins(patterns):
     return tuple(basins)
 
 def _initialize_basin(index, pattern_vertices):
-    return Basin(index, frozenset(pattern_vertices), frozenset(), frozenset())
+    return BasinUnderConstruction(index, frozenset(pattern_vertices), frozenset(), frozenset())
 
 def _get_initial_free_vertices(tournament, patterns):
     all_pattern_vertices = set()
@@ -73,18 +75,6 @@ def _get_initial_free_vertices(tournament, patterns):
         all_pattern_vertices = all_pattern_vertices | pattern_vertices
     return frozenset(range(len(tournament))) - all_pattern_vertices
 
-class ExuberantSystem:
-    def __init__(self, tournament, basins):
-        self.tournament = tournament
-        self.basins = basins
+def _to_completed_basin(basin):
+    return CompletedBasin(basin.index, basin.pattern_vertices, frozenset(basin.pattern_vertices | basin.vertices_included_in_cycle))
 
-class Basin:
-    def __init__(self, index, pattern_vertices, cycles, vertices_included_in_cycle):
-        self.index = index
-        self.pattern_vertices = pattern_vertices
-        self.cycles = cycles
-        self.vertices_included_in_cycle = vertices_included_in_cycle
-        self.not_expandable = False
-    
-    def finalize(self):
-        self.vertices = frozenset(self.pattern_vertices | self.vertices_included_in_cycle)

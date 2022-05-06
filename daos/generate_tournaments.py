@@ -1,5 +1,5 @@
-from step_1.generate_strong_tournament import generate_random_strong_tournament
-import dao
+from daos.generate_strong_tournament import generate_random_strong_tournament
+import daos.base_dao as base_dao
 
 simplest_pattern_description = 'two patterns, each with one state'
 
@@ -7,7 +7,16 @@ pattern_description_map = {
     'A': simplest_pattern_description, 
     'B': ''}
 
-def generate_tournaments(number_of_states, number_to_generate, patterns, pattern_description_key, filename):
+
+def generate_tournaments_and_patterns_and_save(number_of_states, number_to_generate, patterns, pattern_description_key, filename):
+    pass
+
+
+def generate_single_tournament_and_patterns(number_of_states, patterns, pattern_description_key = 'A'):
+    pass
+
+
+def generate_tournaments_and_patterns(number_of_states, number_to_generate, patterns, pattern_description_key, filename):
     if pattern_description_key not in pattern_description_map:
         raise ValueError
     new_tournaments = []
@@ -17,8 +26,9 @@ def generate_tournaments(number_of_states, number_to_generate, patterns, pattern
             'tournament': generated_tournament.tolist(), 
             'patterns': patterns,
             'pattern_description_key': pattern_description_key}
-        dao.append_if_not_present(new_tournaments, new_tournament)
-    dao.add_data_no_duplicates(new_tournaments, filename)
+        base_dao.append_if_not_present(new_tournaments, new_tournament)
+
+    base_dao.add_data_no_duplicates(new_tournaments, filename)
 
 def to_tuple_of_sets(iterable_of_iterables):
     result = []

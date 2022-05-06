@@ -3,7 +3,7 @@ import example1
 import step_1.find_hamilton_cycle as find_hamilton_cycle
 import step_1.moon_type_2 as moon_type_2
 import numpy
-from step_1.generate_tournaments import to_tuple_of_sets
+from daos.generate_tournaments import to_tuple_of_sets
 
 patterns = to_tuple_of_sets(example1.patterns)
 tournament = numpy.array(example1.tournament)
