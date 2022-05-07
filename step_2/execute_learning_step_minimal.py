@@ -12,12 +12,12 @@ def execute_learning_step(dynamics, initial_state):
     path_type = _determine_path_type(path, pattern_state_indices)
     match path_type:
         case PathType.EVER_LEFT_PATTERN_STATE:
-            _decrease_escape_rate_from_pattern_states(path, pattern_state_indices, rate_matrix)
+            _decrease_rate_from_pattern_states(path, pattern_state_indices, rate_matrix)
         case PathType.NEVER_VISITED_PATTERN_STATE:
-            _increase_escape_rate_from_non_pattern_states(path, rate_matrix)
+            _increase_rate_from_non_pattern_states(path, rate_matrix)
     return rate_matrix
 
-def _decrease_escape_rate_from_pattern_states(path, pattern_state_indices, rate_matrix):
+def _decrease_rate_from_pattern_states(path, pattern_state_indices, rate_matrix):
     index_last_state = len(path) - 1
     for pattern_state_index in pattern_state_indices:
         if pattern_state_index != index_last_state:
@@ -26,7 +26,7 @@ def _decrease_escape_rate_from_pattern_states(path, pattern_state_indices, rate_
             rate_matrix[pattern_state, next_state] += (R - 1) * rate_matrix[pattern_state, next_state]
             rate_matrix[next_state, pattern_state] += (R - 1) * rate_matrix[next_state, pattern_state]
 
-def _increase_escape_rate_from_non_pattern_states(path, rate_matrix):
+def _increase_rate_from_non_pattern_states(path, rate_matrix):
     index_last_state = len(path) - 1
     for index, state in enumerate(path):
         if index != index_last_state:
@@ -34,15 +34,13 @@ def _increase_escape_rate_from_non_pattern_states(path, rate_matrix):
             rate_matrix[state, next_state] += (1 / R - 1) * rate_matrix[state, next_state]
             rate_matrix[next_state, state] += (1 / R - 1) * rate_matrix[next_state, state]
 
-
-
-def _determine_path_type(path, indices):
-    number_of_times_visiting_pattern_state = len(indices)
+def _determine_path_type(path, pattern_state_indices):
+    number_of_times_visiting_pattern_state = len(pattern_state_indices)
     path_type = PathType.ARRIVED_IN_PATTERN_STATE_AND_STAYED_THERE
     if number_of_times_visiting_pattern_state > 1:
         path_type = PathType.EVER_LEFT_PATTERN_STATE
     elif number_of_times_visiting_pattern_state == 1:
-        if indices[0] != len(path) - 1:
+        if pattern_state_indices[0] != len(path) - 1:
             path_type = PathType.EVER_LEFT_PATTERN_STATE
     else:
         path_type = PathType.NEVER_VISITED_PATTERN_STATE
