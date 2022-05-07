@@ -1,12 +1,11 @@
-from operator import index
 import numpy
 import math
 
 T = 1
 random_number_generator = numpy.random.default_rng()
 
-def calculate_trajectory(rate_matrix, initial_state):
-    trajectory = [[0, initial_state]]
+def calculate_path(rate_matrix, initial_state):
+    path = [[0, initial_state]]
     travel_time = 0
     state = initial_state
     while travel_time < T:
@@ -16,8 +15,8 @@ def calculate_trajectory(rate_matrix, initial_state):
         travel_time += jump_time
         if travel_time < T:
             state = _decide_where_to_jump_to(rates_for_state, escape_rate)
-            trajectory.append([jump_time, state])
-    return trajectory
+            path.append([jump_time, state])
+    return numpy.array(path)
 
 
 def _decide_where_to_jump_to(rates_for_state, escape_rate):

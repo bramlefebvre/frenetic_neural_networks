@@ -63,7 +63,7 @@ def add_ids_if_not_present(iterable_of_maps):
             map['id'] = str(uuid.uuid4())
 
 def copy_data_and_strip_ids(iterable_of_maps_with_id_field):
-    return frozenset(map(_copy_and_remove_id_field, iterable_of_maps_with_id_field))
+    return list(map(_copy_and_remove_id_field, iterable_of_maps_with_id_field))
 
 def _copy_and_remove_id_field(map_with_id_field):
     copy = map_with_id_field.copy()

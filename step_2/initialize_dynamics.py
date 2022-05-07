@@ -5,7 +5,7 @@ from step_2.data_structures import Basin, Basins, Dynamics
 e = 3
 initial_activity_parameter_value = 2
 
-def map_exuberant_system_to_dynamics(exuberant_system):
+def initialize_dynamics(exuberant_system):
     rate_matrix = _map_tournament_to_rate_matrix(exuberant_system.tournament)
     basins = _map_basins(exuberant_system.basins)
     return Dynamics(rate_matrix, basins)

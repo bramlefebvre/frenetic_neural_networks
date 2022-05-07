@@ -18,9 +18,6 @@ class BasinUnderConstruction:
         self.cycles = cycles
         self.vertices_included_in_cycle = vertices_included_in_cycle
         self.not_expandable = False
-    
-    def finalize(self):
-        self.vertices = frozenset(self.pattern_vertices | self.vertices_included_in_cycle)
 
 class CompletedBasin:
     def __init__(self, index, pattern_vertices, vertices):
