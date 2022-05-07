@@ -5,7 +5,7 @@ from step_1.data_structures import BasinUnderConstruction
 from step_1.data_structures import CompletedBasin
 import numpy
 
-def run(tournament, patterns):
+def find_exuberant_system(tournament, patterns):
     basins = _find_cycles_per_basin(tournament, patterns)
     cycles = _gather_all_cycles(basins)
     exuberant_system_tournament = _to_exuberant_system_tournament(cycles, len(tournament))

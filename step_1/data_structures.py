@@ -1,9 +1,10 @@
 class TournamentAndPatterns:
-    def __init__(self, tournament, patterns, pattern_description_key, pattern_description):
+    def __init__(self, tournament, patterns, pattern_description_key, pattern_description, id = None):
         self.tournament = tournament
         self.patterns = patterns
         self.pattern_description_key = pattern_description_key
         self.pattern_description = pattern_description
+        self.id = id
 
 class ExuberantSystem:
     def __init__(self, tournament, basins):

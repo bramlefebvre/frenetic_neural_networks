@@ -1,4 +1,4 @@
-import daos.generate_tournaments as generate_tournaments
+import daos.tournaments_and_patterns as tournaments_and_patterns
 import example1
 import daos.base_dao as base_dao
 
