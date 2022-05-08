@@ -1,7 +1,7 @@
 from enum import Enum, unique
 from step_2.calculate_path import calculate_path
 
-R = 0.5
+learning_rate = 0.5
 
 def execute_learning_step(dynamics, initial_state):
     rate_matrix = dynamics.rate_matrix.copy()
@@ -23,16 +23,16 @@ def _decrease_rate_from_pattern_states(path, pattern_state_indices, rate_matrix)
         if pattern_state_index != index_last_state:
             pattern_state = path[pattern_state_index]
             next_state = path[pattern_state_index + 1]
-            rate_matrix[pattern_state, next_state] += (R - 1) * rate_matrix[pattern_state, next_state]
-            rate_matrix[next_state, pattern_state] += (R - 1) * rate_matrix[next_state, pattern_state]
+            rate_matrix[pattern_state, next_state] += (learning_rate - 1) * rate_matrix[pattern_state, next_state]
+            rate_matrix[next_state, pattern_state] += (learning_rate - 1) * rate_matrix[next_state, pattern_state]
 
 def _increase_rate_from_non_pattern_states(path, rate_matrix):
     index_last_state = len(path) - 1
     for index, state in enumerate(path):
         if index != index_last_state:
             next_state = path[index + 1]
-            rate_matrix[state, next_state] += (1 / R - 1) * rate_matrix[state, next_state]
-            rate_matrix[next_state, state] += (1 / R - 1) * rate_matrix[next_state, state]
+            rate_matrix[state, next_state] += (1 / learning_rate - 1) * rate_matrix[state, next_state]
+            rate_matrix[next_state, state] += (1 / learning_rate - 1) * rate_matrix[next_state, state]
 
 def _determine_path_type(path, pattern_state_indices):
     number_of_times_visiting_pattern_state = len(pattern_state_indices)

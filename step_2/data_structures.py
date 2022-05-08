@@ -17,3 +17,4 @@ class Basin:
         self.index = index
         self.pattern_states = pattern_states
         self.states = states
+
