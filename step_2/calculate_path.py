@@ -3,9 +3,10 @@ import math
 
 total_travel_time = 1
 random_number_generator = numpy.random.default_rng()
+numpy.seterr(divide='ignore')
 
 def calculate_path(rate_matrix, initial_state):
-    path = [[0, initial_state]]
+    path = [(0, initial_state)]
     travel_time = 0
     state = initial_state
     while travel_time < total_travel_time:
@@ -15,8 +16,9 @@ def calculate_path(rate_matrix, initial_state):
         travel_time += jump_time
         if travel_time < total_travel_time:
             state = _decide_where_to_jump_to(rates_for_state, escape_rate)
-            path.append([travel_time, state])
-    return numpy.array(path)
+            path.append((travel_time, state))
+    datatype = numpy.dtype([('jump_time', float), ('state', int)])
+    return numpy.array(path, datatype)
 
 
 def _decide_where_to_jump_to(rates_for_state, escape_rate):

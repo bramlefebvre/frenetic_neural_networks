@@ -5,7 +5,7 @@ learning_rate = 0.5
 
 def execute_learning_step(dynamics, initial_state):
     rate_matrix = dynamics.rate_matrix.copy()
-    path = calculate_path(rate_matrix, initial_state)[:, 1].tolist()
+    path = calculate_path(rate_matrix, initial_state)['state'].tolist()
     basin = dynamics.basins.get_basin_for_state(initial_state)
     pattern_states = basin.pattern_states
     pattern_state_indices = _indices_state_is_a_pattern_state(path, pattern_states)

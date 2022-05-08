@@ -9,9 +9,10 @@ tournament_and_patterns = get_single_tournament_and_patterns('example_thesis', '
 exuberant_system = find_exuberant_system(tournament_and_patterns)
 dynamics = initialize_dynamics(exuberant_system)
 
-path = calculate_path(dynamics.rate_matrix, 0).tolist()
-datatype = numpy.dtype([('jump_time', float), ('state', int)])
-typed_path = numpy.array(path, datatype)
+print(exuberant_system.tournament)
 
-print(typed_path)
-# dynamics = train_starting_with_each_vertex_n_times(dynamics, 3)
+path = calculate_path(dynamics.rate_matrix, 0)
+
+print(path)
+print(path['state'])
+print(path['state'][-1])
