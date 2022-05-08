@@ -1,8 +1,10 @@
+from enum import Enum, unique
+
+
 class TournamentAndPatterns:
-    def __init__(self, tournament, patterns, pattern_description_key, pattern_description, id = None):
+    def __init__(self, tournament, patterns, pattern_description, id = None):
         self.tournament = tournament
         self.patterns = patterns
-        self.pattern_description_key = pattern_description_key
         self.pattern_description = pattern_description
         self.id = id
 
@@ -24,3 +26,17 @@ class CompletedBasin:
         self.index = index
         self.pattern_vertices = pattern_vertices
         self.vertices = vertices
+
+@unique
+class PatternDescription(Enum):
+    TWO_PATTERNS_EACH_WITH_ONE_STATE = 1, 'two patterns, each with one state'
+
+    def __init__(self, id, display_value):
+        self.id = id
+        self.display_value = display_value
+
+    @classmethod
+    def from_id(cls, id):
+        for element in list(cls):
+            if element.id == id:
+                return element
