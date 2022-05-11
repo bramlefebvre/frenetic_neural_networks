@@ -12,7 +12,7 @@ def find_exuberant_system(tournament_and_patterns):
     cycles = _gather_all_cycles(basins)
     exuberant_system_tournament = _to_exuberant_system_tournament(cycles, len(tournament))
     completed_basins = tuple(map(_to_completed_basin, basins))
-    return ExuberantSystem(exuberant_system_tournament, completed_basins)
+    return ExuberantSystem(tournament_and_patterns.id, exuberant_system_tournament, completed_basins)
 
 def _gather_all_cycles(basins):
     cycles = set()

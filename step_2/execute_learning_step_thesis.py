@@ -1,30 +1,30 @@
+from operator import le
 from step_2.calculate_path import calculate_path
+from step_2.data_structures import LearningStepResult
 
-R = 0.5
-
-def execute_learning_step(dynamics, initial_state):
+def execute_learning_step(dynamics, initial_state, learning_rate):
     rate_matrix = dynamics.rate_matrix.copy()
-    path = calculate_path(rate_matrix, initial_state)[:, 1].tolist()
-    basin = dynamics.basins.get_basin_for_state(initial_state)
-    pattern_states = basin.pattern_states
+    path = calculate_path(rate_matrix, initial_state)['state'].tolist()
+    basin = dynamics.get_basin_for_state(initial_state)
+    pattern_states = basin.pattern_vertices
     if not _is_desired_path(path, pattern_states):
-        _change_rates_complete_path(path, pattern_states, rate_matrix)
-    return rate_matrix
+        _change_rates_complete_path(path, pattern_states, rate_matrix, learning_rate)
+    return LearningStepResult(rate_matrix, path)
 
-def _change_rates_complete_path(path, pattern_states, rate_matrix):
+def _change_rates_complete_path(path, pattern_states, rate_matrix, learning_rate):
     index_last_state = len(path) - 1
     for index, state in enumerate(path):
         if index != index_last_state:
             next_state = path[index + 1]
-            factor = _get_factor_rate_change(state, pattern_states)
+            factor = _get_factor_rate_change(state, pattern_states, learning_rate)
             rate_matrix[state, next_state] += factor * rate_matrix[state, next_state]
             rate_matrix[next_state, state] += factor * rate_matrix[next_state, state]
 
-def _get_factor_rate_change(state, pattern_states):
+def _get_factor_rate_change(state, pattern_states, learning_rate):
     if state in pattern_states:
-        return R - 1
+        return learning_rate - 1
     else:
-        return 1 / R - 1
+        return 1 / learning_rate - 1
 
 def _is_desired_path(path, pattern_states):
     pattern_state_indices = _indices_state_is_a_pattern_state(path, pattern_states)

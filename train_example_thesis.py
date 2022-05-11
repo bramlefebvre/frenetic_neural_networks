@@ -1,18 +1,18 @@
-from daos.tournaments_and_patterns import get_single_tournament_and_patterns
-from step_1.moon_type_2 import find_exuberant_system
-from step_2.calculate_path import calculate_path
+import daos.exuberant_systems_dao as exuberant_systems_dao
+from step_2.data_structures import LearningAlgorithm, TrainingResultStatus
 from step_2.initialize_dynamics import initialize_dynamics
-from step_2.training import train_starting_with_each_vertex_n_times
-import numpy
+import step_2.training as training
+import daos.training_results_dao as training_results_dao
 
-tournament_and_patterns = get_single_tournament_and_patterns('example_thesis', 'tournament_example_thesis.json')
-exuberant_system = find_exuberant_system(tournament_and_patterns)
-dynamics = initialize_dynamics(exuberant_system)
+exuberant_system = exuberant_systems_dao.get_single_exuberant_system('example_thesis', 'exuberant_systems')
+dynamics = initialize_dynamics(exuberant_system, 5, 1)
 
-print(exuberant_system.tournament)
+# 100 times for each value of R, R starting from 0.1 to 0.9 with steps of 0.1
 
-path = calculate_path(dynamics.rate_matrix, 0)
+training_results = []
+for i in range(1, 10):
+    learning_rate = 0.1 * i
+    for j in range(100):
+        training_results.append(training.train_starting_with_each_vertex_n_times(dynamics, 5, learning_rate, LearningAlgorithm.WHEN_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES))
 
-print(path)
-print(path['state'])
-print(path['state'][-1])
+training_results_dao.save_training_results(training_results, 'training_results_R')

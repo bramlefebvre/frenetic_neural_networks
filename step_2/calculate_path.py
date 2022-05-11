@@ -1,11 +1,10 @@
 import numpy
 import math
 
-total_travel_time = 1
 random_number_generator = numpy.random.default_rng()
-numpy.seterr(divide='ignore')
+# numpy.seterr(divide='ignore')
 
-def calculate_path(rate_matrix, initial_state):
+def calculate_path(rate_matrix, initial_state, total_travel_time):
     path = [(0, initial_state)]
     travel_time = 0
     state = initial_state
@@ -43,7 +42,16 @@ def _decide_where_to_jump_to(rates_for_state, escape_rate):
                 right_search_boundary = index_to_check - 1
                 index_to_check = math.floor((right_search_boundary - left_search_boundary) / 2) + left_search_boundary
         else:
-            assert index_to_check != number_of_states - 1
+            # assert index_to_check != number_of_states - 1
+            if index_to_check == number_of_states - 1:
+                assert escape_rate == numpy.Inf
+                # should not be possible
+                print('random number: ' + str(random_number))
+                print('summed rates:')
+                print(summed_rates)
+                return summed_rates.tolist().index(numpy.Inf)
+                
+
             # search more to the right
             left_search_boundary = index_to_check + 1
             index_to_check = math.floor((right_search_boundary - left_search_boundary) / 2) + left_search_boundary

@@ -1,23 +1,22 @@
 from enum import Enum, unique
 from step_2.calculate_path import calculate_path
+from step_2.data_structures import LearningStepResult
 
-learning_rate = 0.5
-
-def execute_learning_step(dynamics, initial_state):
+def execute_learning_step(dynamics, initial_state, learning_rate):
     rate_matrix = dynamics.rate_matrix.copy()
-    path = calculate_path(rate_matrix, initial_state)['state'].tolist()
-    basin = dynamics.basins.get_basin_for_state(initial_state)
-    pattern_states = basin.pattern_states
+    path = calculate_path(rate_matrix, initial_state, dynamics.travel_time)['state'].tolist()
+    basin = dynamics.get_basin_for_state(initial_state)
+    pattern_states = basin.pattern_vertices
     pattern_state_indices = _indices_state_is_a_pattern_state(path, pattern_states)
     path_type = _determine_path_type(path, pattern_state_indices)
     match path_type:
         case PathType.EVER_LEFT_PATTERN_STATE:
-            _decrease_rate_from_pattern_states(path, pattern_state_indices, rate_matrix)
+            _decrease_rate_from_pattern_states(path, pattern_state_indices, rate_matrix, learning_rate)
         case PathType.NEVER_VISITED_PATTERN_STATE:
-            _increase_rate_from_non_pattern_states(path, rate_matrix)
-    return rate_matrix
+            _increase_rate_from_non_pattern_states(path, pattern_states, rate_matrix, learning_rate)
+    return LearningStepResult(rate_matrix, path)
 
-def _decrease_rate_from_pattern_states(path, pattern_state_indices, rate_matrix):
+def _decrease_rate_from_pattern_states(path, pattern_state_indices, rate_matrix, learning_rate):
     index_last_state = len(path) - 1
     for pattern_state_index in pattern_state_indices:
         if pattern_state_index != index_last_state:
@@ -26,10 +25,10 @@ def _decrease_rate_from_pattern_states(path, pattern_state_indices, rate_matrix)
             rate_matrix[pattern_state, next_state] += (learning_rate - 1) * rate_matrix[pattern_state, next_state]
             rate_matrix[next_state, pattern_state] += (learning_rate - 1) * rate_matrix[next_state, pattern_state]
 
-def _increase_rate_from_non_pattern_states(path, rate_matrix):
+def _increase_rate_from_non_pattern_states(path, pattern_states, rate_matrix, learning_rate):
     index_last_state = len(path) - 1
     for index, state in enumerate(path):
-        if index != index_last_state:
+        if index != index_last_state and state not in pattern_states:
             next_state = path[index + 1]
             rate_matrix[state, next_state] += (1 / learning_rate - 1) * rate_matrix[state, next_state]
             rate_matrix[next_state, state] += (1 / learning_rate - 1) * rate_matrix[next_state, state]

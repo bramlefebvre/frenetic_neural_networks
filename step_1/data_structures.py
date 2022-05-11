@@ -9,9 +9,11 @@ class TournamentAndPatterns:
         self.id = id
 
 class ExuberantSystem:
-    def __init__(self, tournament, basins):
+    def __init__(self, tournament_and_patterns_id, tournament, basins, id = None):
+        self.tournament_and_patterns_id = tournament_and_patterns_id
         self.tournament = tournament
         self.basins = basins
+        self.id = id
 
 class BasinUnderConstruction:
     def __init__(self, index, pattern_vertices, cycles, vertices_included_in_cycle):

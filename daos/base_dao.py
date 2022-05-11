@@ -55,7 +55,7 @@ def _get_ids(data):
     return list(map(lambda x: x['id'], filter(lambda x: 'id' in x, data)))
 
 def _to_path(filename):
-    return 'data/' + filename
+    return 'data/' + filename + '.json'
 
 def add_ids_if_not_present(iterable_of_maps):
     for map in iterable_of_maps:
