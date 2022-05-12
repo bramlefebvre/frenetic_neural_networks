@@ -20,6 +20,7 @@ def _deserialize_training_result(serialized):
 def _deserialize_success_training_result(serialized):
     exuberant_system_id = serialized['exuberant_system_id']
     driving_value = serialized['driving_value']
+    initial_activity_parameter_factor = serialized['initial_activity_parameter_factor']
     travel_time = serialized['travel_time']
     learning_rate = serialized['learning_rate']
     algorithm = LearningAlgorithm.from_id(serialized['algorithm'])
@@ -27,17 +28,18 @@ def _deserialize_success_training_result(serialized):
     performance = serialized['performance']
     rate_matrix = numpy.array(serialized['rate_matrix'])
     id = serialized['id']
-    return SuccessTrainingResult(exuberant_system_id, driving_value, travel_time, learning_rate, algorithm, training_set_size, performance, rate_matrix, id)
+    return SuccessTrainingResult(exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, training_set_size, performance, rate_matrix, id)
 
 def _deserialize_failure_training_result(serialized):
     exuberant_system_id = serialized['exuberant_system_id']
     driving_value = serialized['driving_value']
+    initial_activity_parameter_factor = serialized['initial_activity_parameter_factor']
     travel_time = serialized['travel_time']
     learning_rate = serialized['learning_rate']
     algorithm = LearningAlgorithm.from_id(serialized['algorithm'])
     step_number = serialized['step_number']
     id = serialized['id']
-    return FailureTrainingResult(exuberant_system_id, driving_value, travel_time, learning_rate, algorithm, step_number, id)
+    return FailureTrainingResult(exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, step_number, id)
 
 def _serialize_training_result(training_result):
     if training_result.status == TrainingResultStatus.SUCCESS:
@@ -62,6 +64,7 @@ def _serialize_base_training_result(training_result):
         'exuberant_system_id': training_result.exuberant_system_id,
         'status': training_result.status.value,
         'driving_value': training_result.driving_value,
+        'initial_activity_parameter_factor': training_result.initial_activity_parameter_factor,
         'travel_time': training_result.travel_time,
         'learning_rate': training_result.learning_rate,
         'algorithm': training_result.algorithm.id

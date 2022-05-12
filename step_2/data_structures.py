@@ -2,10 +2,11 @@ from enum import Enum, unique
 
 
 class Dynamics:
-    def __init__(self, rate_matrix, exuberant_system, driving_value, travel_time):
+    def __init__(self, rate_matrix, exuberant_system, driving_value, initial_activity_parameter_factor, travel_time):
         self.rate_matrix = rate_matrix
         self.exuberant_system = exuberant_system
         self.driving_value = driving_value
+        self.initial_activity_parameter_factor = initial_activity_parameter_factor
         self.travel_time = travel_time
 
     def get_basin_for_state(self, state):
@@ -19,10 +20,11 @@ class LearningStepResult:
         self.path = path
 
 class SuccessTrainingResult:
-    def __init__(self, exuberant_system_id, driving_value, travel_time, learning_rate, algorithm, training_set_size, performance, rate_matrix, id = None):
+    def __init__(self, exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, training_set_size, performance, rate_matrix, id = None):
         self.exuberant_system_id = exuberant_system_id
         self.status = TrainingResultStatus.SUCCESS
         self.driving_value = driving_value
+        self.initial_activity_parameter_factor = initial_activity_parameter_factor
         self.travel_time = travel_time
         self.learning_rate = learning_rate
         self.algorithm = algorithm
@@ -32,10 +34,11 @@ class SuccessTrainingResult:
         self.id = id
 
 class FailureTrainingResult:
-    def __init__(self, exuberant_system_id, driving_value, travel_time, learning_rate, algorithm, step_number, id = None):
+    def __init__(self, exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, step_number, id = None):
         self.exuberant_system_id = exuberant_system_id
         self.status = TrainingResultStatus.FAILURE
         self.driving_value = driving_value
+        self.initial_activity_parameter_factor = initial_activity_parameter_factor
         self.travel_time = travel_time
         self.learning_rate = learning_rate
         self.algorithm = algorithm
@@ -50,7 +53,7 @@ class TrainingResultStatus(Enum):
 @unique
 class LearningAlgorithm(Enum):
     THESIS = 1, 'thesis'
-    WHEN_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES = 2, \
+    WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES = 2, \
         'when a pattern state is left only decrease the rates for the pattern states in the path'
 
     def __init__(self, id, display_value):

@@ -1,14 +1,5 @@
-import step_1.find_hamilton_path as find_hamilton_path
-import example1
-import step_1.find_hamilton_cycle as find_hamilton_cycle
-import step_1.moon_type_2 as moon_type_2
-import numpy
-from daos.tournaments_and_patterns_dao import to_tuple_of_sets
+import daos.exuberant_systems_dao as exuberant_systems_dao
 
-patterns = to_tuple_of_sets(example1.patterns)
-tournament = numpy.array(example1.tournament)
+exuberant_system = exuberant_systems_dao.get_single_exuberant_system('example_thesis', 'exuberant_systems')
 
-hamilton_path = find_hamilton_path.find_hamilton_path(tournament, range(len(tournament)))
-hamilton_cycle = find_hamilton_cycle.find_hamilton_cycle_complete_tournament(tournament)
-
-print(hamilton_cycle)
+print(len(exuberant_system.tournament))
