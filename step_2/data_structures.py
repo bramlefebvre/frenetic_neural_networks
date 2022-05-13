@@ -14,15 +14,20 @@ class Dynamics:
             if state in basin.vertices:
                 return basin
 
-class LearningStepResult:
+class FailureLearningStepResult:
+    def __init__(self):
+        self.success = False
+
+class SuccessLearningStepResult:
     def __init__(self, rate_matrix, path):
+        self.success = True
         self.rate_matrix = rate_matrix
         self.path = path
 
 class SuccessTrainingResult:
     def __init__(self, exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, training_set_size, performance, rate_matrix, id = None):
         self.exuberant_system_id = exuberant_system_id
-        self.status = TrainingResultStatus.SUCCESS
+        self.success = True
         self.driving_value = driving_value
         self.initial_activity_parameter_factor = initial_activity_parameter_factor
         self.travel_time = travel_time
@@ -36,7 +41,7 @@ class SuccessTrainingResult:
 class FailureTrainingResult:
     def __init__(self, exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, step_number, id = None):
         self.exuberant_system_id = exuberant_system_id
-        self.status = TrainingResultStatus.FAILURE
+        self.success = False
         self.driving_value = driving_value
         self.initial_activity_parameter_factor = initial_activity_parameter_factor
         self.travel_time = travel_time
@@ -44,11 +49,6 @@ class FailureTrainingResult:
         self.algorithm = algorithm
         self.step_number = step_number
         self.id = id
-
-@unique
-class TrainingResultStatus(Enum):
-    SUCCESS = 1
-    FAILURE = 2
 
 @unique
 class LearningAlgorithm(Enum):

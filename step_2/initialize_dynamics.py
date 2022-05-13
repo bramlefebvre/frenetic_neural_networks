@@ -5,7 +5,7 @@ from step_2.data_structures import Dynamics
 
 def initialize_dynamics(exuberant_system, driving_value, initial_activity_parameter_factor, travel_time):
     rate_matrix = _map_tournament_to_rate_matrix(exuberant_system.tournament, driving_value, initial_activity_parameter_factor, travel_time)
-    return Dynamics(rate_matrix, exuberant_system, driving_value, travel_time)
+    return Dynamics(rate_matrix, exuberant_system, driving_value, initial_activity_parameter_factor, travel_time)
 
 def _map_tournament_to_rate_matrix(tournament, driving_value, initial_activity_parameter_factor, travel_time):
     number_of_states = len(tournament)
@@ -17,7 +17,7 @@ def _map_tournament_to_rate_matrix(tournament, driving_value, initial_activity_p
 
 def _map_element(exuberant_system_value, driving_value, initial_activity_parameter_factor, travel_time):
     rate_matrix_value = 0
-    initial_activity_parameter_value = (2 / travel_time) * exp(-driving_value/2) * initial_activity_parameter_factor
+    initial_activity_parameter_value = (4 / travel_time) * exp(-driving_value/2) * initial_activity_parameter_factor
     match exuberant_system_value:
         case 0:
             rate_matrix_value = initial_activity_parameter_value * exp(-driving_value/2)

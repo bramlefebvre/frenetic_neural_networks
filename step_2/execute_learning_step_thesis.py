@@ -1,15 +1,18 @@
 from operator import le
 from step_2.calculate_path import calculate_path
-from step_2.data_structures import LearningStepResult
+from step_2.data_structures import FailureLearningStepResult, SuccessLearningStepResult
 
 def execute_learning_step(dynamics, initial_state, learning_rate):
     rate_matrix = dynamics.rate_matrix.copy()
-    path = calculate_path(rate_matrix, initial_state)['state'].tolist()
+    path_with_jump_times = calculate_path(rate_matrix, initial_state)
+    if path_with_jump_times is None:
+        return FailureLearningStepResult()
+    path = path_with_jump_times['state'].tolist()
     basin = dynamics.get_basin_for_state(initial_state)
     pattern_states = basin.pattern_vertices
     if not _is_desired_path(path, pattern_states):
         _change_rates_complete_path(path, pattern_states, rate_matrix, learning_rate)
-    return LearningStepResult(rate_matrix, path)
+    return SuccessLearningStepResult(rate_matrix, path)
 
 def _change_rates_complete_path(path, pattern_states, rate_matrix, learning_rate):
     index_last_state = len(path) - 1

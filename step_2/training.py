@@ -12,22 +12,17 @@ algorithm_map = {
 def train_starting_with_each_vertex_n_times(dynamics, n, learning_rate, algorithm):
     dynamics = copy.copy(dynamics)
     number_of_states = len(dynamics.rate_matrix)
-    #for debugging purposes
-    learning_step_results = []
     for round in range(n):
         for initial_state in range(number_of_states):
             learning_step_result = algorithm_map[algorithm](dynamics, initial_state, learning_rate)
-            # execute_learning_step_2.execute_learning_step(dynamics, initial_state)
-            if _path_is_too_long(learning_step_result, number_of_states):
+            if learning_step_result.success is False:
                 step_number = round * number_of_states + initial_state + 1
                 return FailureTrainingResult(dynamics.exuberant_system.id, dynamics.driving_value, dynamics.initial_activity_parameter_factor, dynamics.travel_time, learning_rate, algorithm, step_number)
-            learning_step_results.append(learning_step_result)
             dynamics.rate_matrix = learning_step_result.rate_matrix
     performance = calculate_performance(dynamics, 100)
     return SuccessTrainingResult(dynamics.exuberant_system.id, dynamics.driving_value, dynamics.initial_activity_parameter_factor, dynamics.travel_time, learning_rate, algorithm, n * number_of_states, performance, dynamics.rate_matrix)
 
-def _path_is_too_long(learning_step_result, number_of_states):
-    return len(learning_step_result.path) > 100 * number_of_states
+
 
 def calculate_performance(dynamics, n):
     rate_matrix = dynamics.rate_matrix
@@ -36,7 +31,10 @@ def calculate_performance(dynamics, n):
     number_of_verifications = n * number_of_states
     for _ in range(n):
         for initial_state in range(number_of_states):
-            final_state_of_path = calculate_path(rate_matrix, initial_state, dynamics.travel_time)['state'][-1]
+            path = calculate_path(rate_matrix, initial_state, dynamics.travel_time)
+            if path is None:
+                continue
+            final_state_of_path = path['state'][-1]
             basin_for_state = dynamics.get_basin_for_state(initial_state)
             if final_state_of_path in basin_for_state.pattern_vertices:
                 number_of_successes += 1

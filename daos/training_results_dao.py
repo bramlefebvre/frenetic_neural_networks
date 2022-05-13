@@ -1,5 +1,5 @@
 import numpy
-from step_2.data_structures import FailureTrainingResult, LearningAlgorithm, SuccessTrainingResult, TrainingResultStatus
+from step_2.data_structures import FailureTrainingResult, LearningAlgorithm, SuccessTrainingResult
 import daos.base_dao as base_dao
 
 def save_training_results(training_results, filename):
@@ -11,8 +11,8 @@ def get_training_results(filename):
     return list(map(_deserialize_training_result, serialized_training_results))
 
 def _deserialize_training_result(serialized):
-    status = TrainingResultStatus(serialized['status'])
-    if status == TrainingResultStatus.SUCCESS:
+    success = serialized['success']
+    if success:
         return _deserialize_success_training_result(serialized)
     else:
         return _deserialize_failure_training_result(serialized)
@@ -42,7 +42,7 @@ def _deserialize_failure_training_result(serialized):
     return FailureTrainingResult(exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, step_number, id)
 
 def _serialize_training_result(training_result):
-    if training_result.status == TrainingResultStatus.SUCCESS:
+    if training_result.success:
         return _serialize_success_training_result(training_result)
     else:
         return _serialize_failure_training_result(training_result)
@@ -62,7 +62,7 @@ def _serialize_failure_training_result(training_result):
 def _serialize_base_training_result(training_result):
     serialized = {
         'exuberant_system_id': training_result.exuberant_system_id,
-        'status': training_result.status.value,
+        'success': training_result.success,
         'driving_value': training_result.driving_value,
         'initial_activity_parameter_factor': training_result.initial_activity_parameter_factor,
         'travel_time': training_result.travel_time,

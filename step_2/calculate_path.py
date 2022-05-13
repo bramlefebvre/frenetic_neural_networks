@@ -5,10 +5,13 @@ random_number_generator = numpy.random.default_rng()
 # numpy.seterr(divide='ignore')
 
 def calculate_path(rate_matrix, initial_state, total_travel_time):
+    number_of_states = len(rate_matrix)
     path = [(0, initial_state)]
     travel_time = 0
     state = initial_state
     while travel_time < total_travel_time:
+        if _path_is_too_long(path, number_of_states):
+            return
         rates_for_state = rate_matrix[state, :]
         escape_rate = rates_for_state.sum()
         jump_time = random_number_generator.exponential(1/escape_rate)
@@ -18,6 +21,10 @@ def calculate_path(rate_matrix, initial_state, total_travel_time):
             path.append((travel_time, state))
     datatype = numpy.dtype([('jump_time', float), ('state', int)])
     return numpy.array(path, datatype)
+
+
+def _path_is_too_long(path, number_of_states):
+    return len(path) > 100 * number_of_states
 
 
 def _decide_where_to_jump_to(rates_for_state, escape_rate):
@@ -45,10 +52,6 @@ def _decide_where_to_jump_to(rates_for_state, escape_rate):
             # assert index_to_check != number_of_states - 1
             if index_to_check == number_of_states - 1:
                 assert escape_rate == numpy.Inf
-                # should not be possible
-                print('random number: ' + str(random_number))
-                print('summed rates:')
-                print(summed_rates)
                 return summed_rates.tolist().index(numpy.Inf)
                 
 
