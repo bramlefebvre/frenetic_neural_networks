@@ -4,7 +4,7 @@ from step_2.data_structures import FailureLearningStepResult, SuccessLearningSte
 
 def execute_learning_step(dynamics, initial_state, learning_rate):
     rate_matrix = dynamics.rate_matrix.copy()
-    path_with_jump_times = calculate_path(rate_matrix, initial_state)
+    path_with_jump_times = calculate_path(rate_matrix, initial_state, dynamics.travel_time)
     if path_with_jump_times is None:
         return FailureLearningStepResult()
     path = path_with_jump_times['state'].tolist()

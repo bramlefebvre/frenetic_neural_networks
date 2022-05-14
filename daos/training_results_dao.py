@@ -37,9 +37,10 @@ def _deserialize_failure_training_result(serialized):
     travel_time = serialized['travel_time']
     learning_rate = serialized['learning_rate']
     algorithm = LearningAlgorithm.from_id(serialized['algorithm'])
+    training_set_size = serialized['training_set_size']
     step_number = serialized['step_number']
     id = serialized['id']
-    return FailureTrainingResult(exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, step_number, id)
+    return FailureTrainingResult(exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, training_set_size, step_number, id)
 
 def _serialize_training_result(training_result):
     if training_result.success:
@@ -56,6 +57,7 @@ def _serialize_success_training_result(training_result):
 
 def _serialize_failure_training_result(training_result):
     serialized = _serialize_base_training_result(training_result)
+    serialized['training_set_size'] = training_result.training_set_size
     serialized['step_number'] = training_result.step_number
     return serialized
 

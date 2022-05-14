@@ -14,11 +14,10 @@ dynamics = initialize_dynamics(exuberant_system, driving_value, initial_activity
 
 # 100 times for each value of R, R starting from 0.1 to 0.9 with steps of 0.1
 
-
+learning_rates = [0.1 * i for i in range(1, 10)]
 training_results = []
-for i in range(1, 10):
-    learning_rate = 0.1 * i
+for learning_rate in learning_rates:
     for j in range(100):
-        training_results.append(training.train_starting_with_each_vertex_n_times(dynamics, 5, learning_rate, LearningAlgorithm.WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES))
+        training_results.append(training.train_starting_with_each_vertex_n_times(dynamics, LearningAlgorithm.WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES, learning_rate, 5))
 
 training_results_dao.save_training_results(training_results, 'algorithm_2/e5_a2_n40_Rv')

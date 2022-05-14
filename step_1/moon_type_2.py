@@ -28,7 +28,6 @@ def _to_exuberant_system_tournament(cycles, number_of_states):
         tournament[arc[1], arc[0]] = 0
     return tournament
 
-    
 def _to_arcs(cycles):
     arcs = set()
     for cycle in cycles:
@@ -40,6 +39,8 @@ def _find_cycles_per_basin(tournament, patterns):
     free_vertices = _get_initial_free_vertices(tournament, patterns)
     number_of_patterns = len(patterns)
     basins = _initialize_basins(patterns)
+    if not _initial_basin_exists_that_has_available_vertices_that_can_make_hamilton_cycle(tournament, basins, free_vertices):
+        return basins
     pattern = 0
     while len(free_vertices) > 0:
         basin = basins[pattern]
@@ -51,7 +52,7 @@ def _find_cycles_per_basin(tournament, patterns):
 def _expand_basin(tournament, basin, free_vertices):
     if basin.not_expandable:
         return set()
-    available_vertices = frozenset(free_vertices | basin.vertices_included_in_cycle | basin.pattern_vertices)
+    available_vertices = free_vertices | basin.vertices_included_in_cycle | basin.pattern_vertices
     if not hamilton_cycle_exists(tournament, available_vertices):
         basin.not_expandable = True
         return set()
@@ -61,6 +62,12 @@ def _expand_basin(tournament, basin, free_vertices):
     basin.vertices_included_in_cycle |= set_vertices_new_cycle
     return set_vertices_new_cycle
 
+def _initial_basin_exists_that_has_available_vertices_that_can_make_hamilton_cycle(tournament, basins, free_vertices):
+    for basin in basins:
+        available_vertices = free_vertices | basin.pattern_vertices
+        if hamilton_cycle_exists(tournament, available_vertices):
+            return True
+    return False
 
 def _initialize_basins(patterns):
     basins = []
