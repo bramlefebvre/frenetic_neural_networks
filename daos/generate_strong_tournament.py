@@ -28,4 +28,11 @@ def _complete_tournament(tournament):
     for row in range(number_of_states):
         for column in range(number_of_states):
             if row > column:
-                tournament[row, column] = tournament[column, row]
+                tournament[row, column] = _reverse(tournament[column, row])
+
+def _reverse(value):
+    if value == 0:
+        return 1
+    else:
+        assert value == 1
+        return 0

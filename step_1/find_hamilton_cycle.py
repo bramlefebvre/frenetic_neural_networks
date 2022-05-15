@@ -46,22 +46,21 @@ def _find_way_to_increase_length_cycle(tournament, cycle, remaining_path):
         index_to_insert_at = _check_not_first_vertex_of_remaining_path(tournament, cycle, vertex_to_insert)
         vertices_to_insert.append(vertex_to_insert)
         if index_to_insert_at is not None:
-            return InsertResult(index_to_insert_at, vertex_to_insert)
-
+            return InsertResult(index_to_insert_at, vertices_to_insert)
 
 
 def _check_first_vertex_of_remaining_path(tournament, cycle, vertex_to_insert):
     result = _check_first_vertex_of_remaining_path_against_first_vertex_of_cycle(tournament, cycle, vertex_to_insert)
     if result.fits_before:
         return 0
-    encountered_dominating_vertex = not result.dominates
+    encountered_dominating_vertex_in_cycle = not result.dominates
     for index, vertex_in_cycle in enumerate(cycle[1:]):
         dominates = tournament[vertex_to_insert, vertex_in_cycle] == 1
         if dominates:
-            if encountered_dominating_vertex:
-                return index
+            if encountered_dominating_vertex_in_cycle:
+                return index + 1
         else:
-            encountered_dominating_vertex = True
+            encountered_dominating_vertex_in_cycle = True
 
 def _check_not_first_vertex_of_remaining_path(tournament, cycle, vertex_to_insert):
     for index, vertex_in_cycle in enumerate(cycle):

@@ -57,6 +57,7 @@ def _expand_basin(tournament, basin, free_vertices):
         basin.not_expandable = True
         return set()
     new_cycle = find_cycle(tournament, available_vertices, basin)
+    basin.length_of_next_cycle += 1
     basin.cycles |= {new_cycle}
     set_vertices_new_cycle = set(new_cycle)
     basin.vertices_included_in_cycle |= set_vertices_new_cycle
@@ -76,7 +77,7 @@ def _initialize_basins(patterns):
     return tuple(basins)
 
 def _initialize_basin(index, pattern_vertices):
-    return BasinUnderConstruction(index, frozenset(pattern_vertices), frozenset(), frozenset())
+    return BasinUnderConstruction(index, frozenset(pattern_vertices), frozenset(), frozenset(), 3)
 
 def _get_initial_free_vertices(tournament, patterns):
     all_pattern_vertices = set()

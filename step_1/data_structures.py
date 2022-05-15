@@ -16,11 +16,12 @@ class ExuberantSystem:
         self.id = id
 
 class BasinUnderConstruction:
-    def __init__(self, index, pattern_vertices, cycles, vertices_included_in_cycle):
+    def __init__(self, index, pattern_vertices, cycles, vertices_included_in_cycle, length_of_next_cycle):
         self.index = index
         self.pattern_vertices = pattern_vertices
         self.cycles = cycles
         self.vertices_included_in_cycle = vertices_included_in_cycle
+        self.length_of_next_cycle = length_of_next_cycle
         self.not_expandable = False
 
 class CompletedBasin:
