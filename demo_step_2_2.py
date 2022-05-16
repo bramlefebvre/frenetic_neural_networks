@@ -10,6 +10,8 @@ def pprint(object):
 
 exuberant_system = exuberant_systems_dao.get_single_exuberant_system('size_20', 'exuberant_systems')
 
+pprint(exuberant_system.tournament)
+
 travel_time = 1
 driving_value = 5
 initial_activity_parameter_factor = 2

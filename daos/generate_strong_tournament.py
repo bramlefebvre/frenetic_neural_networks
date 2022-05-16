@@ -16,7 +16,7 @@ def _generate_random_tournament(number_of_states):
     return tournament
 
 def _generate_upper_half_random_tournament(number_of_states):
-    tournament = -numpy.ones((number_of_states, number_of_states))
+    tournament = -numpy.ones((number_of_states, number_of_states), dtype = int)
     for row in range(number_of_states):
         for column in range(number_of_states):
             if column > row:

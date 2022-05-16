@@ -20,8 +20,6 @@ dynamics = initialize_dynamics(exuberant_system, driving_value, initial_activity
 pprint(dynamics.rate_matrix)
 
 training_set_size = 20
-training_result = training.train_starting_with_random_vertex_n_times(dynamics, LearningAlgorithm.THESIS, learning_rate, training_set_size)
+training_result = training.train_starting_with_random_vertex_n_times(dynamics, LearningAlgorithm.WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES, learning_rate, training_set_size)
 
-# print(calculate_path(training_result.rate_matrix, 5, 1))
-
-print(training_result.training_set_size)
+print(calculate_path(training_result.rate_matrix, 5, 1))

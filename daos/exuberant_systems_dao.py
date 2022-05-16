@@ -5,7 +5,7 @@ from step_1.data_structures import CompletedBasin, ExuberantSystem
 def get_single_exuberant_system(id, filename):
     serialized = base_dao.read_entry(id, filename)
     tournament_and_patterns_id = serialized['tournament_and_patterns_id']
-    tournament = numpy.array(serialized['tournament'])
+    tournament = numpy.array(serialized['tournament'], dtype = int)
     basins = tuple(map(_deserialize_basin, serialized['basins']))
     return ExuberantSystem(tournament_and_patterns_id, tournament, basins, id)
 

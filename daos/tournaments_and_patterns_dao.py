@@ -11,7 +11,7 @@ def generate_single_tournament_and_patterns(number_of_states, patterns, pattern_
 
 def get_single_tournament_and_patterns(id, filename):
     serialized = base_dao.read_entry(id, filename)
-    tournament = numpy.array(serialized['tournament'])
+    tournament = numpy.array(serialized['tournament'], dtype = int)
     patterns = to_tuple_of_sets(serialized['patterns'])
     pattern_description_id = serialized['pattern_description_id']
     pattern_description = PatternDescription.from_id(pattern_description_id)

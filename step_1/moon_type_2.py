@@ -21,7 +21,7 @@ def _gather_all_cycles(basins):
     return cycles
 
 def _to_exuberant_system_tournament(cycles, number_of_states):
-    tournament = -numpy.ones((number_of_states, number_of_states))
+    tournament = -numpy.ones((number_of_states, number_of_states), dtype=int)
     arcs = _to_arcs(cycles)
     for arc in arcs:
         tournament[arc[0], arc[1]] = 1
