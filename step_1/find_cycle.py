@@ -3,16 +3,7 @@ import numpy
 random_number_generator = numpy.random.default_rng()
 
 def find_cycle(tournament, available_vertices, basin):
-    # vertices_not_in_basin = available_vertices - basin.vertices_included_in_cycle - basin.pattern_vertices
     pattern_vertex = _pattern_vertex_least_included_in_cycle(basin)
-    # cycle = [pattern_vertex]
-    # vertex_1 = _pick_one(vertices_not_in_basin)
-    # first vertex always works
-    # if tournament[pattern_vertex, vertex_1] == 1:
-    #     cycle.append(vertex_1)
-    # else:
-    #     cycle.insert(0, vertex_1)
-
     possible_vertices = available_vertices - {pattern_vertex}
     if basin.length_of_next_cycle == 3:
         return tuple(_find_3_cycle(tournament, possible_vertices, pattern_vertex))
@@ -47,7 +38,8 @@ def _try_find_two_vertices_that_can_be_inserted(tournament, possible_vertices, c
 
 def _vertex_dominates_cycle(tournament, cycle, vertex):
     vertex_dominates = tournament[vertex, cycle[2]] == 1
-    assert _vertex_completely_dominates_cycle(tournament, cycle, vertex)
+    if vertex_dominates:
+        assert _vertex_completely_dominates_cycle(tournament, cycle, vertex)
     return vertex_dominates
 
 def _vertex_completely_dominates_cycle(tournament, cycle, vertex):
@@ -58,7 +50,8 @@ def _vertex_completely_dominates_cycle(tournament, cycle, vertex):
 
 def _cycle_dominates_vertex(tournament, cycle, vertex):
     cycle_dominates = tournament[cycle[0], vertex] == 1
-    assert _cycle_completely_dominates_vertex(tournament, cycle, vertex)
+    if cycle_dominates:
+        assert _cycle_completely_dominates_vertex(tournament, cycle, vertex)
     return cycle_dominates
 
 def _cycle_completely_dominates_vertex(tournament, cycle, vertex):
@@ -81,7 +74,7 @@ def _try_if_vertex_can_be_inserted(tournament, cycle, vertex_to_insert):
     result = _check_against_first_vertex_of_cycle(tournament, cycle, vertex_to_insert)
     if result.fits_before:
         return 0
-    encountered_dominating_vertex_in_cycle = not result.dominates
+    encountered_dominating_vertex_in_cycle = not result.dominates_vertex_in_cycle
     for index, vertex_in_cycle in enumerate(cycle[1:]):
         dominates = tournament[vertex_to_insert, vertex_in_cycle] == 1
         if dominates:
@@ -92,11 +85,11 @@ def _try_if_vertex_can_be_inserted(tournament, cycle, vertex_to_insert):
 
 
 def _check_against_first_vertex_of_cycle(tournament, cycle, vertex_to_insert):
-    dominates = tournament[vertex_to_insert, cycle[0]] == 1
+    dominates_vertex_in_cycle = tournament[vertex_to_insert, cycle[0]] == 1
     fits_before = False
-    if dominates and tournament[cycle[-1], vertex_to_insert] == 1:
+    if dominates_vertex_in_cycle and tournament[cycle[-1], vertex_to_insert] == 1:
         fits_before = True
-    return CheckAgainstFirstVertexOfCycleResult(dominates, fits_before)
+    return CheckAgainstFirstVertexOfCycleResult(dominates_vertex_in_cycle, fits_before)
 
 def _find_previous(tournament, possible_vertices, pattern_vertex, n):
     if n > 4:
@@ -124,7 +117,7 @@ def _order_cycle(cycle, pattern_vertex):
     return cycle[pattern_vertex_index:] + cycle[:pattern_vertex_index]
 
 def _pick_one(vertices):
-    return random_number_generator.choice(list(vertices))
+    return list(vertices)[random_number_generator.integers(len(vertices))]
 
 def _pattern_vertex_least_included_in_cycle(basin):
     pattern_vertices = basin.pattern_vertices
@@ -141,8 +134,8 @@ class SingleVertexInsertResult:
         self.vertex_to_insert = vertex_to_insert
 
 class CheckAgainstFirstVertexOfCycleResult:
-    def __init__(self, dominates, fits_before):
-        self.dominates = dominates
+    def __init__(self, dominates_vertex_in_cycle, fits_before):
+        self.dominates_vertex_in_cycle = dominates_vertex_in_cycle
         self.fits_before = fits_before
 
 # maybe look to use vertices_included_in_cycle to complete cycle 

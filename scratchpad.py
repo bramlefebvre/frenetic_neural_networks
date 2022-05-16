@@ -1,8 +1,7 @@
 import numpy
 
-a = frozenset({1, 2, 3})
+random_number_generator = numpy.random.default_rng()
 
-b = set(a)
-b.remove(1)
-print(b)
-print(a)
+a = random_number_generator.choice([1, 2, 3])
+
+print(type(a))

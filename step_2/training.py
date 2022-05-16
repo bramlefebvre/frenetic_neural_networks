@@ -15,15 +15,16 @@ algorithm_map = {
 def train_starting_with_each_vertex_n_times(dynamics, algorithm, learning_rate, n):
     dynamics = copy.copy(dynamics)
     number_of_states = len(dynamics.rate_matrix)
+    training_set_size = n * number_of_states
     for round in range(n):
         for initial_state in range(number_of_states):
             learning_step_result = algorithm_map[algorithm](dynamics, initial_state, learning_rate)
             if learning_step_result.success is False:
                 step_number = round * number_of_states + initial_state + 1
-                return FailureTrainingResult(dynamics.exuberant_system.id, dynamics.driving_value, dynamics.initial_activity_parameter_factor, dynamics.travel_time, learning_rate, algorithm, step_number)
+                return FailureTrainingResult(dynamics.exuberant_system.id, dynamics.driving_value, dynamics.initial_activity_parameter_factor, dynamics.travel_time, learning_rate, algorithm, training_set_size, step_number)
             dynamics.rate_matrix = learning_step_result.rate_matrix
     performance = calculate_performance(dynamics, 100)
-    return SuccessTrainingResult(dynamics.exuberant_system.id, dynamics.driving_value, dynamics.initial_activity_parameter_factor, dynamics.travel_time, learning_rate, algorithm, n * number_of_states, performance, dynamics.rate_matrix)
+    return SuccessTrainingResult(dynamics.exuberant_system.id, dynamics.driving_value, dynamics.initial_activity_parameter_factor, dynamics.travel_time, learning_rate, algorithm, training_set_size, performance, dynamics.rate_matrix)
 
 def train_starting_with_random_vertex_n_times(dynamics, algorithm, learning_rate, training_set_size):
     dynamics = copy.copy(dynamics)
