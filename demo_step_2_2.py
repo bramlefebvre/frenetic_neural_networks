@@ -10,6 +10,7 @@ def pprint(object):
 
 exuberant_system = exuberant_systems_dao.get_single_exuberant_system('size_20', 'exuberant_systems')
 
+print([basin.vertices for basin in exuberant_system.basins])
 pprint(exuberant_system.tournament)
 
 travel_time = 1
@@ -21,7 +22,7 @@ dynamics = initialize_dynamics(exuberant_system, driving_value, initial_activity
 
 pprint(dynamics.rate_matrix)
 
-training_set_size = 40
+training_set_size = 50
 training_result = training.train_starting_with_random_vertex_n_times(dynamics, LearningAlgorithm.WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES, learning_rate, training_set_size)
 
 print(calculate_path(training_result.rate_matrix, 5, 1))
