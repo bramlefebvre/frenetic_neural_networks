@@ -1,7 +1,7 @@
 import daos.training_results_dao as training_results_dao
 import matplotlib.pyplot as plt
 
-training_results = training_results_dao.get_training_results('algorithm_2/e5_a2_n40_Rv')
+training_results = training_results_dao.get_training_results('step_2/algorithm_2/e10_a0.5_n40_Rv')
 
 
 sorted_training_results = {}
@@ -19,7 +19,7 @@ performance_array = []
 for learning_rate in learning_rates:
     number = 0
     summed_performances = 0
-    for training_result in sorted_training_results[learning_rate]:    
+    for training_result in sorted_training_results[learning_rate]:
         if training_result.success:
             number += 1
             summed_performances += training_result.performance

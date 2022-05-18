@@ -1,14 +1,13 @@
 import daos.tournaments_and_patterns_dao as tournaments_and_patterns_dao
-import pandas
-import step_1.find_hamilton_cycle
-
-def pprint(object):
-    print(pandas.DataFrame(object))
+from step_1.moon_type_2 import find_exuberant_system
+from daos.exuberant_systems_dao import save_exuberant_system
 
 tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('size_20', 'tournaments')
 
-strong = step_1.find_hamilton_cycle.hamilton_cycle_complete_tournament_exists(tournament_and_patterns.tournament)
-print(strong)
+exuberant_system = find_exuberant_system(tournament_and_patterns)
 
-pprint(tournament_and_patterns.tournament)
+print([basin.vertices for basin in exuberant_system.basins])
 
+exuberant_system.id = 'size_20'
+
+#save_exuberant_system(exuberant_system, 'exuberant_systems')

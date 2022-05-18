@@ -8,7 +8,7 @@ exuberant_system = exuberant_systems_dao.get_single_exuberant_system('example_th
 
 travel_time = 1
 driving_value = 5
-initial_activity_parameter_factor = 2
+initial_activity_parameter_factor = 0.5
 learning_rate = 0.5
 
 dynamics = initialize_dynamics(exuberant_system, driving_value, initial_activity_parameter_factor, travel_time)
@@ -18,4 +18,4 @@ for training_set_size in range(1, 21):
     for j in range(100):
         training_results.append(training.train_starting_with_random_vertex_n_times(dynamics, LearningAlgorithm.THESIS, learning_rate, training_set_size))
     
-training_results_dao.save_training_results(training_results, 'algorithm_thesis/e5_a2_nv_R0.5_low')
+training_results_dao.save_training_results(training_results, 'step_2/algorithm_thesis/e5_a0.5_nv_R0.5_low')
