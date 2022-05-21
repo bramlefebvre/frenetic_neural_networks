@@ -8,7 +8,7 @@ import pandas
 def pprint(object):
     print(pandas.DataFrame(object))
 
-exuberant_system = exuberant_systems_dao.get_single_exuberant_system('size_20', 'exuberant_systems_old')
+exuberant_system = exuberant_systems_dao.get_single_exuberant_system('size_20', 'data/exuberant_systems_old')
 
 print([basin.vertices for basin in exuberant_system.basins])
 pprint(exuberant_system.tournament)

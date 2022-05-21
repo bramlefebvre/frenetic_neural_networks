@@ -9,7 +9,7 @@ def pprint(object):
     print(pandas.DataFrame(object))
 
 
-exuberant_system = exuberant_systems_dao.get_single_exuberant_system('example_thesis', 'exuberant_systems')
+exuberant_system = exuberant_systems_dao.get_single_exuberant_system('example_thesis', 'data/exuberant_systems')
 
 print('basins:')
 print([basin.vertices for basin in exuberant_system.basins])
