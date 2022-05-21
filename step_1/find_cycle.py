@@ -36,15 +36,7 @@ def _try_find_two_vertices_that_can_be_inserted(tournament, possible_vertices, c
                     return [vertex_1, vertex_2]
                 vertices_2.remove(vertex_2)
         vertices_1.remove(vertex_1)
-        
-        # else: 
-        #     assert _vertex_dominates_cycle(tournament, cycle, vertex_1)
-        #     vertices_2 = set(possible_vertices)
-        #     vertex_2 = _pick_one(vertices_2)
-        #     if _cycle_dominates_vertex(tournament, cycle, vertex_2):
-        #         return [vertex_2, vertex_1]
-        #     vertices_2.remove(vertex_2)
-        
+
 
 def _vertex_dominates_cycle(tournament, cycle, vertex):
     vertex_dominates = tournament[vertex, cycle[2]] == 1
