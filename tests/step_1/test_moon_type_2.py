@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch
 import daos.tournaments_and_patterns_dao as tournaments_and_patterns_dao
 from step_1.moon_type_2 import find_exuberant_system
+import numpy
 
 filename = 'tests/data/step_1/tournaments'
 
@@ -39,18 +40,22 @@ class GeneralMoonType2TestCase(unittest.TestCase):
             self.assertTrue(_outgoing_arc_exists(vertex, graph), 'no outgoing arc exists for vertex: {0}'.format(str(vertex)))
 
 
-class SpecificMoonType2TestCase(unittest.TestCase):
+class SpecificMoonType2TestCase0(unittest.TestCase):
 
     @patch('step_1.moon_type_2.find_cycle')
     def test_specific_0(self, find_cycle_mock):
         find_cycle_mock.side_effect = _find_cycle_side_effect
         tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('size_8_0', filename)
         exuberant_system = find_exuberant_system(tournament_and_patterns)
-
+        self.assertEqual(exuberant_system.tournament_and_patterns_id, 'size_8_0')
         calls = find_cycle_mock.call_args_list
+        self.assertEqual(len(calls), 4)
         for call in calls:
-            self.assertEquals(call.args[0].tolist(), tournament_and_patterns.tournament.tolist())
+            self.assertEqual(call.args[0].tolist(), tournament_and_patterns.tournament.tolist())
         self._check_first_call(calls[0])
+        self._check_second_call(calls[1])
+        self._check_third_call(calls[2])
+        self._check_fourth_call(calls[3])
     
 
     def _check_first_call(self, call):
@@ -59,8 +64,28 @@ class SpecificMoonType2TestCase(unittest.TestCase):
         self.assertEqual(basin.index, 0)
     
     def _check_second_call(self, call):
-        pass
+        self.assertEqual(call.args[1], {1, 2, 4, 5, 7})
+        basin = call.args[2]
+        self.assertEqual(basin.index, 1)
+    
+    def _check_third_call(self, call):
+        self.assertEqual(call.args[1], {0, 3, 5, 6, 7})
+        basin = call.args[2]
+        self.assertEqual(basin.index, 0)
 
+    def _check_fourth_call(self, call):
+        self.assertEqual(call.args[1], {1, 2, 4, 7})
+        basin = call.args[2]
+        self.assertEqual(basin.index, 1)
+
+    graph = numpy.array([[-1, -1, -1, 0, -1, -1, 1, -1], 
+                [-1, -1, 1, -1, 0, -1, -1, 0],
+                [-1, 0, -1, -1, 1, -1, -1, -1], 
+                [1, -1, -1, -1, -1, 0, 0, -1], 
+                [-1, 1, 0, -1, -1, -1, -1, 1], 
+                [-1, -1, -1, 1, -1, -1, 0, -1],
+                [0, -1, -1, 1, -1, 1, -1, -1],
+                [-1, 1, -1, -1, 0, -1, -1, -1]])
 
 def _find_cycle_side_effect(tournament, available_vertices, basin):
     cycle = ()
