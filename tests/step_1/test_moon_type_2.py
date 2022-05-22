@@ -1,12 +1,12 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 import daos.tournaments_and_patterns_dao as tournaments_and_patterns_dao
 from step_1.moon_type_2 import find_exuberant_system
-import numpy
+from copy import deepcopy
 
-filename = 'tests/data/step_1/tournaments'
+filename = 'tests/data/tournaments'
 
-class GeneralMoonType2TestCase(unittest.TestCase):
+class GeneralMoonType2TestCase0(unittest.TestCase):
 
     def test_entries_are_turned_into_minus_one_or_stay_the_same(self):
         tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('size_8_0', filename)
@@ -44,10 +44,15 @@ class SpecificMoonType2TestCase0(unittest.TestCase):
 
     @patch('step_1.moon_type_2.find_cycle')
     def test_specific_0(self, find_cycle_mock):
-        find_cycle_mock.side_effect = _find_cycle_side_effect
+        find_cycle_mock = _copy_mock(find_cycle_mock)
         tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('size_8_0', filename)
         exuberant_system = find_exuberant_system(tournament_and_patterns)
+        
         self.assertEqual(exuberant_system.tournament_and_patterns_id, 'size_8_0')
+        self.assertEqual(exuberant_system.tournament.tolist(), self.graph)
+        self._check_first_basin(exuberant_system)
+        self._check_second_basin(exuberant_system)
+
         calls = find_cycle_mock.call_args_list
         self.assertEqual(len(calls), 4)
         for call in calls:
@@ -57,49 +62,78 @@ class SpecificMoonType2TestCase0(unittest.TestCase):
         self._check_third_call(calls[2])
         self._check_fourth_call(calls[3])
     
+    def _check_first_basin(self, exuberant_system):
+        basin = exuberant_system.basins[0]
+        self.assertEqual(basin.index, 0)
+        self.assertEqual(basin.pattern_vertices, {0})
+        self.assertEqual(basin.vertices, {0, 6, 5, 3})
+        
+    def _check_second_basin(self, exuberant_system):
+        basin = exuberant_system.basins[1]
+        self.assertEqual(basin.index, 1)
+        self.assertEqual(basin.pattern_vertices, {2})
+        self.assertEqual(basin.vertices, {2, 4, 7, 1})
 
     def _check_first_call(self, call):
         self.assertEqual(call.args[1], {0, 1, 3, 4, 5, 6, 7})
         basin = call.args[2]
         self.assertEqual(basin.index, 0)
+        self.assertEqual(len(basin.cycles), 0)
+        self.assertEqual(len(basin.vertices_included_in_cycle), 0)
+        self.assertEqual(basin.length_of_next_cycle, 3)
     
     def _check_second_call(self, call):
         self.assertEqual(call.args[1], {1, 2, 4, 5, 7})
         basin = call.args[2]
         self.assertEqual(basin.index, 1)
+        self.assertEqual(len(basin.cycles), 0)
+        self.assertEqual(len(basin.vertices_included_in_cycle), 0)
+        self.assertEqual(basin.length_of_next_cycle, 3)
     
     def _check_third_call(self, call):
         self.assertEqual(call.args[1], {0, 3, 5, 6, 7})
         basin = call.args[2]
         self.assertEqual(basin.index, 0)
+        self.assertEqual(basin.cycles, {(0, 6, 3)})
+        self.assertEqual(basin.vertices_included_in_cycle, {0, 6, 3})
+        self.assertEqual(basin.length_of_next_cycle, 4)
 
     def _check_fourth_call(self, call):
         self.assertEqual(call.args[1], {1, 2, 4, 7})
         basin = call.args[2]
         self.assertEqual(basin.index, 1)
+        self.assertEqual(basin.cycles, {(2, 4, 1)})
+        self.assertEqual(basin.vertices_included_in_cycle, {2, 4, 1})
+        self.assertEqual(basin.length_of_next_cycle, 4)
 
-    graph = numpy.array([[-1, -1, -1, 0, -1, -1, 1, -1], 
+    graph = [[-1, -1, -1, 0, -1, -1, 1, -1], 
                 [-1, -1, 1, -1, 0, -1, -1, 0],
                 [-1, 0, -1, -1, 1, -1, -1, -1], 
                 [1, -1, -1, -1, -1, 0, 0, -1], 
                 [-1, 1, 0, -1, -1, -1, -1, 1], 
                 [-1, -1, -1, 1, -1, -1, 0, -1],
                 [0, -1, -1, 1, -1, 1, -1, -1],
-                [-1, 1, -1, -1, 0, -1, -1, -1]])
+                [-1, 1, -1, -1, 0, -1, -1, -1]]
 
-def _find_cycle_side_effect(tournament, available_vertices, basin):
-    cycle = ()
-    if basin.index == 0:
-        if len(basin.vertices_included_in_cycle) == 0:
-            cycle = (0, 6, 3)
+def _copy_mock(mock):
+    new_mock = MagicMock()
+    def _find_cycle_side_effect(tournament, available_vertices, basin):
+        cycle = ()
+        if basin.index == 0:
+            if len(basin.vertices_included_in_cycle) == 0:
+                cycle = (0, 6, 3)
+            else:
+                cycle = (0, 6, 5, 3)
         else:
-            cycle = (0, 6, 5, 3)
-    else:
-        if len(basin.vertices_included_in_cycle) == 0:
-            cycle = (2, 4, 1)
-        else:
-            cycle = (2, 4, 7, 1)
-    return cycle
+            if len(basin.vertices_included_in_cycle) == 0:
+                cycle = (2, 4, 1)
+            else:
+                cycle = (2, 4, 7, 1)
+        basin = deepcopy(basin)
+        new_mock(tournament, available_vertices, basin)
+        return cycle
+    mock.side_effect = _find_cycle_side_effect
+    return new_mock
 
 def _outgoing_arc_exists(vertex, graph):
     for entry in graph[vertex, :]:
