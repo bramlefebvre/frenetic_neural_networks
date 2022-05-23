@@ -21,7 +21,7 @@ driving_value = 5
 initial_activity_parameter_factor = 2
 learning_rate = 0.5
 training_set_size = 20
-algorithm = LearningAlgorithm.THESIS
+algorithm = LearningAlgorithm.WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES
 
 dynamics = initialize_dynamics(exuberant_system, driving_value, initial_activity_parameter_factor, travel_time)
 
@@ -30,7 +30,7 @@ pprint(dynamics.rate_matrix)
 
 training_result = training.train_starting_with_random_vertex_n_times(dynamics, algorithm, learning_rate, training_set_size)
 if training_result.success == True:
-    initial_state = 3
+    initial_state = 5
     print('path:')
     print(calculate_path(training_result.rate_matrix, initial_state, travel_time))
     print('performance:')

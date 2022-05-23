@@ -33,7 +33,7 @@ pprint(dynamics.rate_matrix)
 
 training_result = training.train_starting_with_random_vertex_n_times(dynamics, algorithm, learning_rate, training_set_size)
 if training_result.success == True:
-    initial_state = 3
+    initial_state = 5
     print('path:')
     print(calculate_path(training_result.rate_matrix, initial_state, travel_time))
     print('performance:')
