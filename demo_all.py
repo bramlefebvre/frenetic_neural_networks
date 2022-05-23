@@ -15,8 +15,6 @@ tournament_and_patterns = tournaments_and_patterns_dao.generate_single_tournamen
 exuberant_system = moon_type_2.find_exuberant_system(tournament_and_patterns)
 print('original tournament:')
 pprint(tournament_and_patterns.tournament)
-print('exuberant system graph:')
-pprint(exuberant_system.tournament)
 print('basins:')
 print([basin.vertices for basin in exuberant_system.basins])
 print('graph:')
