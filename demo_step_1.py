@@ -5,7 +5,9 @@ import pandas
 def pprint(object):
     print(pandas.DataFrame(object))
 
-tournament_and_patterns = tournaments_and_patterns_dao.generate_single_tournament_and_patterns(12, [[0], [2]])
+number_of_vertices = 12
+patterns = [[0], [2], [3]]
+tournament_and_patterns = tournaments_and_patterns_dao.generate_single_tournament_and_patterns(number_of_vertices, patterns)
 
 exuberant_system = moon_type_2.find_exuberant_system(tournament_and_patterns)
 

@@ -17,12 +17,12 @@ def _map_tournament_to_rate_matrix(tournament, driving_value, initial_activity_p
 
 def _map_element(exuberant_system_value, driving_value, initial_activity_parameter_factor, travel_time):
     rate_matrix_value = 0
-    initial_activity_parameter_value = (4 / travel_time) * exp(-driving_value/2) * initial_activity_parameter_factor
+    initial_activity_parameter_value = (4 / travel_time) * exp(-driving_value / 2) * initial_activity_parameter_factor
     match exuberant_system_value:
         case 0:
-            rate_matrix_value = initial_activity_parameter_value * exp(-driving_value/2)
+            rate_matrix_value = initial_activity_parameter_value * exp(-driving_value / 2)
         case 1:
-            rate_matrix_value = initial_activity_parameter_value * exp(driving_value/2)
+            rate_matrix_value = initial_activity_parameter_value * exp(driving_value / 2)
     return rate_matrix_value
 
 
