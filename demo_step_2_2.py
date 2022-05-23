@@ -23,14 +23,13 @@ training_set_size = 50
 
 dynamics = initialize_dynamics(exuberant_system, driving_value, initial_activity_parameter_factor, travel_time)
 
-print('initial rate matrix')
+print('initial rate matrix:')
 pprint(dynamics.rate_matrix)
 
-training_set_size = 50
-training_result = training.train_starting_with_random_vertex_n_times(dynamics, LearningAlgorithm.WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES, learning_rate, training_set_size)
+training_result = training.train_starting_with_random_vertex_n_times(dynamics, \
+    LearningAlgorithm.WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES, learning_rate, training_set_size)
 
-print('path')
-print(calculate_path(training_result.rate_matrix, 12, 1))
-
-print('performance')
+print('path:')
+print(calculate_path(training_result.rate_matrix, 12, travel_time))
+print('performance:')
 print(training_result.performance)
