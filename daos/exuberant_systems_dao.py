@@ -4,10 +4,11 @@ from step_1.data_structures import CompletedBasin, ExuberantSystem
 
 def get_single_exuberant_system(id, filename):
     serialized = base_dao.read_entry(id, filename)
-    tournament_and_patterns_id = serialized['tournament_and_patterns_id']
-    tournament = numpy.array(serialized['tournament'], dtype = int)
-    basins = tuple(map(_deserialize_basin, serialized['basins']))
-    return ExuberantSystem(tournament_and_patterns_id, tournament, basins, id)
+    return _deserialize_exuberant_system(serialized)
+
+def get_exuberant_systems(filename):
+    serialized_exuberant_systems = base_dao.read_data(filename)
+    return list(map(_deserialize_exuberant_system, serialized_exuberant_systems))
 
 def save_exuberant_system(exuberant_system, filename):
     serialized = _serialize_exuberant_system(exuberant_system)
@@ -22,6 +23,13 @@ def _serialize_exuberant_system(exuberant_system):
     if exuberant_system.id is not None:
         serialized['id'] = exuberant_system.id
     return serialized 
+
+def _deserialize_exuberant_system(serialized):
+    tournament_and_patterns_id = serialized['tournament_and_patterns_id']
+    tournament = numpy.array(serialized['tournament'], dtype = int)
+    basins = tuple(map(_deserialize_basin, serialized['basins']))
+    id = serialized['id']
+    return ExuberantSystem(tournament_and_patterns_id, tournament, basins, id)
 
 def _deserialize_basin(serialized):
     pattern_vertices = frozenset(serialized['pattern_vertices'])
