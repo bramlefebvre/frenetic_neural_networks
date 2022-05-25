@@ -18,7 +18,7 @@ pprint(tournament_and_patterns.tournament)
 print('basins:')
 print([basin.vertices for basin in exuberant_system.basins])
 print('graph:')
-pprint(exuberant_system.tournament)
+pprint(exuberant_system.graph)
 
 travel_time = 1
 driving_value = 5

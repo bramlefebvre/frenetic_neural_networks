@@ -9,9 +9,9 @@ class TournamentAndPatterns:
         self.id = id
 
 class ExuberantSystem:
-    def __init__(self, tournament_and_patterns_id, tournament, basins, id = None):
+    def __init__(self, tournament_and_patterns_id, graph, basins, id = None):
         self.tournament_and_patterns_id = tournament_and_patterns_id
-        self.tournament = tournament
+        self.graph = graph
         self.basins = basins
         self.id = id
 

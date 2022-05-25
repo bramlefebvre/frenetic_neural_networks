@@ -10,9 +10,9 @@ def find_exuberant_system(tournament_and_patterns):
     patterns = tournament_and_patterns.patterns
     basins = _find_cycles_per_basin(tournament, patterns)
     cycles = _gather_all_cycles(basins)
-    exuberant_system_tournament = _to_exuberant_system_tournament(cycles, len(tournament))
+    exuberant_system_graph = _to_exuberant_system_graph(cycles, len(tournament))
     completed_basins = tuple(map(_to_completed_basin, basins))
-    return ExuberantSystem(tournament_and_patterns.id, exuberant_system_tournament, completed_basins)
+    return ExuberantSystem(tournament_and_patterns.id, exuberant_system_graph, completed_basins)
 
 def _gather_all_cycles(basins):
     cycles = set()
@@ -20,13 +20,13 @@ def _gather_all_cycles(basins):
         cycles |= basin.cycles
     return cycles
 
-def _to_exuberant_system_tournament(cycles, number_of_states):
-    tournament = -numpy.ones((number_of_states, number_of_states), dtype=int)
+def _to_exuberant_system_graph(cycles, number_of_states):
+    graph = -numpy.ones((number_of_states, number_of_states), dtype=int)
     arcs = _to_arcs(cycles)
     for arc in arcs:
-        tournament[arc[0], arc[1]] = 1
-        tournament[arc[1], arc[0]] = 0
-    return tournament
+        graph[arc[0], arc[1]] = 1
+        graph[arc[1], arc[0]] = 0
+    return graph
 
 def _to_arcs(cycles):
     arcs = set()

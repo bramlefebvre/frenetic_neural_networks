@@ -11,7 +11,7 @@ tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and
 
 exuberant_system = get_single_exuberant_system('size_8_0', 'tests/data/exuberant_systems')
 
-pprint(exuberant_system.tournament)
+pprint(exuberant_system.graph)
 
 # exuberant_system = find_exuberant_system(tournament_and_patterns)
 

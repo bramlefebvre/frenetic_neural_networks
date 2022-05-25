@@ -12,7 +12,7 @@ class GeneralMoonType2TestCase0(unittest.TestCase):
         tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('size_8_0', filename)
         exuberant_system = find_exuberant_system(tournament_and_patterns)
         tournament = tournament_and_patterns.tournament
-        graph = exuberant_system.tournament
+        graph = exuberant_system.graph
         for row in range(8):
             for column in range(8):
                 self.assertIn(graph[row, column], {tournament[row, column], -1}, 'problem for row: {row} and column: {column}'.format(row = str(row), column = str(column)))
@@ -21,7 +21,7 @@ class GeneralMoonType2TestCase0(unittest.TestCase):
         tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('size_8_0', filename)
         exuberant_system = find_exuberant_system(tournament_and_patterns)
         basins = exuberant_system.basins
-        graph = exuberant_system.tournament
+        graph = exuberant_system.graph
         for row in range(8):
             for column in range(8):
                 if graph[row, column] != -1:
@@ -32,7 +32,7 @@ class GeneralMoonType2TestCase0(unittest.TestCase):
         tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('size_8_0', filename)
         exuberant_system = find_exuberant_system(tournament_and_patterns)
         basins = exuberant_system.basins
-        graph = exuberant_system.tournament
+        graph = exuberant_system.graph
         if _basins_are_empty(basins):
             return
         for vertex in _non_pattern_vertices(basins):
@@ -49,7 +49,7 @@ class SpecificMoonType2TestCase0(unittest.TestCase):
         exuberant_system = find_exuberant_system(tournament_and_patterns)
         
         self.assertEqual(exuberant_system.tournament_and_patterns_id, 'size_8_0')
-        self.assertEqual(exuberant_system.tournament.tolist(), self.graph)
+        self.assertEqual(exuberant_system.graph.tolist(), self.graph)
         self._check_first_basin(exuberant_system)
         self._check_second_basin(exuberant_system)
 

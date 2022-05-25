@@ -17,7 +17,7 @@ def save_exuberant_system(exuberant_system, filename):
 def _serialize_exuberant_system(exuberant_system):
     serialized = {
         'tournament_and_patterns_id': exuberant_system.tournament_and_patterns_id,
-        'tournament': exuberant_system.tournament.tolist(),
+        'graph': exuberant_system.graph.tolist(),
         'basins': list(map(_serialize_basin, exuberant_system.basins))
     }
     if exuberant_system.id is not None:
@@ -26,7 +26,7 @@ def _serialize_exuberant_system(exuberant_system):
 
 def _deserialize_exuberant_system(serialized):
     tournament_and_patterns_id = serialized['tournament_and_patterns_id']
-    tournament = numpy.array(serialized['tournament'], dtype = int)
+    tournament = numpy.array(serialized['graph'], dtype = int)
     basins = tuple(map(_deserialize_basin, serialized['basins']))
     id = serialized['id']
     return ExuberantSystem(tournament_and_patterns_id, tournament, basins, id)
