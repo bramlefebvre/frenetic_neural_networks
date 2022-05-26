@@ -37,6 +37,13 @@ class TrainingResult:
         self.number_of_patterns = number_of_patterns
         self.variance_of_sizes_of_basins = variance_of_sizes_of_basins
 
+class CalculationDurationResult:
+    def __init__(self, type, number_of_states, number_of_patterns, calculation_duration):
+        self.type = type
+        self.number_of_states = number_of_states
+        self.number_of_patterns = number_of_patterns
+        self.calculation_duration = calculation_duration
+
 @unique
 class TrainingResultType(Enum):
     EXUBERANT_SYSTEM = 1

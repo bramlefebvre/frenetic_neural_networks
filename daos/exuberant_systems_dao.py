@@ -26,10 +26,10 @@ def _serialize_exuberant_system(exuberant_system):
 
 def _deserialize_exuberant_system(serialized):
     tournament_and_patterns_id = serialized['tournament_and_patterns_id']
-    tournament = numpy.array(serialized['graph'], dtype = int)
+    graph = numpy.array(serialized['graph'], dtype = int)
     basins = tuple(map(_deserialize_basin, serialized['basins']))
     id = serialized['id']
-    return ExuberantSystem(tournament_and_patterns_id, tournament, basins, id)
+    return ExuberantSystem(tournament_and_patterns_id, graph, basins, id)
 
 def _deserialize_basin(serialized):
     pattern_vertices = frozenset(serialized['pattern_vertices'])
