@@ -25,7 +25,7 @@ class SuccessLearningStepResult:
         self.path = path
 
 class SuccessTrainingResult:
-    def __init__(self, exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, training_set_size, performance, rate_matrix, id = None):
+    def __init__(self, exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, training_set_size, performance, rate_matrix):
         self.exuberant_system_id = exuberant_system_id
         self.success = True
         self.driving_value = driving_value
@@ -36,10 +36,9 @@ class SuccessTrainingResult:
         self.training_set_size = training_set_size
         self.performance = performance
         self.rate_matrix = rate_matrix
-        self.id = id
 
 class FailureTrainingResult:
-    def __init__(self, exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, training_set_size, step_number, id = None):
+    def __init__(self, exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, training_set_size, step_number):
         self.exuberant_system_id = exuberant_system_id
         self.success = False
         self.driving_value = driving_value
@@ -49,7 +48,6 @@ class FailureTrainingResult:
         self.algorithm = algorithm
         self.training_set_size = training_set_size
         self.step_number = step_number
-        self.id = id
 
 @unique
 class LearningAlgorithm(Enum):

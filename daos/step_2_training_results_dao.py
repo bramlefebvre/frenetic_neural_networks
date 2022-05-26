@@ -4,7 +4,7 @@ import daos.base_dao as base_dao
 
 def save_training_results(training_results, filename):
     serialized_training_results = list(map(_serialize_training_result, training_results))
-    base_dao.add_data_no_duplicates(serialized_training_results, filename)
+    base_dao.add_data_no_id(serialized_training_results, filename)
 
 def get_training_results(filename):
     serialized_training_results = base_dao.read_data(filename)
@@ -27,8 +27,7 @@ def _deserialize_success_training_result(serialized):
     training_set_size = serialized['training_set_size']
     performance = serialized['performance']
     rate_matrix = numpy.array(serialized['rate_matrix'])
-    id = serialized['id']
-    return SuccessTrainingResult(exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, training_set_size, performance, rate_matrix, id)
+    return SuccessTrainingResult(exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, training_set_size, performance, rate_matrix)
 
 def _deserialize_failure_training_result(serialized):
     exuberant_system_id = serialized['exuberant_system_id']
@@ -39,8 +38,7 @@ def _deserialize_failure_training_result(serialized):
     algorithm = LearningAlgorithm.from_id(serialized['algorithm'])
     training_set_size = serialized['training_set_size']
     step_number = serialized['step_number']
-    id = serialized['id']
-    return FailureTrainingResult(exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, training_set_size, step_number, id)
+    return FailureTrainingResult(exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, training_set_size, step_number)
 
 def _serialize_training_result(training_result):
     if training_result.success:
@@ -71,6 +69,4 @@ def _serialize_base_training_result(training_result):
         'learning_rate': training_result.learning_rate,
         'algorithm': training_result.algorithm.id
     }
-    if training_result.id is not None:
-        serialized['id'] = training_result.id
     return serialized

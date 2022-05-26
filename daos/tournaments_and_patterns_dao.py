@@ -3,11 +3,16 @@ import daos.base_dao as base_dao
 from step_1.data_structures import PatternDescription, TournamentAndPatterns
 import numpy
 
-def generate_single_tournament_and_patterns(number_of_states, patterns, pattern_description = PatternDescription.TWO_PATTERNS_EACH_WITH_ONE_STATE, id = None):
-    _check_pattern_description(pattern_description)
+def generate_single_tournament_and_patterns(number_of_states, patterns, pattern_description = None, id = None):
     tournament = generate_random_strong_tournament(number_of_states)
     patterns = to_tuple_of_sets(patterns)
     return TournamentAndPatterns(tournament, patterns, pattern_description, id)
+
+def generate_single_tournament_and_single_state_patterns(number_of_states, number_of_patterns):
+    if number_of_patterns > number_of_states:
+        raise ValueError('Number of patterns bigger than number of states')
+    patterns = _generate_single_state_patterns(number_of_patterns)
+    return generate_single_tournament_and_patterns(number_of_states, patterns)
 
 def get_single_tournament_and_patterns(id, filename):
     serialized = base_dao.read_entry(id, filename)
@@ -27,13 +32,13 @@ def save_single_tournament_and_patterns(tournament_and_patterns, filename):
         serialized['id'] = tournament_and_patterns.id
     base_dao.add_single_entry_no_duplicates(serialized, filename)
 
-def generate_tournaments_and_single_state_patterns_and_save(number_of_states, number_to_generate, number_of_patterns, filename):
+def generate_tournaments_and_single_state_patterns_and_return_serialized(number_of_states, number_to_generate, number_of_patterns):
     if number_of_patterns > number_of_states:
         raise ValueError('Number of patterns bigger than number of states')
     patterns = _generate_single_state_patterns(number_of_patterns)
-    generate_tournaments_and_patterns_and_save(number_of_states, number_to_generate, patterns, filename, PatternDescription.TWO_PATTERNS_EACH_WITH_ONE_STATE)
+    return generate_tournaments_and_patterns_and_return_serialized(number_of_states, number_to_generate, patterns, PatternDescription.TWO_PATTERNS_EACH_WITH_ONE_STATE)
 
-def generate_tournaments_and_patterns_and_save(number_of_states, number_to_generate, patterns, filename, pattern_description = PatternDescription.TWO_PATTERNS_EACH_WITH_ONE_STATE):
+def generate_tournaments_and_patterns_and_return_serialized(number_of_states, number_to_generate, patterns, pattern_description = PatternDescription.TWO_PATTERNS_EACH_WITH_ONE_STATE):
     tournaments = []
     for index in range(number_to_generate):
         generated_tournament = generate_random_strong_tournament(number_of_states)
@@ -42,9 +47,9 @@ def generate_tournaments_and_patterns_and_save(number_of_states, number_to_gener
             'patterns': patterns,
             'pattern_description_id': pattern_description.id}
         tournaments.append(tournament)
-    base_dao.add_data(tournaments, filename)
+    return tournaments
 
-def generate_tournaments_and_patterns_and_save_no_duplicates(number_of_states, number_to_generate, patterns, filename, pattern_description = PatternDescription.TWO_PATTERNS_EACH_WITH_ONE_STATE):
+def generate_tournaments_and_patterns_and_save_no_duplicates(number_of_states, patterns, number_to_generate, filename, pattern_description = PatternDescription.TWO_PATTERNS_EACH_WITH_ONE_STATE):
     new_tournaments = []
     while len(new_tournaments) < number_to_generate:
         generated_tournament = generate_random_strong_tournament(number_of_states)
@@ -60,19 +65,14 @@ def _deserialize_tournament_and_patterns(serialized):
     patterns = to_tuple_of_sets(serialized['patterns'])
     pattern_description_id = serialized['pattern_description_id']
     pattern_description = PatternDescription.from_id(pattern_description_id)
-    _check_pattern_description(pattern_description)
     id = serialized['id']
     return TournamentAndPatterns(tournament, patterns, pattern_description, id)
 
 def _generate_single_state_patterns(number_of_patterns):
     patterns = []
     for pattern_index in range(number_of_patterns):
-        patterns.add([pattern_index])
+        patterns.append([pattern_index])
     return patterns
-
-def _check_pattern_description(pattern_description):
-    if pattern_description is None:
-        raise ValueError('Pattern description not found')
 
 def _to_list_of_ordered_lists(iterable_of_iterables):
     result = []

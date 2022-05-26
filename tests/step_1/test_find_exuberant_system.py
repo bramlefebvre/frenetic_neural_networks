@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock, patch
 import daos.tournaments_and_patterns_dao as tournaments_and_patterns_dao
-from step_1.moon_type_2 import find_exuberant_system
+from step_1.find_exuberant_system import find_exuberant_system
 from copy import deepcopy
 
 filename = 'tests/data/tournaments'
@@ -42,7 +42,7 @@ class GeneralMoonType2TestCase0(unittest.TestCase):
 
 class SpecificMoonType2TestCase0(unittest.TestCase):
 
-    @patch('step_1.moon_type_2.find_cycle')
+    @patch('step_1.find_exuberant_system.find_cycle')
     def test_specific_0(self, find_cycle_mock):
         find_cycle_mock = _copy_mock(find_cycle_mock)
         tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('size_8_0', filename)

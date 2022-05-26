@@ -9,6 +9,11 @@ def add_data(new_data, filename):
     updated_data = existing_data + new_data
     write_array(updated_data, filename)
 
+def add_data_no_id(new_data, filename):
+    existing_data = read_data(filename)
+    updated_data = existing_data + new_data
+    write_array(updated_data, filename)
+
 def add_data_no_duplicates(original_new_data, filename):
     new_data = original_new_data.copy()
     existing_data = read_data(filename)
