@@ -61,7 +61,7 @@ def _pick_one(states):
     return list(states)[random_number_generator.integers(len(states))]
 
 
-number_of_states_list = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+number_of_states_list = [20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 
 
 for number_of_states in number_of_states_list:

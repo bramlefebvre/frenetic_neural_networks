@@ -40,7 +40,7 @@ def get_mean_duration(results):
 
 # number_of_states_list = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 
-number_of_states_list = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+number_of_states_list = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 
 for number_of_states in number_of_states_list:
     all_results_for_number_of_states = []
@@ -67,7 +67,7 @@ for number_of_states in number_of_states_list:
         mean_duration = get_mean_duration(tournament_results)
         config_result = CalculationDurationResult(TrainingResultType.CONFIGURATION, number_of_states, number_of_patterns, mean_duration)
         all_results_for_number_of_states.append(config_result)
-    save_calculation_duration_results(all_results_for_number_of_states, 'data/step_1/calculation_duration_test')
+    save_calculation_duration_results(all_results_for_number_of_states, 'data/step_1/calculation_duration_1')
 
 
 
