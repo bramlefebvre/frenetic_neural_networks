@@ -17,11 +17,11 @@ print('graph:')
 pprint(exuberant_system.graph)
 
 travel_time = 1
-driving_value = 5
-initial_activity_parameter_factor = 2
+driving_value = 10
+initial_activity_parameter_factor = 0.2
 learning_rate = 0.5
-training_set_size = 20
-algorithm = LearningAlgorithm.WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES
+training_set_size = 40
+algorithm = LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC
 
 dynamics = initialize_dynamics(exuberant_system, driving_value, initial_activity_parameter_factor, travel_time)
 

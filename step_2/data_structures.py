@@ -49,11 +49,24 @@ class FailureTrainingResult:
         self.training_set_size = training_set_size
         self.step_number = step_number
 
+class RateChangeInstruction:
+    def __init__(self, transition, action):
+        self.transition = transition
+        self.action = action
+
+
+@unique
+class Action(Enum):
+    INCREASE = 1
+    DECREASE = 2
+
+
 @unique
 class LearningAlgorithm(Enum):
     THESIS = 1, 'thesis'
     WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES = 2, \
         'when a pattern state is left only decrease the rates for the pattern states in the path'
+    LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC = 3, 'look forward and only once per arc'
 
     def __init__(self, id, display_value):
         self.id = id

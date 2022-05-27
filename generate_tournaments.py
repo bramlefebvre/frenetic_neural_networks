@@ -1,7 +1,16 @@
 import daos.tournaments_and_patterns_dao as tournaments_and_patterns_dao
+import pandas
 
-tournament_and_patterns = tournaments_and_patterns_dao.generate_single_tournament_and_patterns(1000, [[0]])
-print('done')
+def pprint(object):
+    print(pandas.DataFrame(object))
+
+tournament_and_patterns = tournaments_and_patterns_dao.generate_single_tournament_and_patterns(10, [[0]])
+
+tournament = tournament_and_patterns.tournament
+pprint(tournament)
+graph_values = tournament[1, :]
+for state, graph_value in enumerate(graph_values):
+    print(str(state) + ':' + str(graph_value))
 
 # tournaments_and_patterns_dao.save_single_tournament_and_patterns(tournament_and_patterns, 'data/step_1/tournament_10000_500')
 
