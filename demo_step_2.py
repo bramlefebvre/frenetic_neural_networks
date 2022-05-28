@@ -18,9 +18,9 @@ pprint(exuberant_system.graph)
 
 travel_time = 1
 driving_value = 10
-initial_activity_parameter_factor = 0.2
+initial_activity_parameter_factor = 0.1
 learning_rate = 0.5
-training_set_size = 40
+training_set_size = 90
 algorithm = LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC
 
 dynamics = initialize_dynamics(exuberant_system, driving_value, initial_activity_parameter_factor, travel_time)

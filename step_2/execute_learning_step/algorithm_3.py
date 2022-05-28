@@ -12,12 +12,25 @@ def execute_learning_step(dynamics, initial_state, learning_rate):
     basin = dynamics.get_basin_for_state(initial_state)
     pattern_states = basin.pattern_vertices
     transitions = _to_transitions(path)
-    path_type = _determine_path_type(transitions, pattern_states)
     graph = dynamics.exuberant_system.graph
     input = RateChangeInstructionFunctionInput(graph, path, transitions, pattern_states)
-    rate_change_instructions = rate_change_instructions_function_map[path_type](input)
+    if len(transitions) == 0:
+        rate_change_instructions = _handle_path_without_transitions(input)
+    else:
+        path_type = _determine_path_type(input)
+        rate_change_instructions = rate_change_instructions_function_map[path_type](input)
     _apply_rate_change_instructions(rate_matrix, rate_change_instructions, learning_rate)
     return SuccessLearningStepResult(rate_matrix, path)
+
+def _handle_path_without_transitions(input):
+    last_state = input.path[0]
+    rate_change_instructions = []
+    if last_state not in input.pattern_states:
+        graph_values_for_last_state = input.graph[last_state, :]
+        for state, graph_value in enumerate(graph_values_for_last_state):
+            if graph_value == 1:
+                rate_change_instructions.append(RateChangeInstruction((last_state, state), Action.INCREASE))
+    return rate_change_instructions
 
 def _ever_left_pattern_state_rate_change_instructions(input):
     transitions = input.transitions
@@ -59,8 +72,6 @@ def _arrived_in_pattern_state_and_stayed_long_enough_rate_change_instructions(in
 def _is_a_leaving_transition(transition, pattern_states):
     return transition[0] in pattern_states
 
-
-
 def _apply_rate_change_instructions(rate_matrix, rate_change_instructions, learning_rate):
     for rate_change_instruction in rate_change_instructions:
         transition = rate_change_instruction.transition
@@ -71,10 +82,11 @@ def _apply_rate_change_instructions(rate_matrix, rate_change_instructions, learn
 
 def _get_factor_rate_change(action, learning_rate):
     if action == Action.INCREASE:
-        return 1 / learning_rate - 1
+        factor = 1 / learning_rate - 1
     else:
         assert action == Action.DECREASE
-        return learning_rate - 1
+        factor = learning_rate - 1
+    return factor
 
 def _arcs_going_forward_from_last_state_of_path(input):
     last_state = input.transitions[-1][1]
@@ -104,13 +116,6 @@ def _get_forward_transitions(transitions, graph):
             forward_transitions.add(transition)
     return forward_transitions
 
-
-
-
-
-
-
-
 def _to_transitions(path):
     index_last_state = len(path) - 1
     transitions = []
@@ -119,13 +124,14 @@ def _to_transitions(path):
             transitions.append((state, path[index + 1]))
     return transitions
 
-def _determine_path_type(transitions, pattern_states):
-    path_type = PathType.ARRIVED_IN_PATTERN_STATE_AND_STAYED_LONG_ENOUGH
+def _determine_path_type(input):
+    transitions = input.transitions
+    pattern_states = input.pattern_states
     if _ever_left_pattern_state(transitions, pattern_states):
         path_type = PathType.EVER_LEFT_PATTERN_STATE
     else:
         if _arrived_in_pattern_state(transitions, pattern_states):
-            pass
+            path_type = PathType.ARRIVED_IN_PATTERN_STATE_AND_STAYED_LONG_ENOUGH
         else:
             path_type = PathType.NEVER_VISITED_PATTERN_STATE
     return path_type
@@ -138,11 +144,11 @@ def _arrived_in_pattern_state(transitions, pattern_states):
 
 def _other_transitions_dont_contain_pattern_states(transitions, pattern_states):
     index_last_transition = len(transitions) - 1
-    for index, transition in transitions:
+    for index, transition in enumerate(transitions):
         if index != index_last_transition:
             if transition[0] in pattern_states or transition[1] in pattern_states:
                 return False
-    return transitions[-1][0] in pattern_states
+    return transitions[-1][0] not in pattern_states
 
 def _ever_left_pattern_state(transitions, pattern_states):
     for transition in transitions:
