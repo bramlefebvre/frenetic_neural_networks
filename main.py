@@ -1,4 +1,3 @@
 from analysis_step_2.train_cycles import train_cycles
+from analysis_step_2.plot_a_performance import plot_a_performance
 
-
-train_cycles()

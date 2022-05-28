@@ -65,27 +65,17 @@ number_of_states_list = [20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500
 
 
 for number_of_states in number_of_states_list:
-    all_training_results_for_number_of_states = []
+    training_results = []
     number_of_patterns_list = generate_number_of_patterns_list(number_of_states)
     for number_of_patterns in number_of_patterns_list:
         print('[number_of_states, number_of_patterns]:')
         print([number_of_states, number_of_patterns])
-        tournament_training_results = [] 
         for i in range(10):
             patterns = generate_single_state_patterns(number_of_states, number_of_patterns)
             tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
-            exuberant_system_training_results = []
             for j in range(10):
                 exuberant_system = find_exuberant_system(tournament_and_patterns)
-                variance_of_sizes_of_basins = calculate_variance_of_sizes_of_basins(exuberant_system)
-                exuberant_system_training_result = TrainingResult(TrainingResultType.EXUBERANT_SYSTEM, number_of_states, number_of_patterns, variance_of_sizes_of_basins)
-                exuberant_system_training_results.append(exuberant_system_training_result)
-                all_training_results_for_number_of_states.append(exuberant_system_training_result)
-            mean_variance_of_sizes_of_basins = get_mean_variance_of_sizes_of_basins(exuberant_system_training_results)
-            tournament_training_result = TrainingResult(TrainingResultType.TOURNAMENT, number_of_states, number_of_patterns, mean_variance_of_sizes_of_basins)
-            tournament_training_results.append(tournament_training_result)
-            all_training_results_for_number_of_states.append(tournament_training_result)
-        mean_variance_of_sizes_of_basins = get_mean_variance_of_sizes_of_basins(tournament_training_results)
-        config_training_result = TrainingResult(TrainingResultType.CONFIGURATION, number_of_states, number_of_patterns, mean_variance_of_sizes_of_basins)
-        all_training_results_for_number_of_states.append(config_training_result)
-    save_training_results(all_training_results_for_number_of_states, 'data/step_1/training_results_0')
+                sizes_of_basins = to_sizes_of_basins(exuberant_system)
+                training_result = TrainingResult(number_of_states, number_of_patterns, sizes_of_basins)
+                training_results.append(training_result)
+    save_training_results(training_results, 'data/step_1/training_results_1')

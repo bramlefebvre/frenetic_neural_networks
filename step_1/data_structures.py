@@ -31,31 +31,16 @@ class CompletedBasin:
         self.vertices = vertices
 
 class TrainingResult:
-    def __init__(self, number_of_states, number_of_patterns, variance_of_sizes_of_basins):
+    def __init__(self, number_of_states, number_of_patterns, sizes_of_basins):
         self.number_of_states = number_of_states
         self.number_of_patterns = number_of_patterns
-        self.variance_of_sizes_of_basins = variance_of_sizes_of_basins
+        self.sizes_of_basins = sizes_of_basins
 
 class CalculationDurationResult:
     def __init__(self, number_of_states, number_of_patterns, calculation_duration):
         self.number_of_states = number_of_states
         self.number_of_patterns = number_of_patterns
         self.calculation_duration = calculation_duration
-
-@unique
-class TrainingResultType(Enum):
-    EXUBERANT_SYSTEM = 1
-    TOURNAMENT = 2
-    CONFIGURATION = 3
-
-    def __init__(self, id):
-        self.id = id
-
-    @classmethod
-    def from_id(cls, id):
-        for element in list(cls):
-            if element.id == id:
-                return element    
 
 @unique
 class PatternDescription(Enum):

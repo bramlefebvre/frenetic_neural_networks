@@ -43,31 +43,21 @@ def get_mean_duration(results):
 number_of_states_list = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 
 for number_of_states in number_of_states_list:
-    all_results_for_number_of_states = []
+    results = []
     number_of_patterns_list = generate_number_of_patterns_list(number_of_states)
     for number_of_patterns in number_of_patterns_list:
         print('[number_of_states, number_of_patterns]:')
         print([number_of_states, number_of_patterns])
-        tournament_results = [] 
         for i in range(10):
             patterns = generate_single_state_patterns(number_of_states, number_of_patterns)
             tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
-            exuberant_system_results = []
             for j in range(10):
                 timer = timeit.Timer(lambda: find_exuberant_system(tournament_and_patterns))
                 times_executed, total_duration = timer.autorange()
                 calculation_duration_in_milliseconds =  (total_duration / times_executed) * 10 ** 3
-                exuberant_system_result = CalculationDurationResult(TrainingResultType.EXUBERANT_SYSTEM, number_of_states, number_of_patterns, calculation_duration_in_milliseconds)
-                exuberant_system_results.append(exuberant_system_result)
-                all_results_for_number_of_states.append(exuberant_system_result)
-            mean_duration = get_mean_duration(exuberant_system_results)
-            tournament_result = CalculationDurationResult(TrainingResultType.TOURNAMENT, number_of_states, number_of_patterns, mean_duration)
-            tournament_results.append(tournament_result)
-            all_results_for_number_of_states.append(tournament_result)
-        mean_duration = get_mean_duration(tournament_results)
-        config_result = CalculationDurationResult(TrainingResultType.CONFIGURATION, number_of_states, number_of_patterns, mean_duration)
-        all_results_for_number_of_states.append(config_result)
-    save_calculation_duration_results(all_results_for_number_of_states, 'data/step_1/calculation_duration_1')
+                result = CalculationDurationResult(number_of_states, number_of_patterns, calculation_duration_in_milliseconds)
+                results.append(result)
+    save_calculation_duration_results(results, 'data/step_1/calculation_duration_2')
 
 
 

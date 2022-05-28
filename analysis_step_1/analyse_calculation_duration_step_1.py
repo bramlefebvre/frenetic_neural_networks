@@ -2,20 +2,10 @@ import daos.step_1_training_results_dao as step_1_training_results_dao
 from step_1.data_structures import TrainingResultType
 import matplotlib.pyplot as plt
 
-def get_sorted_results_of_type_configuration(filename):
-    all_results = step_1_training_results_dao.get_calculation_duration_results(filename)
-    results = list(filter(lambda x: x.type == TrainingResultType.CONFIGURATION, all_results))
-    sorted_results = {}
-    for result in results:
-        if result.number_of_states not in sorted_results:
-            sorted_results[result.number_of_states] = {}
-        for_number_of_states = sorted_results[result.number_of_states]
-        for_number_of_states[result.number_of_patterns] = result
-    return sorted_results
 
 filename = 'data/step_1/calculation_duration_1'
 
-results = get_sorted_results_of_type_configuration(filename)
+results = step_1_training_results_dao.get_calculation_duration_results(filename)
 
 def plot_dependency_on_N(results):
     number_of_states_list = []
