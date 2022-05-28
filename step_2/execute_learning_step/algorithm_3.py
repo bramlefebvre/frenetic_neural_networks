@@ -4,7 +4,7 @@ from step_2.data_structures import Action, FailureLearningStepResult, RateChange
 from step_2.execute_learning_step import ever_left_pattern_state, never_visited_pattern_state
 
 
-def execute_learning_step(dynamics, initial_state, learning_rate):
+def execute_learning_step(dynamics, initial_state, learning_rate, desired_residence_time):
     rate_matrix = dynamics.rate_matrix.copy()
     path = calculate_path(rate_matrix, initial_state, dynamics.travel_time)
     if path is None:
@@ -14,7 +14,7 @@ def execute_learning_step(dynamics, initial_state, learning_rate):
     transitions = _to_transitions(path)
     graph = dynamics.exuberant_system.graph
     input = GetRateChangeInstructionsFunctionInput(graph, path, transitions, pattern_states)
-    path_type = _determine_path_type(input)
+    path_type = _determine_path_type(input, desired_residence_time)
     rate_change_instructions = rate_change_instructions_function_map[path_type](input)
     _apply_rate_change_instructions(rate_matrix, rate_change_instructions, learning_rate)
     return SuccessLearningStepResult(rate_matrix, path)
@@ -69,22 +69,25 @@ def _to_transitions(path):
             transitions.append((state, path[index + 1]))
     return transitions
 
-def _determine_path_type(input):
+def _determine_path_type(input, desired_residence_time):
     transitions = input.transitions
     if len(transitions) == 0:
         path_type = _determine_path_type_path_without_transitions(input)
     else:
-        path_type = _determine_path_type_path_with_transitions(input)
+        path_type = _determine_path_type_path_with_transitions(input, desired_residence_time)
     return path_type
 
-def _determine_path_type_path_with_transitions(input):
+def _determine_path_type_path_with_transitions(input, desired_residence_time):
     transitions = input.transitions
     pattern_states = input.pattern_states
     if _ever_left_pattern_state(transitions, pattern_states):
         path_type = PathType.EVER_LEFT_PATTERN_STATE
     else:
         if _arrived_in_pattern_state(transitions, pattern_states):
-            path_type = PathType.ARRIVED_IN_PATTERN_STATE_AND_STAYED_LONG_ENOUGH
+            if desired_residence_time <= input.path.residence_time_last_state: 
+                path_type = PathType.ARRIVED_IN_PATTERN_STATE_AND_STAYED_LONG_ENOUGH
+            else:
+                path_type = PathType.ARRIVED_IN_PATTERN_STATE_BUT_LEFT_TOO_SOON
         else:
             path_type = PathType.NEVER_VISITED_PATTERN_STATE
     return path_type

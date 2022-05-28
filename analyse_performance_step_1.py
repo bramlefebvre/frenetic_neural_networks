@@ -13,7 +13,7 @@ def get_sorted_results_of_type_configuration(filename):
         for_number_of_states[result.number_of_patterns] = result
     return sorted_results
 
-filename = 'data/step_1/calculation_duration_0'
+filename = 'data/step_1/calculation_duration_1'
 
 results = get_sorted_results_of_type_configuration(filename)
 
@@ -55,4 +55,4 @@ def plot_dependency_on_N_for_k(results, desired_number_of_patterns):
     plt.ylabel('calculation duration (ms)')
     plt.show()
 
-plot_dependency_on_N_for_k(results, 3)
+plot_dependency_on_N_for_k(results, 2)

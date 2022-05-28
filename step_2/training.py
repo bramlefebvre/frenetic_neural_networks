@@ -14,33 +14,33 @@ algorithm_map = {
     LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC: algorithm_3.execute_learning_step
 }
 
-def train_starting_with_each_vertex_n_times(dynamics, algorithm, learning_rate, n):
+def train_starting_with_each_vertex_n_times(dynamics, algorithm, learning_rate, desired_residence_time, n):
     dynamics = copy.copy(dynamics)
     number_of_states = len(dynamics.rate_matrix)
     training_set_size = n * number_of_states
     for round in range(n):
         for initial_state in range(number_of_states):
-            learning_step_result = algorithm_map[algorithm](dynamics, initial_state, learning_rate)
+            learning_step_result = algorithm_map[algorithm](dynamics, initial_state, learning_rate, desired_residence_time)
             if learning_step_result.success is False:
                 step_number = round * number_of_states + initial_state + 1
                 return FailureTrainingResult(dynamics.exuberant_system.id, dynamics.driving_value, dynamics.initial_activity_parameter_factor, dynamics.travel_time, learning_rate, algorithm, training_set_size, step_number)
             dynamics.rate_matrix = learning_step_result.rate_matrix
-    performance = calculate_performance(dynamics, 100)
+    performance = calculate_performance(dynamics, desired_residence_time, 100)
     return SuccessTrainingResult(dynamics.exuberant_system.id, dynamics.driving_value, dynamics.initial_activity_parameter_factor, dynamics.travel_time, learning_rate, algorithm, training_set_size, performance, dynamics.rate_matrix)
 
-def train_starting_with_random_vertex_n_times(dynamics, algorithm, learning_rate, training_set_size):
+def train_starting_with_random_vertex_n_times(dynamics, algorithm, learning_rate, desired_residence_time, training_set_size):
     dynamics = copy.copy(dynamics)
     number_of_states = len(dynamics.rate_matrix)
     for step_number in range(training_set_size):
         initial_state = random_number_generator.choice(number_of_states)
-        learning_step_result = algorithm_map[algorithm](dynamics, initial_state, learning_rate)
+        learning_step_result = algorithm_map[algorithm](dynamics, initial_state, learning_rate, desired_residence_time)
         if learning_step_result.success is False:
             return FailureTrainingResult(dynamics.exuberant_system.id, dynamics.driving_value, dynamics.initial_activity_parameter_factor, dynamics.travel_time, learning_rate, algorithm, training_set_size, step_number)
         dynamics.rate_matrix = learning_step_result.rate_matrix
-    performance = calculate_performance(dynamics, 100)
+    performance = calculate_performance(dynamics, desired_residence_time, 100)
     return SuccessTrainingResult(dynamics.exuberant_system.id, dynamics.driving_value, dynamics.initial_activity_parameter_factor, dynamics.travel_time, learning_rate, algorithm, training_set_size, performance, dynamics.rate_matrix)
 
-def calculate_performance(dynamics, n):
+def calculate_performance(dynamics, desired_residence_time, n):
     rate_matrix = dynamics.rate_matrix
     number_of_states = len(rate_matrix)
     number_of_successes = 0
@@ -52,6 +52,6 @@ def calculate_performance(dynamics, n):
                 continue
             final_state_of_path = path.path['state'][-1]
             basin_for_state = dynamics.get_basin_for_state(initial_state)
-            if final_state_of_path in basin_for_state.pattern_vertices:
+            if final_state_of_path in basin_for_state.pattern_vertices and desired_residence_time <= path.residence_time_last_state:
                 number_of_successes += 1
     return number_of_successes / number_of_verifications

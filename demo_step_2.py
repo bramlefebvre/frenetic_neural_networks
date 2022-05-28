@@ -18,9 +18,9 @@ pprint(exuberant_system.graph)
 
 travel_time = 1
 driving_value = 20
-initial_activity_parameter_factor = 0.1
+initial_activity_parameter_factor = 0.2
 learning_rate = 0.5
-training_set_size = 80
+training_set_size = 40
 algorithm = LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC
 
 dynamics = initialize_dynamics(exuberant_system, driving_value, initial_activity_parameter_factor, travel_time)
@@ -28,11 +28,11 @@ dynamics = initialize_dynamics(exuberant_system, driving_value, initial_activity
 print('initial rate matrix:')
 pprint(dynamics.rate_matrix)
 
-training_result = training.train_starting_with_random_vertex_n_times(dynamics, algorithm, learning_rate, training_set_size)
+training_result = training.train_starting_with_random_vertex_n_times(dynamics, algorithm, learning_rate, 0.2, training_set_size)
 if training_result.success == True:
-    initial_state = 5
+    initial_state = 3
     print('path:')
-    print(calculate_path(training_result.rate_matrix, initial_state, travel_time))
+    print(calculate_path(training_result.rate_matrix, initial_state, travel_time).path)
     print('performance:')
     print(training_result.performance)
 else:
