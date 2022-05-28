@@ -1,8 +1,8 @@
 import copy
 from step_2.data_structures import FailureTrainingResult, LearningAlgorithm, SuccessTrainingResult
 from step_2.execute_learning_step import algorithm_3
-import step_2.execute_learning_step.algorithm_2 as algorithm_2
-import step_2.execute_learning_step.algorithm_1 as algorithm_1
+import step_2.execute_learning_step.old.algorithm_2 as algorithm_2
+import step_2.execute_learning_step.old.algorithm_1 as algorithm_1
 from step_2.calculate_path import calculate_path
 import numpy
 
@@ -40,7 +40,6 @@ def train_starting_with_random_vertex_n_times(dynamics, algorithm, learning_rate
     performance = calculate_performance(dynamics, 100)
     return SuccessTrainingResult(dynamics.exuberant_system.id, dynamics.driving_value, dynamics.initial_activity_parameter_factor, dynamics.travel_time, learning_rate, algorithm, training_set_size, performance, dynamics.rate_matrix)
 
-
 def calculate_performance(dynamics, n):
     rate_matrix = dynamics.rate_matrix
     number_of_states = len(rate_matrix)
@@ -51,7 +50,7 @@ def calculate_performance(dynamics, n):
             path = calculate_path(rate_matrix, initial_state, dynamics.travel_time)
             if path is None:
                 continue
-            final_state_of_path = path['state'][-1]
+            final_state_of_path = path.path['state'][-1]
             basin_for_state = dynamics.get_basin_for_state(initial_state)
             if final_state_of_path in basin_for_state.pattern_vertices:
                 number_of_successes += 1

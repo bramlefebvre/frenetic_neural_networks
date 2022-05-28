@@ -14,6 +14,11 @@ class Dynamics:
             if state in basin.vertices:
                 return basin
 
+class Path:
+    def __init__(self, path, residence_time_last_state):
+        self.path = path
+        self.residence_time_last_state = residence_time_last_state
+
 class FailureLearningStepResult:
     def __init__(self):
         self.success = False

@@ -1,25 +1,27 @@
 import numpy
 import math
+from step_2.data_structures import Path
 
 random_number_generator = numpy.random.default_rng()
 
-def calculate_path(rate_matrix, initial_state, total_travel_time):
+def calculate_path(rate_matrix, initial_state, travel_time):
     number_of_states = len(rate_matrix)
     path = [(0, initial_state)]
-    travel_time = 0
+    jump_time = 0
     state = initial_state
-    while travel_time < total_travel_time:
+    while jump_time < travel_time:
         if _path_is_too_long(path, number_of_states):
             return
         rates_for_state = rate_matrix[state, :]
         escape_rate = rates_for_state.sum()
-        jump_time = random_number_generator.exponential(1/escape_rate)
-        travel_time += jump_time
-        if travel_time < total_travel_time:
+        residence_time = random_number_generator.exponential(1/escape_rate)
+        jump_time += residence_time
+        if jump_time < travel_time:
             state = _decide_where_to_jump_to(rates_for_state, escape_rate)
-            path.append((travel_time, state))
+            path.append((jump_time, state))
     datatype = numpy.dtype([('jump_time', float), ('state', int)])
-    return numpy.array(path, datatype)
+    path = numpy.array(path, datatype)
+    return Path(path, residence_time)
 
 
 def _path_is_too_long(path, number_of_states):
