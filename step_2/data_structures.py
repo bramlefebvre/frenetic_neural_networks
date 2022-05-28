@@ -29,30 +29,20 @@ class SuccessLearningStepResult:
         self.rate_matrix = rate_matrix
         self.path = path
 
-class SuccessTrainingResult:
-    def __init__(self, exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, training_set_size, performance, rate_matrix):
+class TrainingResult:
+    def __init__(self, success, exuberant_system_id, number_of_states, number_of_patterns, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance):
+        self.success = success
         self.exuberant_system_id = exuberant_system_id
-        self.success = True
+        self.number_of_states = number_of_states
+        self.number_of_patterns = number_of_patterns
         self.driving_value = driving_value
         self.initial_activity_parameter_factor = initial_activity_parameter_factor
         self.travel_time = travel_time
-        self.learning_rate = learning_rate
         self.algorithm = algorithm
+        self.learning_rate = learning_rate
+        self.desired_residence_time = desired_residence_time
         self.training_set_size = training_set_size
         self.performance = performance
-        self.rate_matrix = rate_matrix
-
-class FailureTrainingResult:
-    def __init__(self, exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, training_set_size, step_number):
-        self.exuberant_system_id = exuberant_system_id
-        self.success = False
-        self.driving_value = driving_value
-        self.initial_activity_parameter_factor = initial_activity_parameter_factor
-        self.travel_time = travel_time
-        self.learning_rate = learning_rate
-        self.algorithm = algorithm
-        self.training_set_size = training_set_size
-        self.step_number = step_number
 
 class RateChangeInstruction:
     def __init__(self, transition, action):

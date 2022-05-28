@@ -1,5 +1,5 @@
 import numpy
-from step_2.data_structures import FailureTrainingResult, LearningAlgorithm, SuccessTrainingResult
+from step_2.data_structures import LearningAlgorithm, TrainingResult
 import daos.base_dao as base_dao
 
 def save_training_results(training_results, filename):
@@ -12,61 +12,32 @@ def get_training_results(filename):
 
 def _deserialize_training_result(serialized):
     success = serialized['success']
-    if success:
-        return _deserialize_success_training_result(serialized)
-    else:
-        return _deserialize_failure_training_result(serialized)
-
-def _deserialize_success_training_result(serialized):
     exuberant_system_id = serialized['exuberant_system_id']
+    number_of_states = serialized['number_of_states']
+    number_of_patterns = serialized['number_of_patterns']
     driving_value = serialized['driving_value']
     initial_activity_parameter_factor = serialized['initial_activity_parameter_factor']
     travel_time = serialized['travel_time']
-    learning_rate = serialized['learning_rate']
     algorithm = LearningAlgorithm.from_id(serialized['algorithm'])
+    learning_rate = serialized['learning_rate']
+    desired_residence_time = serialized['desired_residence_time']
     training_set_size = serialized['training_set_size']
     performance = serialized['performance']
-    rate_matrix = numpy.array(serialized['rate_matrix'])
-    return SuccessTrainingResult(exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, training_set_size, performance, rate_matrix)
-
-def _deserialize_failure_training_result(serialized):
-    exuberant_system_id = serialized['exuberant_system_id']
-    driving_value = serialized['driving_value']
-    initial_activity_parameter_factor = serialized['initial_activity_parameter_factor']
-    travel_time = serialized['travel_time']
-    learning_rate = serialized['learning_rate']
-    algorithm = LearningAlgorithm.from_id(serialized['algorithm'])
-    training_set_size = serialized['training_set_size']
-    step_number = serialized['step_number']
-    return FailureTrainingResult(exuberant_system_id, driving_value, initial_activity_parameter_factor, travel_time, learning_rate, algorithm, training_set_size, step_number)
+    return TrainingResult(success, exuberant_system_id, number_of_states, number_of_patterns, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance)
 
 def _serialize_training_result(training_result):
-    if training_result.success:
-        return _serialize_success_training_result(training_result)
-    else:
-        return _serialize_failure_training_result(training_result)
-
-def _serialize_success_training_result(training_result):
-    serialized = _serialize_base_training_result(training_result)
-    serialized['training_set_size'] = training_result.training_set_size
-    serialized['performance'] = training_result.performance
-    serialized['rate_matrix'] = training_result.rate_matrix.tolist()
-    return serialized
-
-def _serialize_failure_training_result(training_result):
-    serialized = _serialize_base_training_result(training_result)
-    serialized['training_set_size'] = training_result.training_set_size
-    serialized['step_number'] = training_result.step_number
-    return serialized
-
-def _serialize_base_training_result(training_result):
     serialized = {
-        'exuberant_system_id': training_result.exuberant_system_id,
         'success': training_result.success,
+        'exuberant_system_id': training_result.exuberant_system_id,
+        'number_of_states': training_result.number_of_states,
+        'number_of_patterns': training_result.number_of_patterns,
         'driving_value': training_result.driving_value,
         'initial_activity_parameter_factor': training_result.initial_activity_parameter_factor,
         'travel_time': training_result.travel_time,
+        'algorithm': training_result.algorithm.id,
         'learning_rate': training_result.learning_rate,
-        'algorithm': training_result.algorithm.id
+        'desired_residence_time': training_result.desired_residence_time,
+        'training_set_size': training_result.training_set_size,
+        'performance': training_result.performance
     }
     return serialized

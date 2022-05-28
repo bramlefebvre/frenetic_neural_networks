@@ -14,6 +14,18 @@ def save_exuberant_system(exuberant_system, filename):
     serialized = _serialize_exuberant_system(exuberant_system)
     base_dao.add_single_entry_no_duplicates(serialized, filename)
 
+def generate_cycle(number_of_states):
+    graph = -numpy.ones((number_of_states, number_of_states), dtype = int)
+    basins = (CompletedBasin(0, frozenset({0}), frozenset(range(number_of_states))),)
+    for vertex in range(number_of_states):
+        if vertex == number_of_states - 1:
+            graph[vertex, 0] = 1
+            graph[0, vertex] = 0
+        else:
+            graph[vertex, vertex + 1] = 1
+            graph[vertex + 1, vertex] = 0
+    return ExuberantSystem(None, graph, basins)
+
 def _serialize_exuberant_system(exuberant_system):
     serialized = {
         'tournament_and_patterns_id': exuberant_system.tournament_and_patterns_id,
