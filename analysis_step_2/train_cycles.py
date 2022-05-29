@@ -15,7 +15,9 @@ learning_rate = 0.5
 desired_residence_time = 0.2
 filename = 'data/step_2/cycle_s10_e5_av_n30_R0.5'
 
-# (self, success, exuberant_system_id, number_of_states, number_of_patterns, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance):
+# (success, exuberant_system_id, number_of_states, number_of_patterns, driving_value, 
+# initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, 
+# training_set_size, performance):
 
 def generate_initial_activity_parameter_factors_list(number_of_states):
     max_activity_parameter_factor = 10 * math.ceil(number_of_states / 4)

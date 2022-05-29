@@ -43,4 +43,3 @@ def plot_dependency_on_k(training_results, desired_number_of_states):
     plt.ylabel('variance size basins')
     plt.show()
 
-plot_dependency_on_N(training_results, 5)

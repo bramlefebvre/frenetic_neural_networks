@@ -1,3 +1,4 @@
 from analysis_step_2.train_cycles import train_cycles
 from analysis_step_2.plot_a_performance import plot_a_performance
+from analysis_step_2.train_general import train as train_general
 
