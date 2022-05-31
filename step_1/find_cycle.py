@@ -40,11 +40,12 @@ def _try_find_two_vertices_that_can_be_inserted(tournament, possible_vertices, c
 
 def _vertex_dominates_cycle(tournament, cycle, vertex):
     vertex_dominates = tournament[vertex, cycle[2]] == 1
-    if vertex_dominates:
-        assert _vertex_completely_dominates_cycle(tournament, cycle, vertex)
+    assert _vertex_completely_dominates_cycle_if_it_dominates_third_vertex(vertex_dominates, tournament, cycle, vertex)
     return vertex_dominates
 
-def _vertex_completely_dominates_cycle(tournament, cycle, vertex):
+def _vertex_completely_dominates_cycle_if_it_dominates_third_vertex(vertex_dominates, tournament, cycle, vertex):
+    if not vertex_dominates:
+        return True
     for vertex_in_cycle in cycle:
         if tournament[vertex, vertex_in_cycle] != 1:
             return False
@@ -52,11 +53,12 @@ def _vertex_completely_dominates_cycle(tournament, cycle, vertex):
 
 def _cycle_dominates_vertex(tournament, cycle, vertex):
     cycle_dominates = tournament[cycle[0], vertex] == 1
-    if cycle_dominates:
-        assert _cycle_completely_dominates_vertex(tournament, cycle, vertex)
+    assert _cycle_completely_dominates_vertex_if_first_vertex_dominates_it(cycle_dominates, tournament, cycle, vertex)
     return cycle_dominates
 
-def _cycle_completely_dominates_vertex(tournament, cycle, vertex):
+def _cycle_completely_dominates_vertex_if_first_vertex_dominates_it(cycle_dominates, tournament, cycle, vertex):
+    if not cycle_dominates:
+        return True
     for vertex_in_cycle in cycle:
         if tournament[vertex_in_cycle, vertex] != 1:
             return False

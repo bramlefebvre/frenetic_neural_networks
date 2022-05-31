@@ -83,6 +83,7 @@ def _determine_path_type_path_with_transitions(input, desired_residence_time):
     if _ever_left_pattern_state(transitions, pattern_states):
         path_type = PathType.EVER_LEFT_PATTERN_STATE
     else:
+        assert _no_pattern_states_in_path_except_maybe_last_state(transitions, pattern_states)
         if _arrived_in_pattern_state(transitions, pattern_states):
             if desired_residence_time <= input.path.residence_time_last_state: 
                 path_type = PathType.ARRIVED_IN_PATTERN_STATE_AND_STAYED_LONG_ENOUGH
@@ -103,11 +104,9 @@ def _determine_path_type_path_without_transitions(input):
 
 def _arrived_in_pattern_state(transitions, pattern_states):
     arrived_in_pattern_state = transitions[-1][1] in pattern_states
-    if arrived_in_pattern_state:
-        assert _other_transitions_dont_contain_pattern_states(transitions, pattern_states)
     return arrived_in_pattern_state
 
-def _other_transitions_dont_contain_pattern_states(transitions, pattern_states):
+def _no_pattern_states_in_path_except_maybe_last_state(transitions, pattern_states):
     index_last_transition = len(transitions) - 1
     for index, transition in enumerate(transitions):
         if index != index_last_transition:

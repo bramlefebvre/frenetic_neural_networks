@@ -1,25 +1,25 @@
 import daos.step_2_training_results_dao as step_2_training_results_dao
 import matplotlib.pyplot as plt
 
-
 def filter_result(result):
-    return result.number_of_states == 20 and result.training_set_size == 20 and result.number_of_patterns == 2
+    return result.number_of_states == 30 and result.training_set_size == 60 and result.initial_activity_parameter_factor == 6
 
-def plot_a_performance():
+def plot_k_performance():
     training_results = step_2_training_results_dao.get_training_results('data/step_2/training_results_0')
     filtered_training_results = list(filter(filter_result, training_results))
 
     sorted_training_results = {}
     for training_result in filtered_training_results:
-        initial_activity_parameter_factor = training_result.initial_activity_parameter_factor
-        if initial_activity_parameter_factor not in sorted_training_results:
-            sorted_training_results[initial_activity_parameter_factor] = []
-        sorted_training_results[initial_activity_parameter_factor].append(training_result)
+        number_of_patterns = training_result.number_of_patterns
+        if number_of_patterns not in sorted_training_results:
+            sorted_training_results[number_of_patterns] = []
+        sorted_training_results[number_of_patterns].append(training_result)
 
-    initial_activity_parameter_factors = []
+    number_of_patterns_list = []
     performance_list = []
-    for initial_activity_parameter_factor, training_results in sorted_training_results.items():
-        initial_activity_parameter_factors.append(initial_activity_parameter_factor)
+
+    for number_of_patterns, training_results in sorted_training_results.items():
+        number_of_patterns_list.append(number_of_patterns)
         number = 0
         summed_performances = 0
         for training_result in training_results:
@@ -33,7 +33,7 @@ def plot_a_performance():
 
     print(performance_list)
 
-    plt.scatter(initial_activity_parameter_factors, performance_list)
-    plt.xlabel('initial activity parameter factor')
+    plt.scatter(number_of_patterns_list, performance_list)
+    plt.xlabel('number of patterns')
     plt.ylabel('performance')
     plt.show()
