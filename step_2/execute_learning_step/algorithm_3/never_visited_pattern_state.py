@@ -40,3 +40,4 @@ def _get_forward_transitions(transitions, graph):
         if graph[transition[0], transition[1]] == 1:
             forward_transitions.add(transition)
     return forward_transitions
+    

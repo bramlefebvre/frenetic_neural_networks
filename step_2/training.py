@@ -1,16 +1,12 @@
 import copy
 from step_2.data_structures import LearningAlgorithm
-from step_2.execute_learning_step import algorithm_3
-import step_2.execute_learning_step.old.algorithm_2 as algorithm_2
-import step_2.execute_learning_step.old.algorithm_1 as algorithm_1
+from step_2.execute_learning_step.algorithm_3 import algorithm_3
 import numpy
 
 random_number_generator = numpy.random.default_rng()
 
 algorithm_map = {
-    LearningAlgorithm.THESIS: algorithm_1.execute_learning_step,
-    LearningAlgorithm.WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES: algorithm_2.execute_learning_step,
-    LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC: algorithm_3.execute_learning_step
+    
 }
 
 def train_starting_with_each_vertex_n_times(dynamics, algorithm, learning_rate, desired_residence_time, n):

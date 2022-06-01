@@ -31,15 +31,10 @@ class CompletedBasin:
         self.vertices = vertices
 
 class TrainingResult:
-    def __init__(self, number_of_states, number_of_patterns, sizes_of_basins):
+    def __init__(self, number_of_states, number_of_patterns, sizes_of_basins, calculation_duration):
         self.number_of_states = number_of_states
         self.number_of_patterns = number_of_patterns
         self.sizes_of_basins = sizes_of_basins
-
-class CalculationDurationResult:
-    def __init__(self, number_of_states, number_of_patterns, calculation_duration):
-        self.number_of_states = number_of_states
-        self.number_of_patterns = number_of_patterns
         self.calculation_duration = calculation_duration
 
 @unique

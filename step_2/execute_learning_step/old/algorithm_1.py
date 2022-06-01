@@ -1,6 +1,6 @@
 from operator import le
 from step_2.calculate_path import calculate_path
-from step_2.data_structures import FailureLearningStepResult, SuccessLearningStepResult
+from step_2.data_structures import FailureLearningStepResult, LearningStepResult
 
 def execute_learning_step(dynamics, initial_state, learning_rate):
     rate_matrix = dynamics.rate_matrix.copy()
@@ -12,7 +12,7 @@ def execute_learning_step(dynamics, initial_state, learning_rate):
     pattern_states = basin.pattern_vertices
     if not _is_desired_path(path, pattern_states):
         _change_rates_complete_path(path, pattern_states, rate_matrix, learning_rate)
-    return SuccessLearningStepResult(rate_matrix, path)
+    return LearningStepResult(rate_matrix, path)
 
 def _change_rates_complete_path(path, pattern_states, rate_matrix, learning_rate):
     index_last_state = len(path) - 1

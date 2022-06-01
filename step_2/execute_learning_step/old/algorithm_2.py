@@ -1,6 +1,6 @@
 from enum import Enum, unique
 from step_2.calculate_path import calculate_path
-from step_2.data_structures import FailureLearningStepResult, SuccessLearningStepResult
+from step_2.data_structures import FailureLearningStepResult, LearningStepResult
 
 def execute_learning_step(dynamics, initial_state, learning_rate):
     rate_matrix = dynamics.rate_matrix.copy()
@@ -17,7 +17,7 @@ def execute_learning_step(dynamics, initial_state, learning_rate):
             _decrease_rate_from_pattern_states(path, pattern_state_indices, rate_matrix, learning_rate)
         case PathType.NEVER_VISITED_PATTERN_STATE:
             _increase_rate_from_non_pattern_states(path, pattern_states, rate_matrix, learning_rate)
-    return SuccessLearningStepResult(rate_matrix, path)
+    return LearningStepResult(rate_matrix, path)
 
 def _decrease_rate_from_pattern_states(path, pattern_state_indices, rate_matrix, learning_rate):
     index_last_state = len(path) - 1

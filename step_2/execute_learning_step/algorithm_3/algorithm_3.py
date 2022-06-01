@@ -1,7 +1,8 @@
 from enum import Enum, unique
 from step_2.calculate_path import calculate_path
-from step_2.data_structures import Action, FailureLearningStepResult, RateChangeInstruction, SuccessLearningStepResult
-from step_2.execute_learning_step import ever_left_pattern_state, never_visited_pattern_state
+from step_2.data_structures import Action, FailureLearningStepResult, RateChangeInstruction, LearningStepResult
+from step_2.execute_learning_step.algorithm_3 import never_visited_pattern_state
+from step_2.execute_learning_step.algorithm_3 import ever_left_pattern_state
 
 
 def execute_learning_step(dynamics, initial_state, learning_rate, desired_residence_time):
@@ -17,7 +18,7 @@ def execute_learning_step(dynamics, initial_state, learning_rate, desired_reside
     path_type = _determine_path_type(input, desired_residence_time)
     rate_change_instructions = rate_change_instructions_function_map[path_type](input)
     _apply_rate_change_instructions(rate_matrix, rate_change_instructions, learning_rate)
-    return SuccessLearningStepResult(rate_matrix, path)
+    return LearningStepResult(rate_matrix, path)
 
 def _no_transitions_not_pattern_state_rate_change_instructions(input):
     last_state = input.path.path['state'][0]

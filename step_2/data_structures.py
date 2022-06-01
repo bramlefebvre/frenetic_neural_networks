@@ -19,15 +19,12 @@ class Path:
         self.path = path
         self.residence_time_last_state = residence_time_last_state
 
-class FailureLearningStepResult:
-    def __init__(self):
-        self.success = False
-
-class SuccessLearningStepResult:
-    def __init__(self, rate_matrix, path):
-        self.success = True
+class LearningStepResult:
+    def __init__(self, success, rate_matrix, path, rate_change_instructions):
+        self.success = success
         self.rate_matrix = rate_matrix
         self.path = path
+        self.rate_change_instructions = rate_change_instructions
 
 class RateChangeInstruction:
     def __init__(self, transition, action):
