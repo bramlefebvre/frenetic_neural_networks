@@ -1,19 +1,16 @@
-from daos.tournaments_and_patterns_dao import get_single_tournament_and_patterns
-import timeit
-import time
+from daos.tournaments_and_patterns_dao import generate_single_tournament_and_patterns
 from step_1.find_exuberant_system import find_exuberant_system
+from step_2.calculate_path import calculate_path
+from step_2.calculate_performance import calculate_performance
+from step_2.data_structures import LearningAlgorithm
+from step_2.initialize_dynamics import initialize_dynamics
+from step_2.training import train_starting_with_each_vertex_n_times
 
+tournament = generate_single_tournament_and_patterns(70, [[0], [1]])
 
-tournament_and_patterns = get_single_tournament_and_patterns('1000_50_0', 'data/step_1/tournament_1000_50_0')
-
-timer = timeit.Timer(lambda: find_exuberant_system(tournament_and_patterns))
-times_executed, total_duration = timer.autorange()
-calculation_duration_perf_counter = (total_duration / times_executed) * 10 ** 3
-print('perf_counter time:')
-print(calculation_duration_perf_counter)
-
-timer = timeit.Timer(lambda: find_exuberant_system(tournament_and_patterns), timer = time.process_time)
-times_executed, total_duration = timer.autorange()
-calculation_duration_process_time = (total_duration / times_executed) * 10 ** 3
-print('process time:')
-print(calculation_duration_process_time)
+exuberant_system = find_exuberant_system(tournament)
+initial_dynamics = initialize_dynamics(exuberant_system, 5, 7, 1)
+dynamics = train_starting_with_each_vertex_n_times(initial_dynamics, LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC, 0.5, 0.2, 4)
+performance = calculate_performance(dynamics, 0.2, 100)
+print(performance)
+print(calculate_path(dynamics.rate_matrix, 2, 1).path)
