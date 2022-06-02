@@ -1,4 +1,4 @@
-class TrainingResult:
+class TrainingAnalysisData:
     def __init__(self, exuberant_system_id, success, number_of_states, number_of_patterns, driving_value,
                  initial_activity_parameter_factor, travel_time, algorithm, learning_rate, 
                  desired_residence_time, training_set_size, performance, calculation_duration):

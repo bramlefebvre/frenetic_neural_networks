@@ -1,7 +1,7 @@
-from daos.step_2_training_results_dao import save_training_results
+from daos.step_2_training_analysis_data_dao import save_training_data
 from daos.tournaments_and_patterns_dao import generate_single_tournament_and_patterns
 from step_1.find_exuberant_system import find_exuberant_system
-from analysis_step_2.data_structures import TrainingResult
+from analysis_step_2.data_structures import TrainingAnalysisData
 from step_2.data_structures import LearningAlgorithm
 from step_2.initialize_dynamics import initialize_dynamics
 from step_2.training import train_starting_with_random_vertex_n_times
@@ -43,6 +43,6 @@ def train():
                             performance = calculate_performance(trained_dynamics, desired_residence_time, 100)
                         else: 
                             performance = None
-                        training_result = TrainingResult(exuberant_system.id, success, number_of_states, number_of_patterns, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance)
+                        training_result = TrainingAnalysisData(exuberant_system.id, success, number_of_states, number_of_patterns, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance)
                         training_results.append(training_result)
-        save_training_results(training_results, filename)
+        save_training_data(training_results, filename)

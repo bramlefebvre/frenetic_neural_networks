@@ -1,4 +1,4 @@
-from daos.step_2_training_results_dao import save_calculation_duration_results
+from daos.step_2_training_analysis_data_dao import save_calculation_duration_results
 from daos.tournaments_and_patterns_dao import generate_single_tournament_and_patterns
 from step_1.find_exuberant_system import find_exuberant_system
 from step_2.data_structures import LearningAlgorithm

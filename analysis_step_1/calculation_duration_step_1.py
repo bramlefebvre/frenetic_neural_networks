@@ -1,5 +1,5 @@
 from statistics import mean
-from daos.step_1_training_results_dao import save_calculation_duration_results
+from daos.step_1_training_analysis_data_dao import save_calculation_duration_results
 from step_1.data_structures import CalculationDurationResult
 from step_1.find_exuberant_system import find_exuberant_system
 import timeit

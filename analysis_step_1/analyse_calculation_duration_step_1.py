@@ -1,11 +1,11 @@
-import daos.step_1_training_results_dao as step_1_training_results_dao
+import daos.step_1_training_analysis_data_dao as step_1_training_analysis_data_dao
 from step_1.data_structures import TrainingResultType
 import matplotlib.pyplot as plt
 
 
 filename = 'data/step_1/calculation_duration_1'
 
-results = step_1_training_results_dao.get_calculation_duration_results(filename)
+results = step_1_training_analysis_data_dao.get_calculation_duration_results(filename)
 
 def plot_dependency_on_N(results):
     number_of_states_list = []

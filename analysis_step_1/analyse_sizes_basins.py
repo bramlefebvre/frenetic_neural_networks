@@ -1,9 +1,9 @@
-import daos.step_1_training_results_dao as step_1_training_results_dao
+import daos.step_1_training_analysis_data_dao as step_1_training_analysis_data_dao
 import matplotlib.pyplot as plt
 
 filename = 'data/step_1/training_results_0'
 
-training_results = step_1_training_results_dao.get_training_results(filename)
+training_results = step_1_training_analysis_data_dao.get_training_data(filename)
 
 def plot_dependency_on_percentages(training_results):
     percentages = []

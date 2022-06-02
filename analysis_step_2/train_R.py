@@ -2,7 +2,7 @@ import daos.exuberant_systems_dao as exuberant_systems_dao
 from step_2.data_structures import LearningAlgorithm
 from step_2.initialize_dynamics import initialize_dynamics
 import step_2.training as training
-import daos.step_2_training_results_dao as step_2_training_results_dao
+import daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_dao
 
 exuberant_system = exuberant_systems_dao.get_single_exuberant_system('example_thesis', 'exuberant_systems')
 
@@ -20,4 +20,4 @@ for learning_rate in learning_rates:
     for j in range(100):
         training_results.append(training.train_starting_with_each_vertex_n_times(dynamics, LearningAlgorithm.WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES, learning_rate, 5))
 
-step_2_training_results_dao.save_training_results(training_results, 'step_2/algorithm_2/e10_a0.5_n40_Rv')
+step_2_training_analysis_data_dao.save_training_data(training_results, 'step_2/algorithm_2/e10_a0.5_n40_Rv')

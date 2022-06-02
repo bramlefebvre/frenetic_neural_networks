@@ -1,4 +1,4 @@
-import daos.step_2_training_results_dao as step_2_training_results_dao
+import daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_dao
 import matplotlib.pyplot as plt
 
 
@@ -7,7 +7,7 @@ def filter_result(result):
         and result.number_of_patterns == 2
 
 def plot_s_performance():
-    training_results = step_2_training_results_dao.get_training_results('data/step_2/training_results_1')
+    training_results = step_2_training_analysis_data_dao.get_training_data('data/step_2/training_results_1')
     filtered_training_results = list(filter(filter_result, training_results))
 
     sorted_training_results = {}

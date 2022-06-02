@@ -1,7 +1,7 @@
 from daos.tournaments_and_patterns_dao import generate_single_tournament_and_patterns
-from step_1.data_structures import TrainingResult
+from step_1.data_structures import TrainingAnalysisData
 from step_1.find_exuberant_system import find_exuberant_system
-from daos.step_1_training_results_dao import save_training_results
+from daos.step_1_training_analysis_data_dao import save_training_data
 import util
 
 
@@ -28,6 +28,6 @@ def train():
                 for j in range(10):
                     exuberant_system = find_exuberant_system(tournament_and_patterns)
                     sizes_of_basins = util.to_sizes_of_basins(exuberant_system)
-                    training_result = TrainingResult(number_of_states, number_of_patterns, sizes_of_basins)
+                    training_result = TrainingAnalysisData(number_of_states, number_of_patterns, sizes_of_basins)
                     training_results.append(training_result)
-        save_training_results(training_results, 'data/step_1/training_results_0')
+        save_training_data(training_results, 'data/step_1/training_results_0')

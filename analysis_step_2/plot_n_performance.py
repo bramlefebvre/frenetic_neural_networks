@@ -1,11 +1,11 @@
-import daos.step_2_training_results_dao as step_2_training_results_dao
+import daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_dao
 import matplotlib.pyplot as plt
 
 def filter_result(result):
     return result.number_of_states == 30 and result.number_of_patterns == 2 and result.initial_activity_parameter_factor == 6
 
 def plot_n_performance():
-    training_results = step_2_training_results_dao.get_training_results('data/step_2/training_results_0')
+    training_results = step_2_training_analysis_data_dao.get_training_data('data/step_2/training_results_0')
     filtered_training_results = list(filter(filter_result, training_results))
 
     sorted_training_results = {}

@@ -1,7 +1,7 @@
-import daos.step_2_training_results_dao as step_2_training_results_dao
+import daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_dao
 import matplotlib.pyplot as plt
 
-training_results = step_2_training_results_dao.get_training_results('step_2/algorithm_2/e5_a0.5_nv_R0.5_low')
+training_results = step_2_training_analysis_data_dao.get_training_data('step_2/algorithm_2/e5_a0.5_nv_R0.5_low')
 
 
 sorted_training_results = {}

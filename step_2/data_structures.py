@@ -25,12 +25,23 @@ class LearningStepResult:
         self.rate_matrix = rate_matrix
         self.path = path
         self.rate_change_instructions = rate_change_instructions
+    
+class LearningStepResultWithoutRateMatrix:
+    def __init__(self, success, path, rate_change_instructions):
+        self.success = success
+        self.path = path
+        self.rate_change_instructions = rate_change_instructions
 
 class RateChangeInstruction:
     def __init__(self, transition, action):
         self.transition = transition
         self.action = action
 
+class TrainingResult:
+    def __init__(self, success, dynamics, learning_step_results):
+        self.success = success
+        self.dynamics = dynamics
+        self.learning_step_results = learning_step_results
 
 @unique
 class Action(Enum):
@@ -44,6 +55,7 @@ class LearningAlgorithm(Enum):
     WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES = 2, \
         'when a pattern state is left only decrease the rates for the pattern states in the path'
     LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC = 3, 'look forward and only once per arc'
+    LOOK_FORWARD_AND_AVOID_CYCLES = 4, 'look forward and avoid cycles'
 
     def __init__(self, id, display_value):
         self.id = id
