@@ -22,8 +22,15 @@ def _deserialize_training_data(serialized):
     learning_rate = serialized['learning_rate']
     desired_residence_time = serialized['desired_residence_time']
     training_set_size = serialized['training_set_size']
-    performance = serialized['performance']
-    calculation_duration = serialized['calculation_duration']
+    # for backward compatibility
+    if 'performance' in serialized:
+        performance = serialized['performance']
+    else:
+        performance = None
+    if 'calculation_duration' in serialized:
+        calculation_duration = serialized['calculation_duration']    
+    else:
+        calculation_duration = None
     return TrainingAnalysisData(exuberant_system_id, success, number_of_states, number_of_patterns, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance, calculation_duration)
 
 def _serialize_training_data(training_result):

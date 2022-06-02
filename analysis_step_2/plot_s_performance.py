@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 
 
 def filter_result(result):
-    return result.training_set_size == 4 * result.number_of_states and result.initial_activity_parameter_factor == result.number_of_states / result.number_of_patterns * 4 / 10 \
+    return result.training_set_size == 4 * result.number_of_states and round(result.initial_activity_parameter_factor, 2) == round(result.number_of_states / result.number_of_patterns * 4 / 10, 2) \
         and result.number_of_patterns == 2
 
 def plot_s_performance():
-    training_results = step_2_training_analysis_data_dao.get_training_data('data/step_2/training_results_1')
+    training_results = step_2_training_analysis_data_dao.get_training_data('data/step_2/old_1/algorithm_3/training_results_1')
     filtered_training_results = list(filter(filter_result, training_results))
 
     sorted_training_results = {}

@@ -2,10 +2,10 @@ import daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_d
 import matplotlib.pyplot as plt
 
 def filter_result(result):
-    return result.number_of_states == 60 and result.training_set_size == 120 and result.initial_activity_parameter_factor == result.number_of_states / result.number_of_patterns * 2 / 10
+    return result.number_of_states == 60 and result.training_set_size == 240 and round(result.initial_activity_parameter_factor, 2) == round(result.number_of_states / result.number_of_patterns * 4 / 10, 2)
 
 def plot_k_performance():
-    training_results = step_2_training_analysis_data_dao.get_training_data('data/step_2/training_results_1')
+    training_results = step_2_training_analysis_data_dao.get_training_data('data/step_2/old_1/algorithm_3/training_results_1')
     filtered_training_results = list(filter(filter_result, training_results))
 
     sorted_training_results = {}

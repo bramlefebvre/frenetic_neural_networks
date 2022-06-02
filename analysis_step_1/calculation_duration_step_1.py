@@ -1,6 +1,6 @@
 from statistics import mean
-from daos.step_1_training_analysis_data_dao import save_calculation_duration_results
-from step_1.data_structures import CalculationDurationResult
+from daos.step_1_training_analysis_data_dao import save_training_data
+from step_1.data_structures import TrainingAnalysisData
 from step_1.find_exuberant_system import find_exuberant_system
 import timeit
 import time
@@ -14,7 +14,7 @@ def get_mean(getter, results):
 def get_mean_duration(results):
     return get_mean(lambda x: x.calculation_duration, results)
 
-number_of_states_list = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+number_of_states_list = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 
 def calculation_duration():
     for number_of_states in number_of_states_list:
@@ -30,9 +30,9 @@ def calculation_duration():
                     timer = timeit.Timer(lambda: find_exuberant_system(tournament_and_patterns), timer = time.process_time)
                     times_executed, total_duration = timer.autorange()
                     calculation_duration =  (total_duration / times_executed) * 10 ** 3
-                    result = CalculationDurationResult(number_of_states, number_of_patterns, calculation_duration)
+                    result = TrainingAnalysisData(number_of_states, number_of_patterns, None, calculation_duration)
                     results.append(result)
-        save_calculation_duration_results(results, 'data/step_1/calculation_duration_0')
+        save_training_data(results, 'data/step_1/calculation_duration_1')
 
 
 

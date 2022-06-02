@@ -2,11 +2,11 @@ import daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_d
 import matplotlib.pyplot as plt
 
 def filter_result(result):
-    return result.training_set_size == 4 * result.number_of_states and result.initial_activity_parameter_factor == result.number_of_states / result.number_of_patterns * 4 / 10 \
+    return result.training_set_size == 4 * result.number_of_states and round(result.initial_activity_parameter_factor, 2) == round(result.number_of_states / result.number_of_patterns * 4 / 10, 2) \
         and result.number_of_patterns == 2
 
 def plot_s_calc():
-    results = step_2_training_analysis_data_dao.get_calculation_duration_results('data/step_2/calculation_duration_0')
+    results = step_2_training_analysis_data_dao.get_training_data('data/step_2/old_1/algorithm_3/calculation_duration_0')
     filtered_results = list(filter(filter_result, results))
 
     sorted_results = {}
