@@ -14,7 +14,7 @@ def calculate_variance(sizes_of_basins):
 
 
 def train():
-    number_of_states_list = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+    number_of_states_list = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 
     for number_of_states in number_of_states_list:
         training_data_list = []
@@ -26,8 +26,8 @@ def train():
                 patterns = util.generate_single_state_patterns(number_of_states, number_of_patterns)
                 tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
                 for j in range(10):
-                    exuberant_system = find_exuberant_system(tournament_and_patterns)
+                    exuberant_system = find_exuberant_system(tournament_and_patterns).exuberant_system
                     sizes_of_basins = util.to_sizes_of_basins(exuberant_system)
                     training_data = TrainingAnalysisData(number_of_states, number_of_patterns, sizes_of_basins, None)
                     training_data_list.append(training_data)
-        save_training_data(training_data_list, 'data/step_1/training_results_1')
+        save_training_data(training_data_list, 'data/step_1/training_data_0')

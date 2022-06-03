@@ -15,12 +15,22 @@ class ExuberantSystem:
         self.basins = basins
         self.id = id
 
+class CycleFindingEvent:
+    def __init__(self, basin_snapshot, new_cycle):
+        self.basin_snapshot = basin_snapshot
+        self.new_cycle = new_cycle
+
+class TrainingResult:
+    def __init__(self, exuberant_system, cycle_finding_history):
+        self.exuberant_system = exuberant_system
+        self.cycle_finding_history = cycle_finding_history
+
 class BasinUnderConstruction:
-    def __init__(self, index, pattern_vertices, cycles, vertices_included_in_cycle, length_of_next_cycle):
+    def __init__(self, index, pattern_vertices, cycles, vertices_included_in_a_cycle, length_of_next_cycle):
         self.index = index
         self.pattern_vertices = pattern_vertices
         self.cycles = cycles
-        self.vertices_included_in_cycle = vertices_included_in_cycle
+        self.vertices_included_in_a_cycle = vertices_included_in_a_cycle
         self.length_of_next_cycle = length_of_next_cycle
         self.not_expandable = False
 

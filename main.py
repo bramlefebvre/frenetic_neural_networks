@@ -12,4 +12,4 @@ from analysis_step_2.train_step_2 import train as train_step_2
 from analysis_step_2.calculation_duration_step_2 import calculation_duration as calculation_duration_step_2
 
 
-plot_n_performance()
+# plot_n_performance()

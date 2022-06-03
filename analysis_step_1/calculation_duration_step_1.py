@@ -14,7 +14,7 @@ def get_mean(getter, results):
 def get_mean_duration(results):
     return get_mean(lambda x: x.calculation_duration, results)
 
-number_of_states_list = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+number_of_states_list = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 
 def calculation_duration():
     for number_of_states in number_of_states_list:
@@ -32,7 +32,7 @@ def calculation_duration():
                     calculation_duration =  (total_duration / times_executed) * 10 ** 3
                     result = TrainingAnalysisData(number_of_states, number_of_patterns, None, calculation_duration)
                     results.append(result)
-        save_training_data(results, 'data/step_1/calculation_duration_1')
+        save_training_data(results, 'data/step_1/calculation_duration_0')
 
 
 
