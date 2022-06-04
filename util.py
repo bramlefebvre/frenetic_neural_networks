@@ -37,7 +37,7 @@ def generate_exuberant_systems(number_of_states, number_of_patterns):
     for i in range(10):
         tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
         for j in range(10):
-            exuberant_system = find_exuberant_system(tournament_and_patterns)
+            exuberant_system = find_exuberant_system(tournament_and_patterns).exuberant_system
             id = {
                 'number_of_states': number_of_states,
                 'number_of_patterns': number_of_patterns,
@@ -47,6 +47,12 @@ def generate_exuberant_systems(number_of_states, number_of_patterns):
             exuberant_system.id = id
             exuberant_systems.append(exuberant_system)
     return exuberant_systems
+
+def result_is_successful(result):
+    return all(list(map(lambda size_of_basin: _basin_is_big_enough(size_of_basin, result), result.sizes_of_basins)))
+
+def _basin_is_big_enough(size_of_basin, result):
+    return size_of_basin > 1 / result.number_of_patterns * math.log(result.number_of_states)
 
 def _pick_one(states):
     return list(states)[random_number_generator.integers(len(states))]

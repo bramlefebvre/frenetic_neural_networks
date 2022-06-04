@@ -11,7 +11,7 @@ def find_cycle(tournament, available_vertices, basin):
         return tuple(_find_n_cycle(tournament, possible_vertices, pattern_vertex, basin.length_of_next_cycle))
 
 def _find_n_cycle(tournament, possible_vertices, pattern_vertex, n):
-    cycle = _find_previous(tournament, possible_vertices, pattern_vertex, n)
+    cycle = _find_n_minus_1_cycle(tournament, possible_vertices, pattern_vertex, n)
     possible_vertices = possible_vertices - set(cycle)
     insert_result = _try_find_one_vertex_that_can_be_inserted(tournament, possible_vertices, cycle)
     if insert_result is not None:
@@ -95,7 +95,7 @@ def _check_against_first_vertex_of_cycle(tournament, cycle, vertex_to_insert):
         fits_before = True
     return CheckAgainstFirstVertexOfCycleResult(dominates_vertex_in_cycle, fits_before)
 
-def _find_previous(tournament, possible_vertices, pattern_vertex, n):
+def _find_n_minus_1_cycle(tournament, possible_vertices, pattern_vertex, n):
     if n > 4:
         return _find_n_cycle(tournament, possible_vertices, pattern_vertex, n - 1)
     else:

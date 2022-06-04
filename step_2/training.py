@@ -17,7 +17,7 @@ def train_starting_with_each_vertex_n_times(dynamics, algorithm, learning_rate, 
         for initial_state in range(number_of_states):
             learning_step_result = algorithm_map[algorithm](dynamics, initial_state, learning_rate, desired_residence_time)
             learning_step_results.append(_to_learning_step_result_without_rate_matrix(learning_step_result))
-            if learning_step_result.success is False:
+            if not learning_step_result.success:
                 return TrainingResult(False, dynamics, learning_step_results)
             dynamics.rate_matrix = learning_step_result.rate_matrix
     return TrainingResult(True, dynamics, learning_step_results)
@@ -30,7 +30,7 @@ def train_starting_with_random_vertex_n_times(dynamics, algorithm, learning_rate
         initial_state = random_number_generator.choice(number_of_states)
         learning_step_result = algorithm_map[algorithm](dynamics, initial_state, learning_rate, desired_residence_time)
         learning_step_results.append(_to_learning_step_result_without_rate_matrix(learning_step_result))
-        if learning_step_result.success is False:
+        if not learning_step_result.success:
             return TrainingResult(False, dynamics, learning_step_results)
         dynamics.rate_matrix = learning_step_result.rate_matrix
     return TrainingResult(True, dynamics, learning_step_results)
