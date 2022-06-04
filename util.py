@@ -55,5 +55,5 @@ def _basin_is_big_enough(size_of_basin, result):
     return size_of_basin > 1 / result.number_of_patterns * math.log(result.number_of_states)
 
 def _pick_one(states):
-    return list(states)[random_number_generator.integers(len(states))]
+    return random_number_generator.choice(list(states))
 
