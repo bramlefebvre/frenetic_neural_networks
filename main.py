@@ -15,4 +15,4 @@ from analysis_step_2.plot_s_calc import plot_s_calc
 from analysis_step_2.plot_k_calc import plot_k_calc
 from analysis_step_2.plot_s_performance import plot_s_performance
 
-plot_k_success()
+# plot_k_success()

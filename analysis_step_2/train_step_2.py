@@ -14,19 +14,20 @@ driving_value = 5
 travel_time = 1
 learning_rate = 0.5
 desired_residence_time = 0.2
-filename = 'data/step_2/training_data_1'
+filename = 'data/step_2/training_data_3'
 
 def generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns):
     fraction = 1 / 10 * number_of_states / number_of_patterns
     return [fraction * 4]
 
 def generate_training_set_size_list(number_of_states):
-    return [number_of_states * 40]
+    return [number_of_states * 4]
 
 def train():
     for number_of_states in number_of_states_list:
         training_results = []
-        number_of_patterns_list = util.generate_number_of_patterns_list(number_of_states)
+        # number_of_patterns_list = util.generate_number_of_patterns_list(number_of_states)
+        number_of_patterns_list = [2, 3, 4, 5, 6, 7, 8, 9, 10]
         for number_of_patterns in number_of_patterns_list:
             exuberant_systems = util.generate_exuberant_systems(number_of_states, number_of_patterns)
             initial_activity_parameter_factors = generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns)

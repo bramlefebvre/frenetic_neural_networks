@@ -29,5 +29,7 @@ def _path_is_too_long(path, number_of_states):
 
 
 def _decide_where_to_jump_to(rates_for_state, escape_rate):
+    if escape_rate == numpy.Inf:
+        return numpy.cumsum(rates_for_state).tolist().index(numpy.Inf)
     probabilities = [rate_for_state / escape_rate for rate_for_state in rates_for_state]
     return random_number_generator.choice(len(probabilities), p = probabilities)
