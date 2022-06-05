@@ -5,7 +5,7 @@ def filter_result(result):
     return result.number_of_states == 100 and result.training_set_size == 400 and round(result.initial_activity_parameter_factor, 2) == round(result.number_of_states / result.number_of_patterns * 4 / 10, 2)
 
 def plot_k_performance():
-    training_results = step_2_training_analysis_data_dao.get_training_data('data/step_2/training_data_0')
+    training_results = step_2_training_analysis_data_dao.get_training_data('data/step_2/training_data_1')
     filtered_training_results = list(filter(filter_result, training_results))
 
     sorted_training_results = {}

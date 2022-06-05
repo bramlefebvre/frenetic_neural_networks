@@ -4,14 +4,14 @@ from step_1.data_structures import CompletedBasin, ExuberantSystem
 
 def get_single_exuberant_system(id, filename):
     serialized = base_dao.read_entry(id, filename)
-    return _deserialize_exuberant_system(serialized)
+    return deserialize_exuberant_system(serialized)
 
 def get_exuberant_systems(filename):
     serialized_exuberant_systems = base_dao.read_data(filename)
-    return list(map(_deserialize_exuberant_system, serialized_exuberant_systems))
+    return list(map(deserialize_exuberant_system, serialized_exuberant_systems))
 
 def save_exuberant_system(exuberant_system, filename):
-    serialized = _serialize_exuberant_system(exuberant_system)
+    serialized = serialize_exuberant_system(exuberant_system)
     base_dao.add_single_entry(serialized, filename)
 
 def generate_cycle(number_of_states):
@@ -26,17 +26,16 @@ def generate_cycle(number_of_states):
             graph[vertex + 1, vertex] = 0
     return ExuberantSystem(None, graph, basins)
 
-def _serialize_exuberant_system(exuberant_system):
+def serialize_exuberant_system(exuberant_system):
     serialized = {
         'tournament_and_patterns_id': exuberant_system.tournament_and_patterns_id,
         'graph': exuberant_system.graph.tolist(),
-        'basins': list(map(_serialize_basin, exuberant_system.basins))
+        'basins': list(map(_serialize_basin, exuberant_system.basins)),
+        'id': exuberant_system.id
     }
-    if exuberant_system.id is not None:
-        serialized['id'] = exuberant_system.id
     return serialized 
 
-def _deserialize_exuberant_system(serialized):
+def deserialize_exuberant_system(serialized):
     tournament_and_patterns_id = serialized['tournament_and_patterns_id']
     graph = numpy.array(serialized['graph'], dtype = int)
     basins = tuple(map(_deserialize_basin, serialized['basins']))

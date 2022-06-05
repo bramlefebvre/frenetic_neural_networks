@@ -39,16 +39,16 @@ def _forward_arc_to_pattern_state_exists_rate_change_instructions(state, graph_v
     return rate_change_instructions
 
 def _no_forward_arc_to_pattern_state_exists_rate_change_instructions(index, state, path, graph_values_for_state):
-    return _increase_all_forward_arcs(state, graph_values_for_state)
-    # if index == len(path) - 1:
-    #     rate_change_instructions = _increase_all_forward_arcs(state, graph_values_for_state)
-    # else:
-    #     next_state_in_path = path[index + 1]
-    #     if graph_values_for_state[next_state_in_path] == 1:
-    #         rate_change_instructions = {RateChangeInstruction((state, next_state_in_path), Action.INCREASE)}
-    #     else:
-    #         rate_change_instructions = _increase_all_forward_arcs(state, graph_values_for_state)
-    # return rate_change_instructions
+    # return _increase_all_forward_arcs(state, graph_values_for_state)
+    if index == len(path) - 1:
+        rate_change_instructions = _increase_all_forward_arcs(state, graph_values_for_state)
+    else:
+        next_state_in_path = path[index + 1]
+        if graph_values_for_state[next_state_in_path] == 1:
+            rate_change_instructions = {RateChangeInstruction((state, next_state_in_path), Action.INCREASE)}
+        else:
+            rate_change_instructions = _increase_all_forward_arcs(state, graph_values_for_state)
+    return rate_change_instructions
 
 def _increase_all_forward_arcs(state, graph_values_for_state):
     rate_change_instructions = set()

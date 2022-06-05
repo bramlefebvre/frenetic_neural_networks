@@ -34,9 +34,6 @@ class LearningStepResultWithoutRateMatrix:
         self.rate_change_instructions = rate_change_instructions
 
 RateChangeInstruction = namedtuple('RateChangeInstruction', ['transition', 'action'])
-    # def __init__(self, transition, action):
-    #     self.transition = transition
-    #     self.action = action
 
 class TrainingResult:
     def __init__(self, success, dynamics, learning_step_results):
