@@ -3,7 +3,7 @@ from step_1.data_structures import TrainingAnalysisData
 
 def save_training_data(training_data, filename):
     serialized_training_data = list(map(_serialize_training_data, training_data))
-    base_dao.add_data_no_id(serialized_training_data, filename)
+    base_dao.add_data_ignore_id(serialized_training_data, filename)
 
 
 def get_training_data(filename):

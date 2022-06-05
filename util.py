@@ -49,7 +49,7 @@ def generate_exuberant_systems(number_of_states, number_of_patterns):
     return exuberant_systems
 
 def result_is_successful(result):
-    return all(list(map(lambda size_of_basin: _basin_is_big_enough(size_of_basin, result), result.sizes_of_basins)))
+    return all(map(lambda size_of_basin: _basin_is_big_enough(size_of_basin, result), result.sizes_of_basins))
 
 def _basin_is_big_enough(size_of_basin, result):
     return size_of_basin > 1 / result.number_of_patterns * math.log(result.number_of_states)
