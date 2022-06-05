@@ -12,7 +12,7 @@ def get_exuberant_systems(filename):
 
 def save_exuberant_system(exuberant_system, filename):
     serialized = _serialize_exuberant_system(exuberant_system)
-    base_dao.add_single_entry_no_duplicates(serialized, filename)
+    base_dao.add_single_entry(serialized, filename)
 
 def generate_cycle(number_of_states):
     graph = -numpy.ones((number_of_states, number_of_states), dtype = int)

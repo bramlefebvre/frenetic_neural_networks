@@ -20,22 +20,10 @@ def save_single_tournament_and_patterns(tournament_and_patterns, filename):
     serialized = {
         'tournament': tournament_and_patterns.tournament.tolist(),
         'patterns': _to_list_of_ordered_lists(tournament_and_patterns.patterns),
-        'pattern_description_id': tournament_and_patterns.pattern_description.id
+        'pattern_description_id': tournament_and_patterns.pattern_description.id,
+        'id': tournament_and_patterns.id
     }
-    if tournament_and_patterns.id is not None:
-        serialized['id'] = tournament_and_patterns.id
-    base_dao.add_single_entry_no_duplicates(serialized, filename)
-
-def generate_tournaments_and_patterns_and_save_no_duplicates(number_of_states, patterns, number_to_generate, filename, pattern_description = PatternDescription.TWO_PATTERNS_EACH_WITH_ONE_STATE):
-    new_tournaments = []
-    while len(new_tournaments) < number_to_generate:
-        generated_tournament = generate_random_strong_tournament(number_of_states)
-        new_tournament = {
-            'tournament': generated_tournament.tolist(), 
-            'patterns': patterns,
-            'pattern_description_id': pattern_description.id}
-        base_dao.append_if_not_present(new_tournaments, new_tournament)
-    base_dao.add_data_no_duplicates(new_tournaments, filename)
+    base_dao.add_single_entry(serialized, filename)
 
 def _deserialize_tournament_and_patterns(serialized):
     tournament = numpy.array(serialized['tournament'], dtype = int)

@@ -1,3 +1,4 @@
+from collections import namedtuple
 from enum import Enum, unique
 
 
@@ -32,10 +33,10 @@ class LearningStepResultWithoutRateMatrix:
         self.path = path
         self.rate_change_instructions = rate_change_instructions
 
-class RateChangeInstruction:
-    def __init__(self, transition, action):
-        self.transition = transition
-        self.action = action
+RateChangeInstruction = namedtuple('RateChangeInstruction', ['transition', 'action'])
+    # def __init__(self, transition, action):
+    #     self.transition = transition
+    #     self.action = action
 
 class TrainingResult:
     def __init__(self, success, dynamics, learning_step_results):

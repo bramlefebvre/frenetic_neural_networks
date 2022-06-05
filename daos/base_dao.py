@@ -7,12 +7,12 @@ def add_data(new_data, filename):
     _check_ids(existing_data, new_data)
     add_ids_if_not_present(new_data)
     updated_data = existing_data + new_data
-    write_array(updated_data, filename)
+    _write_array(updated_data, filename)
 
 def add_data_no_id(new_data, filename):
     existing_data = read_data(filename)
     updated_data = existing_data + new_data
-    write_array(updated_data, filename)
+    _write_array(updated_data, filename)
 
 def add_data_no_duplicates(original_new_data, filename):
     new_data = original_new_data.copy()
@@ -22,10 +22,13 @@ def add_data_no_duplicates(original_new_data, filename):
     _check_ids(existing_data, new_data)
     add_ids_if_not_present(new_data)
     updated_data = existing_data + new_data
-    write_array(updated_data, filename)
+    _write_array(updated_data, filename)
 
 def add_single_entry_no_duplicates(new_entry, filename):
     add_data_no_duplicates([new_entry], filename)
+
+def add_single_entry(new_entry, filename):
+    add_data([new_entry], filename)
 
 def read_entry(id, filename):
     array = read_data(filename)
@@ -41,7 +44,7 @@ def read_data(filename):
             array = json.load(f)
     return array
 
-def write_array(array, filename):
+def _write_array(array, filename):
     filepath = _to_path(filename)
     with open(filepath, 'w') as f:
         json.dump(array, f)
