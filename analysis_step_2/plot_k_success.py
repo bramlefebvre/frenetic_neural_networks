@@ -7,7 +7,7 @@ def filter_result(result):
 # training_results = step_2_training_analysis_data_dao.get_training_data('data/step_2/old_1/algorithm_3/training_results_1')
 
 def plot_k_success():
-    training_results = step_2_training_analysis_data_dao.get_training_data('data/step_2/training_data_5')
+    training_results = step_2_training_analysis_data_dao.get_training_data('data/step_2/training_data_0')
     filtered_training_results = list(filter(filter_result, training_results))
 
     sorted_training_results = {}

@@ -4,7 +4,6 @@ from step_1.find_exuberant_system import find_exuberant_system
 from daos.step_1_training_analysis_data_dao import save_training_data
 import util
 
-
 def calculate_variance(sizes_of_basins):
     sum = 0
     for size_of_basin_0 in sizes_of_basins:
