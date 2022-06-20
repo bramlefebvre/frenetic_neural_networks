@@ -1,12 +1,12 @@
 import copy
 from step_2.data_structures import LearningAlgorithm, LearningStepResultWithoutRateMatrix, TrainingResult
-from step_2.execute_learning_step.algorithm_4 import algorithm_4
+from step_2.execute_learning_step.algorithm_3 import algorithm_3
 import numpy
 
 random_number_generator = numpy.random.default_rng()
 
 algorithm_map = {
-    LearningAlgorithm.LOOK_FORWARD_AND_AVOID_CYCLES: algorithm_4.execute_learning_step
+    LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC: algorithm_3.execute_learning_step
 }
 
 def train_starting_with_each_vertex_n_times(dynamics, algorithm, learning_rate, desired_residence_time, n):
