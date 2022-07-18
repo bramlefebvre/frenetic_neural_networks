@@ -1,18 +1,19 @@
-# from typing import NamedTuple
+from typing import NamedTuple
 # from numpy import float64, ndarray
-# from step_1.data_structures import CycleFindingEvent, ExuberantSystem
-# from step_2.data_structures import LearningStepResultWithoutRateMatrix
+from step_1.data_structures import CycleFindingEvent, ExuberantSystem
+from step_2.data_structures import LearningStepResultWithoutRateMatrix
 
 from collections import namedtuple
+from typing import Any
 
 
-CompleteLearningHistory = namedtuple('CompleteLearningHistory', ['cycle_finding_history', 'step_2_learning_step_results'])
+# CompleteLearningHistory = namedtuple('CompleteLearningHistory', ['cycle_finding_history', 'step_2_learning_step_results'])
 
 # CompleteTrainingResult = namedtuple('CompleteTrainingResult', ['success', 'exuberant_system', 'rate_matrix'])
 
-# class CompleteLearningHistory(NamedTuple):
-#     cycle_finding_history: list[CycleFindingEvent]
-#     step_2_learning_step_results: list[LearningStepResultWithoutRateMatrix]
+class CompleteLearningHistory(NamedTuple):
+    cycle_finding_history: list[CycleFindingEvent]
+    step_2_learning_step_results: list[LearningStepResultWithoutRateMatrix]
 
 # class CompleteTrainingResult(NamedTuple):
 #     success: bool
@@ -25,8 +26,8 @@ CompleteLearningHistory = namedtuple('CompleteLearningHistory', ['cycle_finding_
 #         self.step_2_learning_step_results = step_2_learning_step_results
 
 class CompleteTrainingResult:
-    def __init__(self, success, exuberant_system, rate_matrix, id = None):
-        self.success = success
+    def __init__(self, success: bool, exuberant_system, rate_matrix, id = None):
+        self.success: bool = success
         self.exuberant_system = exuberant_system
         self.rate_matrix = rate_matrix
-        self.id = id
+        self.id: Any = id

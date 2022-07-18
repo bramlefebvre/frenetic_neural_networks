@@ -4,7 +4,8 @@ from step_1.find_hamilton_cycle import hamilton_cycle_complete_tournament_exists
 random_number_generator = numpy.random.default_rng()
 
 def generate_random_strong_tournament(number_of_states):
-    found = False
+    found: bool = False
+    tournament = None
     while not found:
         tournament = _generate_random_tournament(number_of_states)
         found = hamilton_cycle_complete_tournament_exists(tournament)
