@@ -7,7 +7,7 @@ import numpy
 import copy
 from step_1.data_structures import TrainingResult
 
-def find_exuberant_system(tournament_and_patterns):
+def find_exuberant_system(tournament_and_patterns) -> TrainingResult:
     tournament = tournament_and_patterns.tournament
     patterns = tournament_and_patterns.patterns
     basins_and_cycle_finding_history = _find_cycles_per_basin(tournament, patterns)
@@ -41,8 +41,8 @@ def _to_arcs(cycles):
     return arcs
 
 def _find_cycles_per_basin(tournament, patterns):
-    free_vertices = _get_initial_free_vertices(tournament, patterns)
-    number_of_patterns = len(patterns)
+    free_vertices: set[int] = _get_initial_free_vertices(tournament, patterns)
+    number_of_patterns: int = len(patterns)
     basins = _initialize_basins(patterns)
     cycle_finding_history = []
     if not _initial_basin_exists_that_has_available_vertices_that_can_make_hamilton_cycle(tournament, basins, free_vertices):
@@ -55,12 +55,9 @@ def _find_cycles_per_basin(tournament, patterns):
     return BasinsAndCycleFindingHistory(basins, cycle_finding_history)
     
 def _expand_basin(tournament, basin, free_vertices, cycle_finding_history):
-    if basin.not_expandable:
-        return set()
     available_vertices = frozenset(free_vertices | basin.vertices_included_in_a_cycle | basin.pattern_vertices)
     if not hamilton_cycle_exists(tournament, available_vertices):
-        basin.not_expandable = True
-        return set()
+        return
     new_cycle = find_cycle(tournament, available_vertices, basin)
     basin.length_of_next_cycle += 1
     basin.cycles.add(new_cycle)
@@ -83,7 +80,7 @@ def _initialize_basins(patterns):
         basins.append(_initialize_basin(index, pattern_vertices))
     return tuple(basins)
 
-def _initialize_basin(index, pattern_vertices):
+def _initialize_basin(index: int, pattern_vertices):
     return BasinUnderConstruction(index, pattern_vertices, set(), set(), 3)
 
 def _get_initial_free_vertices(tournament, patterns):

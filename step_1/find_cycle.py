@@ -130,7 +130,7 @@ def _pattern_vertex_least_included_in_cycle(basin):
         for vertex in cycle:
             if vertex in pattern_vertices:
                 number_of_times_included[vertex] += 1
-    return min(number_of_times_included, key = number_of_times_included.get)
+    return min(number_of_times_included, key = number_of_times_included.get)  # type: ignore
 
 class SingleVertexInsertResult:
     def __init__(self, index_to_insert_at, vertex_to_insert):

@@ -32,7 +32,6 @@ class BasinUnderConstruction:
         self.cycles = cycles
         self.vertices_included_in_a_cycle = vertices_included_in_a_cycle
         self.length_of_next_cycle = length_of_next_cycle
-        self.not_expandable = False
 
 class CompletedBasin:
     def __init__(self, index, pattern_vertices, vertices):
