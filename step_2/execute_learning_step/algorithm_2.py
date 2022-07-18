@@ -1,6 +1,5 @@
 from step_2.calculate_path import calculate_path
 from step_2.data_structures import Action, LearningStepResult, RateChangeInstruction
-from step_2.execute_learning_step.algorithm_3 import never_visited_pattern_state
 from step_2.execute_learning_step.helper import GetRateChangeInstructionsFunctionInput, PathType, apply_rate_change_instructions, determine_path_type
 
 failure_learning_step_result = LearningStepResult(False, None, None, None)
@@ -18,7 +17,7 @@ def execute_learning_step(dynamics, initial_state, learning_rate, desired_reside
     rate_change_instructions = rate_change_instructions_function_map[path_type](input)
     apply_rate_change_instructions(rate_matrix, rate_change_instructions, learning_rate)
     return LearningStepResult(True, rate_matrix, path, rate_change_instructions)
-
+    
 def _arrived_in_pattern_state_and_stayed_long_enough_rate_change_instructions(input):
     return []
 
@@ -34,21 +33,30 @@ def _arrived_in_pattern_state_but_left_too_soon_rate_change_instructions(input):
 def _ever_left_pattern_state_rate_change_instructions(input):
     path = input.path
     pattern_states = input.pattern_states
-    graph = input.graph
     index_last_state = len(path) - 1
     rate_change_instructions = []
     for index, state in enumerate(path):
         if index != index_last_state:
             next_state_in_path = path[index + 1]
-            if state in pattern_states and next_state_in_path not in pattern_states and graph[state, next_state_in_path] == 1:
+            if state in pattern_states and next_state_in_path not in pattern_states:
                 rate_change_instructions.append(RateChangeInstruction((state, path[index + 1]), Action.DECREASE))
+    return rate_change_instructions
+
+def _never_visited_pattern_state_rate_change_instructions(input):
+    path = input.path
+    index_last_state = len(path) - 1
+    rate_change_instructions = []
+    for index, state in enumerate(path):
+        if index != index_last_state:
+            next_state_in_path = path[index + 1]
+            rate_change_instructions.append(RateChangeInstruction((state, next_state_in_path), Action.INCREASE))
     return rate_change_instructions
 
 def _initialize_rate_change_instructions_function_map():
     rate_change_instructions_function_map = {
         PathType.ARRIVED_IN_PATTERN_STATE_AND_STAYED_LONG_ENOUGH: _arrived_in_pattern_state_and_stayed_long_enough_rate_change_instructions,
         PathType.EVER_LEFT_PATTERN_STATE: _ever_left_pattern_state_rate_change_instructions,
-        PathType.NEVER_VISITED_PATTERN_STATE: never_visited_pattern_state.get_rate_change_instructions,
+        PathType.NEVER_VISITED_PATTERN_STATE: _never_visited_pattern_state_rate_change_instructions,
         PathType.ARRIVED_IN_PATTERN_STATE_BUT_LEFT_TOO_SOON: _arrived_in_pattern_state_but_left_too_soon_rate_change_instructions
     }
     return rate_change_instructions_function_map

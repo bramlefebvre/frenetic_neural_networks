@@ -6,19 +6,14 @@ random_number_generator = numpy.random.default_rng()
 def get_rate_change_instructions(input):
     path = input.path
     graph = input.graph
-    increase_rate_change_instructions = set()
-    decrease_rate_change_instructions = []
+    rate_change_instructions = set()
     for index, state in enumerate(path):
         graph_values_for_state = graph[state, :]
         rate_change_instructions_for_state = _get_rate_change_instructions_for_state(index, state, path, graph_values_for_state)
-        increase_rate_change_instructions.update(rate_change_instructions_for_state)
-    all_rate_change_instructions = []
-    all_rate_change_instructions.extend(decrease_rate_change_instructions)
-    all_rate_change_instructions.extend(increase_rate_change_instructions)
-    return all_rate_change_instructions
+        rate_change_instructions.update(rate_change_instructions_for_state)
+    return list(rate_change_instructions)
 
 def _get_rate_change_instructions_for_state(index, state, path, graph_values_for_state):
-    # return _increase_all_forward_arcs(state, graph_values_for_state)
     if index == len(path) - 1:
         rate_change_instructions = _increase_all_forward_arcs(state, graph_values_for_state)
     else:

@@ -1,11 +1,13 @@
 import copy
 from step_2.data_structures import LearningAlgorithm, LearningStepResultWithoutRateMatrix, TrainingResult
+from step_2.execute_learning_step import algorithm_2
 from step_2.execute_learning_step.algorithm_3 import algorithm_3
 import numpy
 
 random_number_generator = numpy.random.default_rng()
 
 algorithm_map = {
+    LearningAlgorithm.WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES: algorithm_2,
     LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC: algorithm_3.execute_learning_step
 }
 

@@ -5,7 +5,7 @@ from step_2.data_structures import LearningAlgorithm
 from step_2.initialize_dynamics import initialize_dynamics
 from step_2.training import train_starting_with_random_vertex_n_times
 from analysis_step_2.data_structures import TrainingAnalysisData
-import util
+import analysis_util
 import timeit
 import time
 
@@ -30,7 +30,7 @@ def calculation_duration():
         # number_of_patterns_list = util.generate_number_of_patterns_list(number_of_states)
         number_of_patterns_list = [2, 3, 4, 5, 6, 7, 8, 9, 10]
         for number_of_patterns in number_of_patterns_list:
-            exuberant_systems = util.generate_exuberant_systems(number_of_states, number_of_patterns)
+            exuberant_systems = analysis_util.generate_exuberant_systems(number_of_states, number_of_patterns)
             initial_activity_parameter_factors = generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns)
             for initial_activity_parameter_factor in initial_activity_parameter_factors:
                 training_set_size_list = generate_training_set_size_list(number_of_states)

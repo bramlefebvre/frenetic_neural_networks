@@ -1,6 +1,6 @@
 import daos.step_1_training_analysis_data_dao as step_1_training_analysis_data_dao
 import matplotlib.pyplot as plt
-import util
+import analysis_util
 
 def _filter_result(result):
     return result.number_of_states == 100
@@ -25,7 +25,7 @@ def plot_k_success():
         successes = 0
         for result in results:
             number += 1
-            if util.result_is_successful(result):
+            if analysis_util.result_is_successful(result):
                 successes += 1
         success_chance_list.append(successes / number)
     
