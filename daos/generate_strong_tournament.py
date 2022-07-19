@@ -9,6 +9,7 @@ def generate_random_strong_tournament(number_of_states):
     while not found:
         tournament = _generate_random_tournament(number_of_states)
         found = hamilton_cycle_complete_tournament_exists(tournament)
+    assert tournament is not None
     return tournament
 
 def _generate_random_tournament(number_of_states):

@@ -8,13 +8,13 @@ random_number_generator = numpy.random.default_rng()
 def generate_single_state_patterns(number_of_states, number_of_patterns):
     if number_of_patterns > number_of_states:
         raise ValueError('Number of patterns bigger than number of states')
-    states = list(range(number_of_states))
+    states: list[int] = list(range(number_of_states))
     patterns = []
     for _ in range(number_of_patterns):
-        state = _pick_one(states)
+        state: int = _pick_one(states)
         patterns.append([state])
         states.remove(state)
-    return patterns
+    return to_tuple_of_sets(patterns)
 
 def to_sizes_of_basins(exuberant_system):
     basins = exuberant_system.basins
@@ -54,6 +54,12 @@ def result_is_successful(result):
 def _basin_is_big_enough(size_of_basin, result):
     return size_of_basin > 1 / result.number_of_patterns * math.log(result.number_of_states)
 
-def _pick_one(states):
-    return random_number_generator.choice(list(states))
+def _pick_one(states: list[int]) -> int:
+    return random_number_generator.choice(states)
+
+def to_tuple_of_sets(iterable_of_iterables) -> tuple[frozenset[int], ...]:
+    result: list[frozenset[int]] = []
+    for iterable in iterable_of_iterables:
+        result.append(frozenset(iterable))
+    return tuple(result)
 

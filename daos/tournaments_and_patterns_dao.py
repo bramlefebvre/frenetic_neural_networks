@@ -3,9 +3,9 @@ import daos.base_dao as base_dao
 from step_1.data_structures import PatternDescription, TournamentAndPatterns
 import numpy
 
-def generate_single_tournament_and_patterns(number_of_states, patterns, pattern_description = None, id = None):
+def generate_single_tournament_and_patterns(number_of_states, patterns: tuple[frozenset[int]], pattern_description = None, id = None):
     tournament = generate_random_strong_tournament(number_of_states)
-    patterns = to_tuple_of_sets(patterns)
+    # patterns = to_tuple_of_sets(patterns)
     return TournamentAndPatterns(tournament, patterns, pattern_description, id)
 
 def get_single_tournament_and_patterns(id, filename):

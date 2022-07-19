@@ -47,7 +47,7 @@ def _check_ids_are_present(existing_data, new_data):
 def _check_for_duplicate_ids(existing_data, new_data):
     ids_new_data_list = _get_ids(new_data)
     ids_new_data = set(ids_new_data_list)
-    if len(ids_new_data) != len(ids_new_data):
+    if len(ids_new_data) != len(ids_new_data_list):
         raise ValueError('duplicate id in new data')
     ids_existing_data = set(_get_ids(existing_data))
     for id_new_data in ids_new_data:

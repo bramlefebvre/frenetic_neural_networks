@@ -56,6 +56,8 @@ def _find_cycles_per_basin(tournament, patterns):
     
 def _expand_basin(tournament, basin, free_vertices, cycle_finding_history):
     available_vertices = frozenset(free_vertices | basin.vertices_included_in_a_cycle | basin.pattern_vertices)
+    if len(available_vertices) < basin.length_of_next_cycle:
+        return
     if not hamilton_cycle_exists(tournament, available_vertices):
         return
     new_cycle = find_cycle(tournament, available_vertices, basin)
