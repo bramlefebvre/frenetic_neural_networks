@@ -7,7 +7,7 @@ import numpy
 random_number_generator = numpy.random.default_rng()
 
 algorithm_map = {
-    LearningAlgorithm.WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES: algorithm_2,
+    LearningAlgorithm.WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES: algorithm_2.execute_learning_step,
     LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC: algorithm_3.execute_learning_step
 }
 

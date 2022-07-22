@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 
 def plot_dependency_on_s():
     filename = 'data/step_1/sv_p5_high'
-    training_results = step_1_training_analysis_data_dao.get_training_data(filename)
+    training_data_list = step_1_training_analysis_data_dao.get_training_data(filename)
     
     sorted_results = {}
-    for result in training_results:
+    for result in training_data_list:
         number_of_states = result.number_of_states
         if number_of_states not in sorted_results:
             sorted_results[number_of_states] = []
@@ -29,12 +29,12 @@ def plot_dependency_on_s():
     plt.ylabel('variance size basins')
     plt.show()
 
-def plot_dependency_on_k(training_results, desired_number_of_states):
-    filename = 'data/step_1/training_results_0'
-    training_results = step_1_training_analysis_data_dao.get_training_data(filename)
+def plot_dependency_on_k():
+    filename = 'data/step_1/s1000_pv'
+    training_data_list = step_1_training_analysis_data_dao.get_training_data(filename)
     
     sorted_results = {}
-    for result in training_results:
+    for result in training_data_list:
         number_of_patterns = result.number_of_patterns
         if number_of_patterns not in sorted_results:
             sorted_results[number_of_patterns] = []

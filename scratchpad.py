@@ -10,7 +10,7 @@ def execute():
     tournament = generate_single_tournament_and_patterns(10, [[0], [1]])
     exuberant_system = find_exuberant_system(tournament).exuberant_system
     initial_dynamics = initialize_dynamics(exuberant_system, 5, 2, 1)
-    training_result = train_starting_with_each_vertex_n_times(initial_dynamics, LearningAlgorithm.LOOK_FORWARD_AND_AVOID_CYCLES, 0.5, 0.2, 4)
+    training_result = train_starting_with_each_vertex_n_times(initial_dynamics, LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC, 0.5, 0.2, 4)
     dynamics = training_result.dynamics
     performance = calculate_performance(dynamics, 0.2, 100)
     print(performance)

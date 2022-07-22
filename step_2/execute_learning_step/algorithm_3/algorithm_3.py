@@ -41,7 +41,7 @@ def _ever_left_pattern_state_rate_change_instructions(input):
         if index != index_last_state:
             next_state_in_path = path[index + 1]
             if state in pattern_states and next_state_in_path not in pattern_states and graph[state, next_state_in_path] == 1:
-                rate_change_instructions.append(RateChangeInstruction((state, path[index + 1]), Action.DECREASE))
+                rate_change_instructions.append(RateChangeInstruction((state, next_state_in_path), Action.DECREASE))
     return rate_change_instructions
 
 def _initialize_rate_change_instructions_function_map():

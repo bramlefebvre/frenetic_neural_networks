@@ -5,11 +5,11 @@ def _filter_result(result):
     return result.number_of_states == 1000
 
 def plot_k_calc():
-    results = step_1_training_analysis_data_dao.get_training_data('data/step_1/calculation_duration_1')
-    filtered_results = list(filter(_filter_result, results))
+    training_data_list = step_1_training_analysis_data_dao.get_training_data('data/step_1/calc_s1000_pv')
+    # filtered_results = list(filter(_filter_result, results))
 
     sorted_results = {}
-    for result in filtered_results:
+    for result in training_data_list:
         number_of_patterns = result.number_of_patterns
         if number_of_patterns not in sorted_results:
             sorted_results[number_of_patterns] = []

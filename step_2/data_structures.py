@@ -49,11 +49,10 @@ class Action(Enum):
 
 @unique
 class LearningAlgorithm(Enum):
-    THESIS = 1, 'thesis'
+    # THESIS = 1, 'thesis'
     WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES = 2, \
         'when a pattern state is left only decrease the rates for the pattern states in the path'
     LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC = 3, 'look forward and only once per arc'
-    LOOK_FORWARD_AND_AVOID_CYCLES = 4, 'look forward and avoid cycles'
 
     def __init__(self, id, display_value):
         self.id = id

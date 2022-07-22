@@ -17,7 +17,7 @@ def generate_training_set_size_list(number_of_states):
     return [number_of_states * 4]
 
 number_of_states_list = [100]
-algorithm = LearningAlgorithm.LOOK_FORWARD_AND_AVOID_CYCLES
+algorithm = LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC
 driving_value = 5
 travel_time = 1
 learning_rate = 0.5

@@ -1,33 +1,31 @@
 import daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_dao
 import matplotlib.pyplot as plt
 
-training_results = step_2_training_analysis_data_dao.get_training_data('step_2/algorithm_2/e5_a0.5_nv_R0.5_low')
 
+def plot_n_success():
+    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/algorithm_2/s50_p5_a4_nv')
 
-sorted_training_results = {}
+    sorted_results = {}
+    for result in training_data_list:
+        training_set_size = result.training_set_size
+        if training_set_size not in sorted_results:
+            sorted_results[training_set_size] = []
+        sorted_results[training_set_size].append(result)
+    
+    training_set_size_list = []
+    success_chance_list = []
 
-training_set_size_list = list(range(1, 21))
+    for training_set_size, results in sorted_results.items():
+        training_set_size_list.append(training_set_size)
+        number = 0
+        successes = 0
+        for result in results:
+            number += 1
+            if result.success:
+                successes += 1
+        success_chance_list.append(successes / number)
 
-for training_set_size in training_set_size_list:
-    sorted_training_results[training_set_size] = []
-
-for training_result in training_results:
-    sorted_training_results[training_result.training_set_size].append(training_result)
-
-success_chance_array = []
-
-for training_set_size in training_set_size_list:
-    total = 0
-    successes = 0
-    for training_result in sorted_training_results[training_set_size]:
-        total += 1
-        if training_result.success:
-            successes += 1
-    success_chance_array.append(successes / total)
-
-print(success_chance_array)
-
-plt.scatter(training_set_size_list, success_chance_array)
-plt.xlabel('training set size')
-plt.ylabel('success rate')
-plt.show()
+    plt.scatter(training_set_size_list, success_chance_list)
+    plt.xlabel('training set size')
+    plt.ylabel('success rate')
+    plt.show()
