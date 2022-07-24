@@ -1,5 +1,6 @@
 import numpy
 from step_1.find_hamilton_cycle import hamilton_cycle_complete_tournament_exists
+import numpy.typing as npt
 
 random_number_generator = numpy.random.default_rng()
 
@@ -17,8 +18,8 @@ def _generate_random_tournament(number_of_states):
     _complete_tournament(tournament)
     return tournament
 
-def _generate_upper_half_random_tournament(number_of_states):
-    tournament = -numpy.ones((number_of_states, number_of_states), dtype = int)
+def _generate_upper_half_random_tournament(number_of_states) -> npt.NDArray[numpy.int_]:
+    tournament: npt.NDArray[numpy.int_] = -numpy.ones((number_of_states, number_of_states), dtype = int)
     for row in range(number_of_states):
         for column in range(number_of_states):
             if column > row:

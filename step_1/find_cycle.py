@@ -2,8 +2,8 @@ import numpy
 
 random_number_generator = numpy.random.default_rng()
 
-def find_cycle(tournament, available_vertices, basin):
-    pattern_vertex = _pattern_vertex_least_included_in_cycle(basin)
+def find_cycle(tournament, available_vertices, basin) -> tuple[int, ...]:
+    pattern_vertex: int = _pattern_vertex_least_included_in_cycle(basin)
     possible_vertices = available_vertices - {pattern_vertex}
     if basin.length_of_next_cycle == 3:
         return tuple(_find_3_cycle(tournament, possible_vertices, pattern_vertex))

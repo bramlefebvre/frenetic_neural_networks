@@ -17,7 +17,7 @@ driving_value = 5
 travel_time = 1
 learning_rate = 0.5
 desired_residence_time = 0.2
-filename = 'data/step_2/algorithm_3/s50_p5_av_n200_high'
+filename = 'data/step_2/algorithm_3/sv_p1_a4x_n4x'
 
 def _generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns):
     fraction = 1 / 10 * number_of_states / number_of_patterns
@@ -27,16 +27,16 @@ def _generate_training_set_size_list(number_of_states):
     return [number_of_states * 4]
 
 def train():
-    number_of_states_list = [50]
+    number_of_states_list = [10 * x for x in range(1, 11)]
     for number_of_states in number_of_states_list:
         training_data_list = []
         # number_of_patterns_list = util.generate_number_of_patterns_list(number_of_states)
-        number_of_patterns_list = [5]
+        number_of_patterns_list = [1]
         for number_of_patterns in number_of_patterns_list:
             exuberant_systems = analysis_util.generate_exuberant_systems(number_of_states, number_of_patterns)
-            initial_activity_parameter_factors = [10 * x for x in range(1, 11)]
+            initial_activity_parameter_factors = [4 / 10 * number_of_states]
             for initial_activity_parameter_factor in initial_activity_parameter_factors:
-                training_set_size_list = [200]
+                training_set_size_list = [4 * number_of_states]
                 for training_set_size in training_set_size_list:
                     print('[number_of_states, number_of_patterns, initial_activity_parameter_factor, training_set_size]:')
                     print([number_of_states, number_of_patterns, initial_activity_parameter_factor, training_set_size])

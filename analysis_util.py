@@ -1,3 +1,4 @@
+from typing import Iterable
 import numpy
 import math
 from daos.tournaments_and_patterns_dao import generate_single_tournament_and_patterns
@@ -54,8 +55,8 @@ def result_is_successful(result):
 def _basin_is_big_enough(size_of_basin, result):
     return size_of_basin > 1 / result.number_of_patterns * math.log(result.number_of_states)
 
-def _pick_one(states: list[int]) -> int:
-    return random_number_generator.choice(states)
+def _pick_one(states: Iterable[int]) -> int:
+    return random_number_generator.choice(list(states))
 
 def to_tuple_of_sets(iterable_of_iterables) -> tuple[frozenset[int], ...]:
     result: list[frozenset[int]] = []

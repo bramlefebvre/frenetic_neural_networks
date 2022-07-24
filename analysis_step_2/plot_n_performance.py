@@ -5,7 +5,7 @@ def _filter_result(result):
     return result.number_of_states == 20 and result.number_of_patterns == 2 and result.initial_activity_parameter_factor == 4
 
 def plot_n_performance():
-    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/algorithm_2/c10_a4_nv')
+    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/algorithm_3/s50_p5_a4_nv')
     # filtered_training_results = list(filter(_filter_result, training_results))
 
     sorted_results = {}
@@ -30,8 +30,6 @@ def plot_n_performance():
             performance_list.append(summed_performances/number)
         else:
             performance_list.append(-0.1)
-
-    print(performance_list)
 
     plt.scatter(training_set_size_list, performance_list)
     plt.xlabel('training set size')

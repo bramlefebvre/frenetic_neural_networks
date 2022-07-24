@@ -1,9 +1,7 @@
 from typing import NamedTuple
-# from numpy import float64, ndarray
 from step_1.data_structures import CycleFindingEvent, ExuberantSystem
 from step_2.data_structures import LearningStepResultWithoutRateMatrix
 
-from collections import namedtuple
 from typing import Any
 
 
