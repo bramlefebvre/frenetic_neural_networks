@@ -1,5 +1,4 @@
-from dataclasses import dataclass, field
-from typing import Iterable
+from dataclasses import dataclass
 from step_1.find_cycle import find_cycle
 from step_1.find_hamilton_cycle import hamilton_cycle_exists
 from step_1.data_structures import CycleFindingEvent, ExuberantSystem
@@ -9,18 +8,18 @@ import numpy
 import numpy.typing as npt
 import copy
 from step_1.data_structures import TrainingResult
+from step_1.eliminate_cycles_outside_pattern import eliminate_cycles
 
 def find_exuberant_system(tournament_and_patterns) -> TrainingResult:
     tournament: npt.NDArray[numpy.int_]  = tournament_and_patterns.tournament
     patterns = tournament_and_patterns.patterns
     basins_and_cycle_finding_history = _find_cycles_per_basin(tournament, patterns)
-    basins = basins_and_cycle_finding_history.basins
+    basins: tuple[BasinUnderConstruction, ...] = basins_and_cycle_finding_history.basins
     exuberant_system_graph: npt.NDArray[numpy.int_] = _to_exuberant_system_graph(basins, len(tournament))
     completed_basins = tuple(map(_to_completed_basin, basins))
     exuberant_system = ExuberantSystem(tournament_and_patterns.id, exuberant_system_graph, completed_basins)
     cycle_finding_history = basins_and_cycle_finding_history.cycle_finding_history
     return TrainingResult(exuberant_system, cycle_finding_history)
-
 
 def _gather_all_cycles(basins: tuple[BasinUnderConstruction, ...]) -> set[tuple[int, ...]]:
     cycles: set[tuple[int, ...]] = set()
@@ -28,20 +27,15 @@ def _gather_all_cycles(basins: tuple[BasinUnderConstruction, ...]) -> set[tuple[
         cycles.update(basin.cycles)
     return cycles
 
-def _to_exuberant_system_graph(basins, number_of_states):
+def _to_exuberant_system_graph(basins: tuple[BasinUnderConstruction, ...], number_of_states):
     graph: npt.NDArray[numpy.int_] = -numpy.ones((number_of_states, number_of_states), dtype=int)
     cycles: set[tuple[int, ...]] = _gather_all_cycles(basins)
     arcs: set[tuple[int, int]] = _to_arcs(cycles)
-
+    eliminate_cycles(basins, arcs)
     for arc in arcs:
         graph[arc[0], arc[1]] = 1
         graph[arc[1], arc[0]] = 0
     return graph
-
-
-
-
-
 
 def _to_arcs(cycles) -> set[tuple[int, int]]:
     arcs: set[tuple[int, int]] = set()

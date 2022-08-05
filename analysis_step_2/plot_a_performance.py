@@ -7,7 +7,7 @@ def _filter_result(result):
 
 def plot_a_performance():
     training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/algorithm_3/s50_p5_av_n200_low')
-    # filtered_training_results = list(_filter(filter_result, training_results))
+    # filtered_training_results = list(filter(_filter_result, training_results))
 
     sorted_results = {}
     for result in training_data_list:

@@ -33,13 +33,6 @@ class BasinUnderConstruction:
     cycles: set[tuple[int, ...]]
     vertices_included_in_a_cycle: set[int]
     length_of_next_cycle: int
-    
-    # def __init__(self, index, pattern_vertices, cycles, vertices_included_in_a_cycle, length_of_next_cycle):
-    #     self.index = index
-    #     self.pattern_vertices = pattern_vertices
-    #     self.cycles = cycles
-    #     self.vertices_included_in_a_cycle = vertices_included_in_a_cycle
-    #     self.length_of_next_cycle = length_of_next_cycle
 
 class CompletedBasin:
     def __init__(self, index, pattern_vertices, vertices):
