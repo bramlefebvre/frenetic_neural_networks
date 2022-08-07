@@ -23,4 +23,4 @@ from analysis_step_2.plot_s_calc import plot_s_calc
 from analysis_step_2.plot_k_calc import plot_k_calc
 
 
-plot_s_success()
+# plot_s_success()

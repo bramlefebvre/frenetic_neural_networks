@@ -17,7 +17,7 @@ driving_value = 5
 travel_time = 1
 learning_rate = 0.5
 desired_residence_time = 0.2
-filename = 'data/step_2/algorithm_3/sv_p1_a4x_n4x'
+filename = 'data/step_2/algorithm_3_eliminate_cycles/sv_p1_a4x_n4x'
 
 def _generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns):
     fraction = 1 / 10 * number_of_states / number_of_patterns
