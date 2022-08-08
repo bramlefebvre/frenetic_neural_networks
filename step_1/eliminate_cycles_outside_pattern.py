@@ -84,43 +84,53 @@ class ContinueWalkResponse:
 #         if continue_walk_response.cycle_encountered:
 #             _find_arc_to_remove(continue_walk_response.get_cycle(), arcs)
 
-def _eliminate_cycles_starting_from_walk(walk: Walk, pattern_vertices, arcs: set[tuple[int, int]]):
+def _eliminate_cycles_starting_from_walk(walk: Walk, pattern_vertices: frozenset[int], arcs: set[tuple[int, int]]):
     continue_walk_response = _continue_walk(walk, pattern_vertices, arcs)
     removed_arcs: set[tuple[int, int]] = set()
     if continue_walk_response.cycle_encountered:
-        arc_to_remove = _find_arc_to_remove(continue_walk_response.get_cycle(), arcs)
+        arc_to_remove = _find_arc_to_remove(continue_walk_response.get_cycle(), arcs, pattern_vertices)
         arcs.remove(arc_to_remove)
-        remaining_unfinished_walks = _unfinished_walks_not_containing_arc(continue_walk_response.get_unfinished_walks(), arc_to_remove)
-        _remove_remaining_forward_vertices_that_will_make_the_removed_arc(remaining_unfinished_walks, arc_to_remove)
         removed_arcs.add(arc_to_remove)
-        for remaining_unfinished_walk in remaining_unfinished_walks:
-            _eliminate_cycles_starting_from_walk(remaining_unfinished_walk, pattern_vertices, arcs)
+        unfinished_walks = _unfinished_walks_not_containing_arc(continue_walk_response.get_unfinished_walks(), arc_to_remove)
+        for unfinished_walk in unfinished_walks:
+            if not _unfinished_walk_contains_arc_in_set(unfinished_walk, removed_arcs):
+                _remove_remaining_forward_vertices_that_will_make_a_removed_arc(unfinished_walk, removed_arcs)
+                new_removed_arcs = _eliminate_cycles_starting_from_walk(unfinished_walk, pattern_vertices, arcs)
+                removed_arcs.update(new_removed_arcs)
     return removed_arcs
 
-def _remove_remaining_forward_vertices_that_will_make_the_removed_arc(remaining_unfinished_walks: list[Walk], arc):
-    for walk in remaining_unfinished_walks:
-        last_vertex_of_walk = walk.walk[-1]
-        remaining_forward_vertices = walk.get_remaining_forward_vertices()
-        for forward_vertex in remaining_forward_vertices:
-            if (last_vertex_of_walk, forward_vertex) == arc:
-                new_remaining_forward_vertices = remaining_forward_vertices.copy()
-                new_remaining_forward_vertices.remove(forward_vertex)
-                walk.remaining_forward_vertices = new_remaining_forward_vertices
-                return
+def _remove_remaining_forward_vertices_that_will_make_the_removed_arc(unfinished_walk: Walk, removed_arc):
+    last_vertex_of_walk = unfinished_walk.walk[-1]
+    remaining_forward_vertices = unfinished_walk.get_remaining_forward_vertices()
+    for forward_vertex in remaining_forward_vertices:
+        if (last_vertex_of_walk, forward_vertex) == removed_arc:
+            new_remaining_forward_vertices = remaining_forward_vertices.copy()
+            new_remaining_forward_vertices.remove(forward_vertex)
+            unfinished_walk.remaining_forward_vertices = new_remaining_forward_vertices
+            return
 
+def _remove_remaining_forward_vertices_that_will_make_a_removed_arc(unfinished_walk: Walk, removed_arcs):
+    last_vertex_of_walk = unfinished_walk.walk[-1]
+    remaining_forward_vertices = unfinished_walk.get_remaining_forward_vertices()
+    forward_vertices_to_remove = set()
+    for forward_vertex in remaining_forward_vertices:
+        if (last_vertex_of_walk, forward_vertex) in removed_arcs:
+            forward_vertices_to_remove.add(forward_vertex)
+    new_remaining_forward_vertices = list(set(remaining_forward_vertices) - forward_vertices_to_remove)
+    unfinished_walk.remaining_forward_vertices = new_remaining_forward_vertices
 
-def _unfinished_walks_not_containing_arc(unfinished_walks: list[Walk], arc):
+def _unfinished_walks_not_containing_arc(unfinished_walks: list[Walk], arc: tuple[int, int]):
     def unfinished_walk_does_not_contain_arc(unfinished_walk):
-        return not _unfinished_walk_contains_arc(unfinished_walk, arc)
+        return not _unfinished_walk_contains_arc_in_set(unfinished_walk, {arc})
     return list(filter(unfinished_walk_does_not_contain_arc, unfinished_walks))
 
-def _unfinished_walk_contains_arc(unfinished_walk, arc):
+def _unfinished_walk_contains_arc_in_set(unfinished_walk, arcs):
     unfinished_walk = unfinished_walk.walk
     last_index = len(unfinished_walk) - 1
     for index, vertex in enumerate(unfinished_walk):
         if index != last_index:
             next_vertex = unfinished_walk[index + 1]
-            if (vertex, next_vertex) == arc:
+            if (vertex, next_vertex) in arcs:
                 return True
     return False
 
@@ -149,15 +159,21 @@ def _continue_walk(walk: Walk, pattern_vertices, arcs) -> ContinueWalkResponse:
     return ContinueWalkResponse([], None)
 
 
-def _find_arc_to_remove(cycle: tuple[int, ...], arcs: set[tuple[int, int]]):
+def _find_arc_to_remove(cycle: tuple[int, ...], arcs: set[tuple[int, int]], pattern_vertices: frozenset[int]):
     vertices_in_cycle: set[int] = set(cycle)
     for index, vertex in enumerate(cycle):
-        if has_outgoing_arc_going_outside_cycle(vertex, vertices_in_cycle, arcs):
+        if _has_outgoing_arc_going_outside_cycle(vertex, vertices_in_cycle, arcs):
             next_vertex = cycle[(index + 1) % len(cycle)]
             return (vertex, next_vertex)
     raise ValueError('no arc found to remove')
 
-def has_outgoing_arc_going_outside_cycle(vertex: int, vertices_in_cycle: set[int], arcs: set[tuple[int, int]]):
+def _has_outgoing_arc_outside_cycle_and_leading_to_pattern(vertex: int, vertices_in_cycle: set[int], arcs: set[tuple[int, int]], pattern_vertices: frozenset[int]):
+    
+    pass
+
+
+
+def _has_outgoing_arc_going_outside_cycle(vertex: int, vertices_in_cycle: set[int], arcs: set[tuple[int, int]]):
     filtered = filter(lambda arc: arc[0] == vertex and arc[1] not in vertices_in_cycle, arcs)
     return any(filtered)
 
