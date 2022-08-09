@@ -38,7 +38,7 @@ def generate_exuberant_systems(number_of_states, number_of_patterns):
     for i in range(10):
         tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
         for j in range(10):
-            exuberant_system = find_exuberant_system(tournament_and_patterns).exuberant_system
+            exuberant_system = find_exuberant_system(tournament_and_patterns, True).exuberant_system
             id = {
                 'number_of_states': number_of_states,
                 'number_of_patterns': number_of_patterns,

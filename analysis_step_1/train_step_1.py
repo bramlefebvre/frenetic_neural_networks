@@ -23,7 +23,7 @@ def train():
                 patterns = analysis_util.generate_single_state_patterns(number_of_states, number_of_patterns)
                 tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
                 for j in range(10):
-                    exuberant_system = find_exuberant_system(tournament_and_patterns).exuberant_system
+                    exuberant_system = find_exuberant_system(tournament_and_patterns, True).exuberant_system
                     sizes_of_basins = analysis_util.to_sizes_of_basins(exuberant_system)
                     training_data = TrainingAnalysisData(number_of_states, number_of_patterns, sizes_of_basins, None)
                     training_data_list.append(training_data)

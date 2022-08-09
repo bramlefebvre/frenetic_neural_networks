@@ -31,7 +31,7 @@ def calculation_duration():
                 patterns = analysis_util.generate_single_state_patterns(number_of_states, number_of_patterns)
                 tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
                 for j in range(10):
-                    timer = timeit.Timer(lambda: find_exuberant_system(tournament_and_patterns), timer = time.process_time)
+                    timer = timeit.Timer(lambda: find_exuberant_system(tournament_and_patterns, True), timer = time.process_time)
                     times_executed, total_duration = timer.autorange()
                     calculation_duration =  (total_duration / times_executed) * 10 ** 3
                     result = TrainingAnalysisData(number_of_states, number_of_patterns, None, calculation_duration)
