@@ -32,13 +32,13 @@ def generate_number_of_patterns_list(number_of_states):
         step = math.floor(maximum_number_of_patterns / 100)
     return list(range(2, maximum_number_of_patterns + 1, step))
 
-def generate_exuberant_systems(number_of_states, number_of_patterns):
+def generate_exuberant_systems(number_of_states, number_of_patterns, no_cycles_outside_pattern: bool):
     patterns = generate_single_state_patterns(number_of_states, number_of_patterns)
     exuberant_systems = []
     for i in range(10):
         tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
         for j in range(10):
-            exuberant_system = find_exuberant_system(tournament_and_patterns, True).exuberant_system
+            exuberant_system = find_exuberant_system(tournament_and_patterns, no_cycles_outside_pattern).exuberant_system
             id = {
                 'number_of_states': number_of_states,
                 'number_of_patterns': number_of_patterns,

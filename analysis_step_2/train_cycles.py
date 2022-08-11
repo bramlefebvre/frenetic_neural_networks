@@ -27,7 +27,7 @@ def generate_initial_activity_parameter_factors_list(number_of_states):
     step = 1
     if max_activity_parameter_factor > 200:
         step = math.floor(max_activity_parameter_factor / 100)
-    return list(range(1, max_activity_parameter_factor, step))
+    return list(range(1, max_activity_parameter_factor + 1, step))
 
 def generate_training_set_size_list(number_of_states):
     max_training_set_size = 10 * number_of_states
