@@ -34,12 +34,14 @@ class BasinUnderConstruction:
     vertices_included_in_a_cycle: set[int]
     length_of_next_cycle: int
 
+# immutable
 class CompletedBasin:
     def __init__(self, index, pattern_vertices, vertices):
         self.index = index
         self.pattern_vertices = pattern_vertices
         self.vertices = vertices
 
+# immutable
 class TrainingAnalysisData:
     def __init__(self, number_of_states, number_of_patterns, sizes_of_basins, calculation_duration):
         self.number_of_states = number_of_states

@@ -58,7 +58,10 @@ def plot_dependency_on_k():
     plt.show()
 
 
-def _calculate_variance(sizes_of_basins):
+def _calculate_average_difference(sizes_of_basins):
+    pass
+
+def _calculate_variance(sizes_of_basins: list[int]):
     sum = 0
     for size_of_basin_0 in sizes_of_basins:
         for size_of_basin_1 in sizes_of_basins:

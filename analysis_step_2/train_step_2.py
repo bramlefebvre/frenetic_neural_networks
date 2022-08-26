@@ -16,7 +16,7 @@ driving_value = 5
 travel_time = 1
 learning_rate = 0.5
 desired_residence_time = 0.2
-filename = 'data/step_2/algorithm_3_eliminate_cycles/s100_p1_av_n400'
+filename = 'data/step_2/algorithm_3/s100_p1_av_n400_low'
 
 # def _generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns):
 #     fraction = 1 / 10 * number_of_states / number_of_patterns
@@ -41,8 +41,9 @@ def train():
         # number_of_patterns_list = util.generate_number_of_patterns_list(number_of_states)
         number_of_patterns_list = [1]
         for number_of_patterns in number_of_patterns_list:
-            exuberant_systems = analysis_util.generate_exuberant_systems(number_of_states, number_of_patterns, True)
-            initial_activity_parameter_factors = _generate_initial_activity_parameter_factors_list(number_of_states)
+            exuberant_systems = analysis_util.generate_exuberant_systems(number_of_states, number_of_patterns, False)
+            # initial_activity_parameter_factors = _generate_initial_activity_parameter_factors_list(number_of_states)
+            initial_activity_parameter_factors = [2, 4, 6, 8, 10, 20, 30, 40]
             for initial_activity_parameter_factor in initial_activity_parameter_factors:
                 training_set_size_list = [4 * number_of_states]
                 for training_set_size in training_set_size_list:

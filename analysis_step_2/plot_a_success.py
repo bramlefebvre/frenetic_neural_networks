@@ -2,7 +2,7 @@ import daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_d
 import matplotlib.pyplot as plt
 
 def plot_a_success():
-    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/algorithm_3/s50_p5_av_n200_high')
+    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/algorithm_2/c10_av_n40_high')
 
     sorted_results = {}
     for result in training_data_list:

@@ -44,6 +44,7 @@ def _index_first_pattern_state(input):
     for index, state in enumerate(path):
         if state in pattern_states:
             return index
+    raise ValueError('no state in pattern_states found')
 
 def _ever_left_pattern_state(input):
     path = input.path

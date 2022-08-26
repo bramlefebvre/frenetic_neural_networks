@@ -1,11 +1,16 @@
-pattern_vertices = frozenset({0})
+from typing import NamedTuple
 
-forward_vertices = [1, 2, 0]
+from step_2.data_structures import Action
 
-forward_vertex_in_pattern_vertices = any(map(lambda forward_vertex: forward_vertex in pattern_vertices, forward_vertices))
+class RateChangeInstruction(NamedTuple):
+    transition: tuple[int, int]
+    action: Action
 
-print(forward_vertex_in_pattern_vertices)
+a = RateChangeInstruction((1, 2), Action.INCREASE)
 
-a = 0
-if a:
-    print(3)
+b = RateChangeInstruction((1, 2), Action.INCREASE)
+
+c = {a}
+c.add(b)
+print(len(c))
+print(a == b)
