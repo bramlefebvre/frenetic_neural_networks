@@ -1,7 +1,7 @@
 from typing import NamedTuple
 from enum import Enum, unique
 
-
+# immutable?
 class Dynamics:
     def __init__(self, rate_matrix, exuberant_system, driving_value, initial_activity_parameter_factor, travel_time):
         self.rate_matrix = rate_matrix
@@ -15,11 +15,13 @@ class Dynamics:
             if state in basin.vertices:
                 return basin
 
+# immutable?
 class Path:
     def __init__(self, path, residence_time_last_state):
         self.path = path
         self.residence_time_last_state = residence_time_last_state
 
+# immutable?
 class LearningStepResult:
     def __init__(self, success, rate_matrix, path, rate_change_instructions):
         self.success = success
@@ -27,6 +29,7 @@ class LearningStepResult:
         self.path = path
         self.rate_change_instructions = rate_change_instructions
     
+# immutable?
 class LearningStepResultWithoutRateMatrix:
     def __init__(self, success, path, rate_change_instructions):
         self.success = success
@@ -42,14 +45,12 @@ class RateChangeInstruction(NamedTuple):
     transition: tuple[int, int]
     action: Action
 
+# immutable?
 class TrainingResult:
     def __init__(self, success, dynamics, learning_step_results):
         self.success = success
         self.dynamics = dynamics
         self.learning_step_results = learning_step_results
-
-
-
 
 @unique
 class LearningAlgorithm(Enum):

@@ -99,7 +99,7 @@ def _to_completed_basin(basin):
     return CompletedBasin(basin.index, basin.pattern_vertices, frozenset(basin.pattern_vertices | basin.vertices_included_in_a_cycle))
 
 
-@dataclass
+@dataclass(frozen = True)
 class BasinsAndCycleFindingHistory:
     basins: tuple[BasinUnderConstruction, ...]
     cycle_finding_history: list[CycleFindingEvent]
