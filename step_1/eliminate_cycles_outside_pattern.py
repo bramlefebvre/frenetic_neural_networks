@@ -15,7 +15,8 @@ def _eliminate_cycles_for_basin(basin: BasinUnderConstruction, arcs: set[tuple[i
         start_vertex: int = _pick_one(vertices_to_check)
         forward_vertices = _forward_vertices_excluding_pattern_vertices(start_vertex, basin.pattern_vertices, arcs)
         path = Path([start_vertex], forward_vertices)
-        _eliminate_cycles_starting_from_path(path, basin.pattern_vertices, arcs)
+        number_of_vertices_in_basin = len(basin.pattern_vertices | basin.vertices_included_in_a_cycle)
+        _eliminate_cycles_starting_from_path(path, basin.pattern_vertices, arcs, number_of_vertices_in_basin)
         vertices_to_check.remove(start_vertex)
 
 
@@ -71,18 +72,18 @@ class ContinuePathResponse:
         self.cycle_encountered = self.cycle is not None
 
 
-def _eliminate_cycles_starting_from_path(path: Path, pattern_vertices: frozenset[int], arcs: set[tuple[int, int]]):
+def _eliminate_cycles_starting_from_path(path: Path, pattern_vertices: frozenset[int], arcs: set[tuple[int, int]], number_of_vertices_in_basin: int):
     continue_path_response = _continue_path(path, pattern_vertices, arcs)
     removed_arcs: set[tuple[int, int]] = set()
     if continue_path_response.cycle_encountered:
-        arc_to_remove = _find_arc_to_remove(continue_path_response.get_cycle(), arcs, pattern_vertices)
+        arc_to_remove = _find_arc_to_remove(continue_path_response.get_cycle(), arcs, pattern_vertices, number_of_vertices_in_basin)
         arcs.remove(arc_to_remove)
         removed_arcs.add(arc_to_remove)
         unfinished_paths = _unfinished_paths_not_containing_arc(continue_path_response.get_unfinished_paths(), arc_to_remove)
         for unfinished_path in unfinished_paths:
             if not _unfinished_path_contains_arc_in_set(unfinished_path, removed_arcs):
                 _remove_remaining_forward_vertices_that_will_make_a_removed_arc(unfinished_path, removed_arcs)
-                new_removed_arcs = _eliminate_cycles_starting_from_path(unfinished_path, pattern_vertices, arcs)
+                new_removed_arcs = _eliminate_cycles_starting_from_path(unfinished_path, pattern_vertices, arcs, number_of_vertices_in_basin)
                 removed_arcs.update(new_removed_arcs)
     return removed_arcs
 
@@ -136,41 +137,46 @@ def _continue_path(path: Path, pattern_vertices, arcs) -> ContinuePathResponse:
     return ContinuePathResponse([], None)
 
 
-def _find_arc_to_remove(cycle: tuple[int, ...], arcs: set[tuple[int, int]], pattern_vertices: frozenset[int]):
-    vertices_in_cycle: set[int] = set(cycle)
-    for index, vertex in enumerate(cycle):
-        if _has_outgoing_path_outside_cycle_and_leading_to_pattern(vertex, vertices_in_cycle, arcs, pattern_vertices):
-            next_vertex = cycle[(index + 1) % len(cycle)]
-            return (vertex, next_vertex)
+def _find_arc_to_remove(cycle: tuple[int, ...], arcs: set[tuple[int, int]], pattern_vertices: frozenset[int], number_of_vertices_in_basin: int):
+    vertices_in_cycle: frozenset[int] = frozenset(cycle)
+    length_of_path_to_pattern = 2
+    while length_of_path_to_pattern <= number_of_vertices_in_basin:
+        for index, vertex in enumerate(cycle):
+            if _has_outgoing_path_outside_cycle_and_leading_to_pattern(vertex, vertices_in_cycle, arcs, pattern_vertices, length_of_path_to_pattern):
+                next_vertex = cycle[(index + 1) % len(cycle)]
+                return (vertex, next_vertex)
+        length_of_path_to_pattern += 1
     raise ValueError('no arc found to remove')
 
-def _has_outgoing_path_outside_cycle_and_leading_to_pattern(vertex: int, vertices_in_cycle: set[int], arcs: set[tuple[int, int]], pattern_vertices: frozenset[int]):
+def _has_outgoing_path_outside_cycle_and_leading_to_pattern(vertex: int, vertices_in_cycle: frozenset[int], arcs: set[tuple[int, int]], pattern_vertices: frozenset[int], length_of_path_to_pattern: int):
     path = Path([vertex], None)
     forward_vertices = _forward_vertices_excluding_vertices_in_cycle_and_vertices_in_path(vertex, vertices_in_cycle, path.vertices, arcs)
     path.remaining_forward_vertices = forward_vertices
-    return _continue_path_to_pattern(path, vertices_in_cycle, arcs, pattern_vertices)
+    return _continue_path_to_pattern(path, vertices_in_cycle, arcs, pattern_vertices, length_of_path_to_pattern - 1)
 
 
-def _continue_path_to_pattern(path: Path, vertices_in_cycle: set[int], arcs: set[tuple[int, int]], pattern_vertices: frozenset[int]):
+def _continue_path_to_pattern(path: Path, vertices_in_cycle: frozenset[int], arcs: set[tuple[int, int]], pattern_vertices: frozenset[int], number_of_vertices_left: int):
     forward_vertices = path.get_remaining_forward_vertices()
     if len(forward_vertices) == 0:
         return False
     forward_vertices_contains_pattern_vertex = any(map(lambda forward_vertex: forward_vertex in pattern_vertices, forward_vertices))
     if forward_vertices_contains_pattern_vertex:
         return True
+    if number_of_vertices_left == 1:
+        return False
     for forward_vertex in forward_vertices:
         new_path_path = path.path.copy()
         new_path_path.append(forward_vertex)
         new_path: Path = Path(new_path_path, None)
         forward_vertices = _forward_vertices_excluding_vertices_in_cycle_and_vertices_in_path(forward_vertex, vertices_in_cycle, new_path.vertices, arcs)
         new_path.remaining_forward_vertices = forward_vertices
-        pattern_encountered = _continue_path_to_pattern(new_path, vertices_in_cycle, arcs, pattern_vertices)
+        pattern_encountered = _continue_path_to_pattern(new_path, vertices_in_cycle, arcs, pattern_vertices, number_of_vertices_left - 1)
         if pattern_encountered:
             return True
     return False
 
 
-def _forward_vertices_excluding_vertices_in_cycle_and_vertices_in_path(start_vertex: int, vertices_in_cycle: set[int], vertices_in_path: set[int], arcs: set[tuple[int, int]]):
+def _forward_vertices_excluding_vertices_in_cycle_and_vertices_in_path(start_vertex: int, vertices_in_cycle: frozenset[int], vertices_in_path: set[int], arcs: set[tuple[int, int]]):
     return list(map(lambda arc: arc[1], filter(lambda arc: arc[0] == start_vertex and arc[1] not in vertices_in_cycle and arc[1] not in vertices_in_path, arcs)))
 
 def _forward_vertices_excluding_pattern_vertices(start_vertex: int, pattern_vertices: frozenset[int], arcs: set[tuple[int, int]]) -> list[int]:

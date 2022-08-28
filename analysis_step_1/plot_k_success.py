@@ -6,7 +6,7 @@ def _filter_result(result):
     return result.number_of_states == 100
 
 def plot_k_success():
-    training_data_list = step_1_training_analysis_data_dao.get_training_data('data/step_1/s1000_pv')
+    training_data_list = step_1_training_analysis_data_dao.get_training_data('data/step_1/s100_pv')
     # filtered_results = list(filter(_filter_result, results))
 
     sorted_results = {}
@@ -29,6 +29,7 @@ def plot_k_success():
                 successes += 1
         success_chance_list.append(successes / number)
     
+    print(number_of_patterns_list)
     plt.scatter(number_of_patterns_list, success_chance_list)
     plt.xlabel('number of patterns')
     plt.ylabel('success chance')

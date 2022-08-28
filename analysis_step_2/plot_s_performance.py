@@ -7,7 +7,7 @@ def filter_result(result):
         and result.number_of_patterns == 2
 
 def plot_s_performance():
-    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/algorithm_3/sv_p1_a4x_n4x')
+    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/algorithm_3/cv_a5_n2x')
     # filtered_training_results = list(filter(filter_result, training_results))
 
     sorted_results = {}
