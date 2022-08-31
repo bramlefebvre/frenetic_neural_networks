@@ -31,7 +31,7 @@ def _arrived_in_pattern_state_but_left_too_soon_rate_change_instructions(input):
             rate_change_instructions.append(RateChangeInstruction((last_state, state), Action.DECREASE))
     return rate_change_instructions
 
-def _ever_left_pattern_state_rate_change_instructions(input):
+def _ever_left_pattern_state_rate_change_instructions_only_in_path(input):
     path = input.path
     pattern_states = input.pattern_states
     graph = input.graph
@@ -44,10 +44,25 @@ def _ever_left_pattern_state_rate_change_instructions(input):
                 rate_change_instructions.append(RateChangeInstruction((state, next_state_in_path), Action.DECREASE))
     return rate_change_instructions
 
+def _ever_left_pattern_state_rate_change_instructions_all_leaving(input):
+    path = input.path
+    pattern_states = input.pattern_states
+    index_last_state = len(path) - 1
+    rate_change_instructions = []
+    for index, state in enumerate(path):
+        if index != index_last_state:
+            next_state_in_path = path[index + 1]
+            if state in pattern_states and next_state_in_path not in pattern_states:
+                graph_values_for_state = input.graph[state, :]
+                for other_state, graph_value in enumerate(graph_values_for_state):
+                    if graph_value == 1 and other_state not in pattern_states:
+                        rate_change_instructions.append(RateChangeInstruction((state, other_state), Action.DECREASE))
+    return rate_change_instructions
+
 def _initialize_rate_change_instructions_function_map():
     rate_change_instructions_function_map = {
         PathType.ARRIVED_IN_PATTERN_STATE_AND_STAYED_LONG_ENOUGH: _arrived_in_pattern_state_and_stayed_long_enough_rate_change_instructions,
-        PathType.EVER_LEFT_PATTERN_STATE: _ever_left_pattern_state_rate_change_instructions,
+        PathType.EVER_LEFT_PATTERN_STATE: _ever_left_pattern_state_rate_change_instructions_all_leaving,
         PathType.NEVER_VISITED_PATTERN_STATE: never_visited_pattern_state.get_rate_change_instructions,
         PathType.ARRIVED_IN_PATTERN_STATE_BUT_LEFT_TOO_SOON: _arrived_in_pattern_state_but_left_too_soon_rate_change_instructions
     }

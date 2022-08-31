@@ -6,11 +6,11 @@ def filter_result(result):
         and result.number_of_patterns == 2
 
 def plot_s_calc():
-    results = step_2_training_analysis_data_dao.get_training_data('data/step_2/old_1/algorithm_3/calculation_duration_0')
-    filtered_results = list(filter(filter_result, results))
+    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/algorithm_3/calc_sv_p1_a5_n4x')
+    # filtered_results = list(filter(filter_result, results))
 
     sorted_results = {}
-    for result in filtered_results:
+    for result in training_data_list:
         number_of_states = result.number_of_states
         if number_of_states not in sorted_results:
             sorted_results[number_of_states] = []

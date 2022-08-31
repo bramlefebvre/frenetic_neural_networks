@@ -13,27 +13,26 @@ def generate_initial_activity_parameter_factors_list(number_of_states, number_of
     fraction = 1 / 10 * number_of_states / number_of_patterns
     return [fraction * 4]
 
-def generate_training_set_size_list(number_of_states):
-    return [number_of_states * 4]
 
-number_of_states_list = [100]
 algorithm = LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC
 driving_value = 5
 travel_time = 1
 learning_rate = 0.5
 desired_residence_time = 0.2
-filename = 'data/step_2/calculation_duration_1'
+filename = 'data/step_2/algorithm_3/calc_sv_p1_a5_n4x'
 
 def calculation_duration():
+    number_of_states_list = [10 * i for i in range(1, 11)]
     for number_of_states in number_of_states_list:
         results = []
         # number_of_patterns_list = util.generate_number_of_patterns_list(number_of_states)
-        number_of_patterns_list = [2, 3, 4, 5, 6, 7, 8, 9, 10]
+        number_of_patterns_list = [1]
         for number_of_patterns in number_of_patterns_list:
-            exuberant_systems = analysis_util.generate_exuberant_systems(number_of_states, number_of_patterns, True)
-            initial_activity_parameter_factors = generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns)
-            for initial_activity_parameter_factor in initial_activity_parameter_factors:
-                training_set_size_list = generate_training_set_size_list(number_of_states)
+            exuberant_systems = analysis_util.generate_exuberant_systems(number_of_states, number_of_patterns, False)
+            # initial_activity_parameter_factors = generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns)
+            initial_activity_parameter_factor_list = [5]
+            for initial_activity_parameter_factor in initial_activity_parameter_factor_list:
+                training_set_size_list = [4 * number_of_states]
                 for training_set_size in training_set_size_list:
                     print('[number_of_states, number_of_patterns, initial_activity_parameter_factor, training_set_size]:')
                     print([number_of_states, number_of_patterns, initial_activity_parameter_factor, training_set_size])

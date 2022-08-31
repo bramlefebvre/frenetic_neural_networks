@@ -16,16 +16,13 @@ driving_value = 5
 travel_time = 1
 learning_rate = 0.5
 desired_residence_time = 0.2
-filename = 'data/step_2/algorithm_3/sv_p1_a5_n4x'
+filename = 'data/step_2/algorithm_3/sv_p1_a5_n4x_all_leaving'
 
 # def _generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns):
 #     fraction = 1 / 10 * number_of_states / number_of_patterns
 #     return [fraction * 4]
 
 # initial_activity_parameter_factors = [4 / 10 * number_of_states]
-
-def _generate_training_set_size_list(number_of_states):
-    return [number_of_states * 4]
 
 def _generate_initial_activity_parameter_factors_list(number_of_states):
     max_activity_parameter_factor = 10 * math.ceil(number_of_states / 4)
@@ -43,8 +40,8 @@ def train():
         for number_of_patterns in number_of_patterns_list:
             exuberant_systems = analysis_util.generate_exuberant_systems(number_of_states, number_of_patterns, False)
             # initial_activity_parameter_factors = _generate_initial_activity_parameter_factors_list(number_of_states)
-            initial_activity_parameter_factors = [5]
-            for initial_activity_parameter_factor in initial_activity_parameter_factors:
+            initial_activity_parameter_factor_list = [5]
+            for initial_activity_parameter_factor in initial_activity_parameter_factor_list:
                 training_set_size_list = [4 * number_of_states]
                 for training_set_size in training_set_size_list:
                     print('[number_of_states, number_of_patterns, initial_activity_parameter_factor, training_set_size]:')
@@ -66,7 +63,7 @@ def train_R():
     number_of_patterns = 5
     initial_activity_parameter_factor = 4
     training_set_size = 200
-    exuberant_systems = analysis_util.generate_exuberant_systems(number_of_states, number_of_patterns, True)
+    exuberant_systems = analysis_util.generate_exuberant_systems(number_of_states, number_of_patterns, False)
     training_data_list = []
     for learning_rate in learning_rate_list:
         print('learning_rate:')
