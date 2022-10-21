@@ -8,6 +8,6 @@ number_of_patterns = 100
 
 patterns = analysis_util.generate_single_state_patterns(number_of_states, number_of_patterns)
 tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
-cProfile.run('find_exuberant_system(tournament_and_patterns)', 'step_1_profiler_data')
+cProfile.run('find_exuberant_system(tournament_and_patterns, False)', 'data/step_1_profiler_data')
 
 
