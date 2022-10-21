@@ -4,7 +4,7 @@ This project contains the code of the implementations of the algorithms describe
 
 The starting point for the implementation of the algorithm for disentangling the basins of attraction is in the file step_1/find_exuberant_system.py
 
-The starting point for the implementation of the Moon algorithm is in the file step_1/find_cycle.py
+The starting point for the implementation of Moon's algorithm is in the file step_1/find_cycle.py
 
 The starting point for the implementation of Manoussakis's algorithm is in the file step_1/find_hamilton_cycle.py
 
