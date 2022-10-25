@@ -19,7 +19,7 @@ driving_value = 5
 travel_time = 1
 learning_rate = 0.5
 desired_residence_time = 0.2
-filename = 'data/step_2/algorithm_3/calc_sv_p1_a5_n4x'
+filename = 'data/step_2/algorithm_3_eliminate_cycles/calc_sv_p1_a5_n4x'
 
 def calculation_duration():
     number_of_states_list = [10 * i for i in range(1, 11)]
@@ -28,7 +28,7 @@ def calculation_duration():
         # number_of_patterns_list = util.generate_number_of_patterns_list(number_of_states)
         number_of_patterns_list = [1]
         for number_of_patterns in number_of_patterns_list:
-            exuberant_systems = analysis_util.generate_exuberant_systems(number_of_states, number_of_patterns, False)
+            exuberant_systems = analysis_util.generate_exuberant_systems(number_of_states, number_of_patterns, True)
             # initial_activity_parameter_factors = generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns)
             initial_activity_parameter_factor_list = [5]
             for initial_activity_parameter_factor in initial_activity_parameter_factor_list:

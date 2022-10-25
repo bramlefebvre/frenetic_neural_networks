@@ -10,14 +10,12 @@ def eliminate_cycles(basins: tuple[BasinUnderConstruction, ...], arcs: set[tuple
 
 
 def _eliminate_cycles_for_basin(basin: BasinUnderConstruction, arcs: set[tuple[int, int]]):
-    vertices_to_check: set[int] = set(basin.vertices_included_in_a_cycle - basin.pattern_vertices)
-    while len(vertices_to_check) > 0:
-        start_vertex: int = _pick_one(vertices_to_check)
+    vertices_to_check: set[int] = basin.vertices_included_in_a_cycle - basin.pattern_vertices
+    for start_vertex in vertices_to_check:
         forward_vertices = _forward_vertices_excluding_pattern_vertices(start_vertex, basin.pattern_vertices, arcs)
         path = Path([start_vertex], forward_vertices)
         number_of_vertices_in_basin = len(basin.pattern_vertices | basin.vertices_included_in_a_cycle)
         _eliminate_cycles_starting_from_path(path, basin.pattern_vertices, arcs, number_of_vertices_in_basin)
-        vertices_to_check.remove(start_vertex)
 
 
 @dataclass

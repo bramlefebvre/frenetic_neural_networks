@@ -6,7 +6,7 @@ def _filter_result(result):
     return result.number_of_states == 20 and result.training_set_size == 20 and result.number_of_patterns == 2
 
 def plot_a_performance():
-    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/algorithm_3_eliminate_cycles/s100_p1_av_n400_low')
+    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/algorithm_3_eliminate_cycles/s50_p5_av_n200')
     # filtered_training_results = list(filter(_filter_result, training_results))
 
     sorted_results = {}

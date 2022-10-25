@@ -5,7 +5,7 @@ def _filter_result(result):
     return result.number_of_patterns == 2
 
 def plot_s_calc():
-    training_data_list = step_1_training_analysis_data_dao.get_training_data('data/step_1/calc_sv_p5_high')
+    training_data_list = step_1_training_analysis_data_dao.get_training_data('data/step_1/eliminate_cycles/calc_sv_p5')
     # filtered_results = list(filter(_filter_result, results))
 
     sorted_results = {}

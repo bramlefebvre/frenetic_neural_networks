@@ -16,7 +16,7 @@ driving_value = 5
 travel_time = 1
 learning_rate = 0.5
 desired_residence_time = 0.2
-filename = 'data/step_2/algorithm_3/sv_p1_a5_n4x_all_leaving'
+filename = 'data/step_2/algorithm_3_eliminate_cycles/s50_p5_av_n200'
 
 # def _generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns):
 #     fraction = 1 / 10 * number_of_states / number_of_patterns
@@ -32,15 +32,15 @@ def _generate_initial_activity_parameter_factors_list(number_of_states):
     return list(range(1, max_activity_parameter_factor + 1, step))
 
 def train():
-    number_of_states_list = [10 * i for i in range(1, 11)]
+    number_of_states_list = [50]
     for number_of_states in number_of_states_list:
         training_data_list = []
         # number_of_patterns_list = util.generate_number_of_patterns_list(number_of_states)
-        number_of_patterns_list = [1]
+        number_of_patterns_list = [5]
         for number_of_patterns in number_of_patterns_list:
-            exuberant_systems = analysis_util.generate_exuberant_systems(number_of_states, number_of_patterns, False)
+            exuberant_systems = analysis_util.generate_exuberant_systems(number_of_states, number_of_patterns, True)
             # initial_activity_parameter_factors = _generate_initial_activity_parameter_factors_list(number_of_states)
-            initial_activity_parameter_factor_list = [5]
+            initial_activity_parameter_factor_list = list(range(1, 11))
             for initial_activity_parameter_factor in initial_activity_parameter_factor_list:
                 training_set_size_list = [4 * number_of_states]
                 for training_set_size in training_set_size_list:

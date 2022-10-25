@@ -8,4 +8,6 @@ The starting point for the implementation of Moon's algorithm is in the file ste
 
 The starting point for the implementation of Manoussakis's algorithm is in the file step_1/find_hamilton_cycle.py
 
+The starting point for the implementation of the algorithm for eliminating cycles that don't contain a pattern vertex is in the file step_1/eliminate_cycles_outside_pattern.py
+
 The starting point for the implementation of the algorithm for frenetic steering is in the file step_2/execute_learning_step/algorithm_3/algorithm_3.py

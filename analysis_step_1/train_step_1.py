@@ -11,11 +11,11 @@ low = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 high = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 
 def train():
-    number_of_states_list = [1000]
+    number_of_states_list = [20, 30, 40, 50, 60, 70, 80, 90, 100]
     # number_of_patterns_list = [5]
     for number_of_states in number_of_states_list:
         training_data_list = []
-        number_of_patterns_list = analysis_util.generate_number_of_patterns_list(number_of_states)
+        number_of_patterns_list = [5]
         for number_of_patterns in number_of_patterns_list:
             print('[number_of_states, number_of_patterns]:')
             print([number_of_states, number_of_patterns])

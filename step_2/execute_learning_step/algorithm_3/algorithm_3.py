@@ -62,7 +62,7 @@ def _ever_left_pattern_state_rate_change_instructions_all_leaving(input):
 def _initialize_rate_change_instructions_function_map():
     rate_change_instructions_function_map = {
         PathType.ARRIVED_IN_PATTERN_STATE_AND_STAYED_LONG_ENOUGH: _arrived_in_pattern_state_and_stayed_long_enough_rate_change_instructions,
-        PathType.EVER_LEFT_PATTERN_STATE: _ever_left_pattern_state_rate_change_instructions_all_leaving,
+        PathType.EVER_LEFT_PATTERN_STATE: _ever_left_pattern_state_rate_change_instructions_only_in_path,
         PathType.NEVER_VISITED_PATTERN_STATE: never_visited_pattern_state.get_rate_change_instructions,
         PathType.ARRIVED_IN_PATTERN_STATE_BUT_LEFT_TOO_SOON: _arrived_in_pattern_state_but_left_too_soon_rate_change_instructions
     }

@@ -5,7 +5,7 @@ def _filter_result(result):
     return result.number_of_states == 1000
 
 def plot_k_calc():
-    training_data_list = step_1_training_analysis_data_dao.get_training_data('data/step_1/calc_s1000_pv')
+    training_data_list = step_1_training_analysis_data_dao.get_training_data('data/step_1/eliminate_cycles/calc_s100_pv')
     # filtered_results = list(filter(_filter_result, results))
 
     sorted_results = {}
