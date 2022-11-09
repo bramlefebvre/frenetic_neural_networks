@@ -24,5 +24,6 @@ from analysis_step_2.plot_k_calc import plot_k_calc
 from demo_1.demo_step_1 import demo_step_1
 from demo_1.demo_step_2 import demo_step_2
 from demo_1.demo_step_2_2 import demo_step_2_2
+from analysis_step_1.smallest_basin_size_hist import smallest_basin_size_hist
 
-plot_s_calc()
+smallest_basin_size_hist()
