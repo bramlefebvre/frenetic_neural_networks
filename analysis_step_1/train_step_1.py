@@ -11,11 +11,11 @@ low = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 high = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 
 def train():
-    number_of_states_list = [50]
+    number_of_states_list = range(10, 101)
     # number_of_patterns_list = [5]
     for number_of_states in number_of_states_list:
         training_data_list = []
-        number_of_patterns_list = [5]
+        number_of_patterns_list = [int(number_of_states/10)]
         for number_of_patterns in number_of_patterns_list:
             print('[number_of_states, number_of_patterns]:')
             print([number_of_states, number_of_patterns])
@@ -23,8 +23,8 @@ def train():
                 patterns = analysis_util.generate_single_state_patterns(number_of_states, number_of_patterns)
                 tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
                 for j in range(10):
-                    exuberant_system = find_exuberant_system(tournament_and_patterns, True).exuberant_system
+                    exuberant_system = find_exuberant_system(tournament_and_patterns, False).exuberant_system
                     sizes_of_basins = analysis_util.to_sizes_of_basins(exuberant_system)
                     training_data = TrainingAnalysisData(number_of_states, number_of_patterns, sizes_of_basins, None)
                     training_data_list.append(training_data)
-        save_training_data(training_data_list, 'data/step_1/eliminate_cycles/s50_p5')
+        save_training_data(training_data_list, 'data/step_1/sv_px_sdivp10_3')
