@@ -1,4 +1,4 @@
-# Frenetic neural networks
+# Frenetic steering
 
 This project contains the code of the implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
 
