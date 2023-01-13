@@ -15,7 +15,8 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-a = range(10, 101)
+import numpy
 
-for element in a:
-    print(int(element/10))
+random_number_generator = numpy.random.default_rng()
+
+print(random_number_generator.random())
