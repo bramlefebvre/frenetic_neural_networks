@@ -16,7 +16,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 from dataclasses import dataclass
-from step_1.data_structures import CycleFindingEvent, ExuberantSystem
+from step_1.data_structures import CycleFindingEvent, DisentangledSystem
 from step_2.data_structures import LearningStepResultWithoutRateMatrix
 import numpy.typing as npt
 from typing import Any
@@ -30,6 +30,6 @@ class CompleteLearningHistory:
 @dataclass
 class CompleteTrainingResult:
     success: bool
-    exuberant_system: ExuberantSystem
+    exuberant_system: DisentangledSystem
     rate_matrix: npt.NDArray[numpy.double]
     id: Any = None

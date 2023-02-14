@@ -18,7 +18,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 import unittest
 from unittest.mock import MagicMock, patch
 import daos.tournaments_and_patterns_dao as tournaments_and_patterns_dao
-from step_1.find_exuberant_system import find_exuberant_system
+from step_1.Moon_version.find_disentangled_system import find_disentangled_system
 from copy import deepcopy
 
 filename = 'tests/data/tournaments'
@@ -27,7 +27,7 @@ class GeneralMoonType2TestCase0(unittest.TestCase):
 
     def test_entries_are_turned_into_minus_one_or_stay_the_same(self):
         tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('size_8_0', filename)
-        exuberant_system = find_exuberant_system(tournament_and_patterns)
+        exuberant_system = find_disentangled_system(tournament_and_patterns)
         tournament = tournament_and_patterns.tournament
         graph = exuberant_system.graph
         for row in range(8):
@@ -36,7 +36,7 @@ class GeneralMoonType2TestCase0(unittest.TestCase):
 
     def test_only_arcs_between_vertices_of_same_basin(self):
         tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('size_8_0', filename)
-        exuberant_system = find_exuberant_system(tournament_and_patterns)
+        exuberant_system = find_disentangled_system(tournament_and_patterns)
         basins = exuberant_system.basins
         graph = exuberant_system.graph
         for row in range(8):
@@ -47,7 +47,7 @@ class GeneralMoonType2TestCase0(unittest.TestCase):
 
     def test_at_least_one_incoming_and_one_leaving_arc(self):
         tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('size_8_0', filename)
-        exuberant_system = find_exuberant_system(tournament_and_patterns)
+        exuberant_system = find_disentangled_system(tournament_and_patterns)
         basins = exuberant_system.basins
         graph = exuberant_system.graph
         if _basins_are_empty(basins):
@@ -64,7 +64,7 @@ class SpecificMoonType2TestCase0(unittest.TestCase):
     def test_specific_0(self, find_cycle_mock):
         find_cycle_mock = _copy_mock(find_cycle_mock)
         tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('size_8_0', filename)
-        exuberant_system = find_exuberant_system(tournament_and_patterns)
+        exuberant_system = find_disentangled_system(tournament_and_patterns)
         
         self.assertEqual(exuberant_system.tournament_and_patterns_id, 'size_8_0')
         self.assertEqual(exuberant_system.graph.tolist(), self.graph)

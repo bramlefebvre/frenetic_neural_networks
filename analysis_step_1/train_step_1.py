@@ -17,7 +17,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 from daos.tournaments_and_patterns_dao import generate_single_tournament_and_patterns
 from step_1.data_structures import TrainingAnalysisData
-from step_1.find_exuberant_system import find_exuberant_system
+from step_1.Moon_version.find_disentangled_system import find_disentangled_system
 from daos.step_1_training_analysis_data_dao import save_training_data
 import analysis_util
 
@@ -40,7 +40,7 @@ def train():
                 patterns = analysis_util.generate_single_state_patterns(number_of_states, number_of_patterns)
                 tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
                 for j in range(10):
-                    exuberant_system = find_exuberant_system(tournament_and_patterns, False).exuberant_system
+                    exuberant_system = find_disentangled_system(tournament_and_patterns, False).disentangled_system
                     sizes_of_basins = analysis_util.to_sizes_of_basins(exuberant_system)
                     training_data = TrainingAnalysisData(number_of_states, number_of_patterns, sizes_of_basins, None)
                     training_data_list.append(training_data)

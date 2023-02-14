@@ -16,7 +16,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 import daos.tournaments_and_patterns_dao as tournaments_and_patterns_dao
-import step_1.find_exuberant_system as find_exuberant_system
+import step_1.Moon_version.find_disentangled_system as find_disentangled_system
 import pandas
 
 def pprint(object):
@@ -29,7 +29,7 @@ def demo_step_1():
 
     tournament_and_patterns = tournaments_and_patterns_dao.generate_single_tournament_and_patterns(number_of_vertices, patterns)
 
-    exuberant_system = find_exuberant_system.find_exuberant_system(tournament_and_patterns, False).exuberant_system
+    exuberant_system = find_disentangled_system.find_disentangled_system(tournament_and_patterns, False).disentangled_system
 
     print('original tournament:')
     pprint(tournament_and_patterns.tournament)

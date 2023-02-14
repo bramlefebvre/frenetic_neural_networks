@@ -1,6 +1,6 @@
 '''
 Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
-Copyright (C) 2022 Bram Lefebvre
+Copyright (C) 2022-2023 Bram Lefebvre
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
@@ -17,13 +17,13 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 from daos.generate_strong_tournament import generate_random_strong_tournament
 import daos.base_dao as base_dao
-from step_1.data_structures import PatternDescription, TournamentAndPatterns
+from step_1.data_structures import TournamentAndPatterns
 import numpy
 import numpy.typing as npt
 
-def generate_single_tournament_and_patterns(number_of_states, patterns: tuple[frozenset[int]], pattern_description = None, id = None):
+def generate_single_tournament_and_patterns(number_of_states, patterns: tuple[frozenset[int], ...], id = None):
     tournament: npt.NDArray[numpy.int_] = generate_random_strong_tournament(number_of_states)
-    return TournamentAndPatterns(tournament, patterns, pattern_description, id)
+    return TournamentAndPatterns(tournament, patterns, id)
 
 def get_single_tournament_and_patterns(id, filename):
     serialized = base_dao.read_entry(id, filename)
@@ -37,7 +37,6 @@ def save_single_tournament_and_patterns(tournament_and_patterns, filename):
     serialized = {
         'tournament': tournament_and_patterns.tournament.tolist(),
         'patterns': _to_list_of_ordered_lists(tournament_and_patterns.patterns),
-        'pattern_description_id': tournament_and_patterns.pattern_description.id,
         'id': tournament_and_patterns.id
     }
     base_dao.add_single_entry(serialized, filename)
@@ -45,10 +44,8 @@ def save_single_tournament_and_patterns(tournament_and_patterns, filename):
 def _deserialize_tournament_and_patterns(serialized):
     tournament = numpy.array(serialized['tournament'], dtype = int)
     patterns = to_tuple_of_sets(serialized['patterns'])
-    pattern_description_id = serialized['pattern_description_id']
-    pattern_description = PatternDescription.from_id(pattern_description_id)
     id = serialized['id']
-    return TournamentAndPatterns(tournament, patterns, pattern_description, id)
+    return TournamentAndPatterns(tournament, patterns, id)
 
 def _to_list_of_ordered_lists(iterable_of_iterables):
     result = []

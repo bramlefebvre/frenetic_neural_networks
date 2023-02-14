@@ -19,7 +19,7 @@ from typing import Iterable
 import numpy
 import math
 from daos.tournaments_and_patterns_dao import generate_single_tournament_and_patterns
-from step_1.find_exuberant_system import find_exuberant_system
+from step_1.Moon_version.find_disentangled_system import find_disentangled_system
 
 random_number_generator = numpy.random.default_rng()
 
@@ -55,7 +55,7 @@ def generate_exuberant_systems(number_of_states, number_of_patterns, eliminate_c
     for i in range(10):
         tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
         for j in range(10):
-            exuberant_system = find_exuberant_system(tournament_and_patterns, eliminate_cycles_outside_pattern).exuberant_system
+            exuberant_system = find_disentangled_system(tournament_and_patterns, eliminate_cycles_outside_pattern).disentangled_system
             id = {
                 'number_of_states': number_of_states,
                 'number_of_patterns': number_of_patterns,

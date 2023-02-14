@@ -16,7 +16,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 import numpy
-from step_1.find_hamilton_cycle import hamilton_cycle_complete_tournament_exists
+from step_1.Moon_version.find_hamilton_cycle import hamilton_cycle_complete_tournament_exists
 import numpy.typing as npt
 
 random_number_generator = numpy.random.default_rng()

@@ -17,7 +17,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 import daos.base_dao as base_dao
 import numpy
-from step_1.data_structures import CompletedBasin, ExuberantSystem
+from step_1.data_structures import CompletedBasin, DisentangledSystem
 
 def get_single_exuberant_system(id, filename):
     serialized = base_dao.read_entry(id, filename)
@@ -41,7 +41,7 @@ def generate_cycle(number_of_states):
         else:
             graph[vertex, vertex + 1] = 1
             graph[vertex + 1, vertex] = 0
-    return ExuberantSystem(None, graph, basins)
+    return DisentangledSystem(None, graph, basins)
 
 def serialize_exuberant_system(exuberant_system):
     serialized = {
@@ -57,7 +57,7 @@ def deserialize_exuberant_system(serialized):
     graph = numpy.array(serialized['graph'], dtype = int)
     basins = tuple(map(_deserialize_basin, serialized['basins']))
     id = serialized['id']
-    return ExuberantSystem(tournament_and_patterns_id, graph, basins, id)
+    return DisentangledSystem(tournament_and_patterns_id, graph, basins, id)
 
 def _deserialize_basin(serialized):
     pattern_vertices = frozenset(serialized['pattern_vertices'])

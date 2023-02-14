@@ -16,7 +16,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 import unittest
-import step_1.find_hamilton_path as find_hamilton_path
+import step_1.Moon_version.find_hamilton_path as find_hamilton_path
 import daos.tournaments_and_patterns_dao as tournaments_and_patterns_dao
 
 class FindHamiltonPathTestCase0(unittest.TestCase):

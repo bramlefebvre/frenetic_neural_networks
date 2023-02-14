@@ -15,7 +15,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-from step_1.find_hamilton_path import find_hamilton_path
+from step_1.Moon_version.find_hamilton_path import find_hamilton_path
 
 
 def hamilton_cycle_exists(tournament, available_vertices):

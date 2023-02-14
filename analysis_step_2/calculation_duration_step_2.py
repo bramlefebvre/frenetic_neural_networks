@@ -17,7 +17,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 from daos.step_2_training_analysis_data_dao import save_training_data
 from daos.tournaments_and_patterns_dao import generate_single_tournament_and_patterns
-from step_1.find_exuberant_system import find_exuberant_system
+from step_1.Moon_version.find_disentangled_system import find_disentangled_system
 from step_2.data_structures import LearningAlgorithm
 from step_2.initialize_dynamics import initialize_dynamics
 from step_2.training import train_starting_with_random_vertex_n_times

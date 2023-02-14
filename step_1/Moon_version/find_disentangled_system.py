@@ -1,6 +1,6 @@
 '''
 Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
-Copyright (C) 2022 Bram Lefebvre
+Copyright (C) 2022-2023 Bram Lefebvre
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
@@ -16,25 +16,25 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 from dataclasses import dataclass
-from step_1.find_cycle import find_cycle
-from step_1.find_hamilton_cycle import hamilton_cycle_exists
-from step_1.data_structures import CycleFindingEvent, ExuberantSystem
+from step_1.Moon_version.find_cycle import find_cycle
+from step_1.Moon_version.find_hamilton_cycle import hamilton_cycle_exists
+from step_1.data_structures import CycleFindingEvent, DisentangledSystem
 from step_1.data_structures import BasinUnderConstruction
 from step_1.data_structures import CompletedBasin
 import numpy
 import numpy.typing as npt
 import copy
 from step_1.data_structures import TrainingResult
-from step_1.eliminate_cycles_outside_pattern import eliminate_cycles
+from step_1.Moon_version.eliminate_cycles_outside_pattern import eliminate_cycles
 
-def find_exuberant_system(tournament_and_patterns, eliminate_cycles_outside_pattern: bool) -> TrainingResult:
+def find_disentangled_system(tournament_and_patterns, eliminate_cycles_outside_pattern: bool) -> TrainingResult:
     tournament: npt.NDArray[numpy.int_]  = tournament_and_patterns.tournament
     patterns = tournament_and_patterns.patterns
     basins_and_cycle_finding_history = _find_cycles_per_basin(tournament, patterns)
     basins: tuple[BasinUnderConstruction, ...] = basins_and_cycle_finding_history.basins
     exuberant_system_graph: npt.NDArray[numpy.int_] = _to_exuberant_system_graph(basins, len(tournament), eliminate_cycles_outside_pattern)
     completed_basins = tuple(map(_to_completed_basin, basins))
-    exuberant_system = ExuberantSystem(tournament_and_patterns.id, exuberant_system_graph, completed_basins)
+    exuberant_system = DisentangledSystem(tournament_and_patterns.id, exuberant_system_graph, completed_basins)
     cycle_finding_history = basins_and_cycle_finding_history.cycle_finding_history
     return TrainingResult(exuberant_system, cycle_finding_history)
 
