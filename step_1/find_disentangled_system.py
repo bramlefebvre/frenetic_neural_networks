@@ -14,55 +14,89 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 <https://www.gnu.org/licenses/>.
 '''
 
+from dataclasses import dataclass, field
 from typing import Iterable
 from step_1.data_structures import BasinUnderConstruction, CompletedBasin, TournamentAndPatterns
 import numpy
 import numpy.typing as npt
+from enum import Enum, unique
+from step_1.find_cycle import FindCycleResponse, find_cycle
 
 random_number_generator = numpy.random.default_rng()
 
-def find_disentangled_system(tournament_and_patterns: TournamentAndPatterns):
+def find_disentangled_system(graph_and_patterns: TournamentAndPatterns):
 
     pass
 
-class CycleFindingProgress:
+@dataclass
+class CycleFindingProgressForBasin:
     basin: BasinUnderConstruction
+    pattern_vertices_not_in_a_cycle: set[int] = field(init = False)
     length_of_cycle_to_find: int = 3
-    pattern_vertices_in_cycle: set[int] = set()
+    did_not_have_enough_available_vertices: bool = False
 
-    def __init__(self, basin: BasinUnderConstruction) -> None:
-        self.basin = basin
+    def __post_init__(self):
+        self.pattern_vertices_not_in_a_cycle = set(self.basin.pattern_vertices)
     
-    def all_pattern_vertices_in_cycle(self) -> bool:
-        return self.basin.pattern_vertices.issubset(self.pattern_vertices_in_cycle)
+    def finished(self) -> bool:
+        return self.did_not_have_enough_available_vertices or len(self.pattern_vertices_not_in_a_cycle) == 0
 
-def _find_basins(tournament_and_patterns: TournamentAndPatterns) -> tuple[CompletedBasin, ...]:
-    basins: tuple[BasinUnderConstruction, ...] = _initialize_basins(tournament_and_patterns.patterns)
-    free_vertices = _get_initial_free_vertices(tournament_and_patterns)
-    tournament: npt.NDArray[numpy.int_] = tournament_and_patterns.tournament
+@dataclass
+class HairFindingProgressForBasin:
+    basin: BasinUnderConstruction
+    non_pattern_vertices_in_a_cycle: frozenset[int] = field(init = False)
+    length_of_hair_to_find: int = 1
+    hair_vertices: set[int] = set()
+    no_vertex_could_be_added: bool = False
+
+    def __post_init__(self):
+        self.non_pattern_vertices_in_a_cycle = frozenset(self.basin.vertices - self.basin.pattern_vertices)
 
 
-def _find_cycles_containing_pattern_vertices(tournament: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruction, ...]):
-    progress: set[CycleFindingProgress] = set(map(lambda basin: CycleFindingProgress(basin), basins))
-    while(len(progress) > 0):
-        for cycleFindingProgress in progress:
+def _find_basins(graph_and_patterns: TournamentAndPatterns) -> tuple[CompletedBasin, ...]:
+    basins: tuple[BasinUnderConstruction, ...] = _initialize_basins(graph_and_patterns.patterns)
+    graph: npt.NDArray[numpy.int_] = graph_and_patterns.tournament
+    _find_cycles_containing_pattern_vertices(graph, basins)
+
+
+
+def _find_hairs(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruction, ...]):
+    hair_finding_progress = list(map(lambda basin: HairFindingProgressForBasin(basin), basins))
+    while len(hair_finding_progress) > 0:
+        for hair_finding_progress_for_basin in hair_finding_progress:
             pass
 
 
-def _find_cycle(tournament: npt.NDArray[numpy.int_], cycleFindingProgress: CycleFindingProgress, basins: tuple[BasinUnderConstruction, ...]):
-    pattern_vertices_without_cycle = cycleFindingProgress.basin.pattern_vertices - cycleFindingProgress.pattern_vertices_in_cycle
-    pattern_vertex = _pick_one(pattern_vertices_without_cycle)
-    free_vertices = set(range(len(tournament))).difference_update(map(lambda x: x.vertices, basins))
 
 
+def _find_cycles_containing_pattern_vertices(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruction, ...]):
+    cycle_finding_progress: list[CycleFindingProgressForBasin] = list(map(lambda basin: CycleFindingProgressForBasin(basin), basins))
+    while len(cycle_finding_progress) > 0:
+        for cycle_finding_progress_for_basin in cycle_finding_progress:
+            find_cycle_response = find_cycle(graph, cycle_finding_progress_for_basin, basins)
+            _handle_find_cycle_response(find_cycle_response, cycle_finding_progress_for_basin)
+        cycle_finding_progress = list(filter(lambda x: not x.finished(), cycle_finding_progress))
 
-def _pick_one(states: Iterable[int]) -> int:
-    return random_number_generator.choice(list(states))
 
-def _get_initial_free_vertices(tournament_and_patterns: TournamentAndPatterns):
-    all_pattern_vertices = set()
-    all_pattern_vertices.update(*tournament_and_patterns.patterns)
-    return set(range(len(tournament_and_patterns.tournament))) - all_pattern_vertices
+def _handle_find_cycle_response(find_cycle_response: FindCycleResponse, cycle_finding_progress_for_basin: CycleFindingProgressForBasin):
+    if find_cycle_response.cycle is None:
+        if find_cycle_response.did_not_have_enough_available_vertices:
+            cycle_finding_progress_for_basin.did_not_have_enough_available_vertices = True
+        else:
+            cycle_finding_progress_for_basin.length_of_cycle_to_find += 1
+    else:
+        cycle = find_cycle_response.cycle
+        cycle_finding_progress_for_basin.pattern_vertices_not_in_a_cycle.difference_update(cycle)
+        cycle_finding_progress_for_basin.basin.vertices.update(cycle)
+        cycle_finding_progress_for_basin.basin.arcs.update(_cycle_to_arcs(cycle))
+        cycle_finding_progress_for_basin.length_of_cycle_to_find += 1
+
+
+def _cycle_to_arcs(cycle: tuple[int, ...]):
+    arcs: set[tuple[int, int]] = set()
+    for index, vertex in enumerate(cycle):
+        arcs.add((cycle[index - 1], vertex))
+    return arcs
 
 def _initialize_basins(patterns: tuple[frozenset[int], ...]) -> tuple[BasinUnderConstruction, ...]:
     basins: list[BasinUnderConstruction] = []
@@ -71,7 +105,7 @@ def _initialize_basins(patterns: tuple[frozenset[int], ...]) -> tuple[BasinUnder
     return tuple(basins)
 
 def _initialize_basin(index: int, pattern_vertices: frozenset[int]) -> BasinUnderConstruction:
-    return BasinUnderConstruction(index, pattern_vertices, set(pattern_vertices), set())
+    return BasinUnderConstruction(index, pattern_vertices, set(), set(pattern_vertices), set())
 
 
 

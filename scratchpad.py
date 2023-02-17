@@ -19,7 +19,10 @@ import numpy
 
 random_number_generator = numpy.random.default_rng()
 
-print(random_number_generator.random())
+class Container:
+    def __init__(self, value):
+        self.value = value
 
-a: int
+a_tuple = (1,2)
 
+a_tuple
