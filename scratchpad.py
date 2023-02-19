@@ -15,6 +15,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
+from typing import Any, Type
 import numpy
 
 random_number_generator = numpy.random.default_rng()
@@ -25,4 +26,6 @@ class Container:
 
 a_tuple = (1,2)
 
-a_tuple
+a = [1, 2, 3, 4, 5, 6, 7]
+
+print(5 in a)

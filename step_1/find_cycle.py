@@ -29,7 +29,7 @@ def find_cycle(graph: npt.NDArray[numpy.int_], cycle_finding_progress_for_basin:
     if len(available_vertices) < cycle_finding_progress_for_basin.length_of_cycle_to_find:
         return FindCycleResponse(None, True)
     pattern_vertex = _pick_one(cycle_finding_progress_for_basin.pattern_vertices_not_in_a_cycle)
-    path = pattern_vertex,
+    path = [pattern_vertex]
     cycle = _continue_path(path, graph, available_vertices, cycle_finding_progress_for_basin.length_of_cycle_to_find - 1)
     return FindCycleResponse(cycle)
 
@@ -40,15 +40,14 @@ class FindCycleResponse:
     did_not_have_enough_available_vertices: bool = False
     
 
-def _continue_path(path: tuple[int, ...], graph: npt.NDArray[numpy.int_], available_vertices: frozenset[int], number_of_vertices_left: int) -> tuple[int, ...] | None:
+def _continue_path(path: list[int], graph: npt.NDArray[numpy.int_], available_vertices: frozenset[int], number_of_vertices_left: int) -> tuple[int, ...] | None:
     forward_vertices = _get_forward_vertices(path, graph, available_vertices)
     if number_of_vertices_left == 1:
         return _finish_path(path, graph, forward_vertices)
     else:
         for forward_vertex in forward_vertices:
-            new_path_list = list(path)
-            new_path_list.append(forward_vertex)
-            new_path = tuple(new_path_list)
+            new_path = path.copy()
+            new_path.append(forward_vertex)
             cycle = _continue_path(new_path, graph, available_vertices, number_of_vertices_left - 1)
             if cycle is not None:
                 return cycle
@@ -56,7 +55,7 @@ def _continue_path(path: tuple[int, ...], graph: npt.NDArray[numpy.int_], availa
 
 
 
-def _finish_path(path: tuple[int, ...], graph: npt.NDArray[numpy.int_], forward_vertices: list[int]) -> tuple[int, ...] | None:
+def _finish_path(path: list[int], graph: npt.NDArray[numpy.int_], forward_vertices: list[int]) -> tuple[int, ...] | None:
     for forward_vertex in forward_vertices:
         if graph[forward_vertex, path[0]] == 1:
             new_path_list = list(path)
@@ -65,10 +64,10 @@ def _finish_path(path: tuple[int, ...], graph: npt.NDArray[numpy.int_], forward_
     
 
 
-def _get_forward_vertices(path: tuple[int, ...], graph: npt.NDArray[numpy.int_], available_vertices: frozenset[int]):
+def _get_forward_vertices(path: list[int], graph: npt.NDArray[numpy.int_], available_vertices: frozenset[int]):
     last_vertex_in_path = path[-1]
     graph_values = graph[last_vertex_in_path, :]
-    forward_vertices = list(filter(lambda vertex: vertex not in set(path) and graph_values[vertex] == 1, available_vertices))
+    forward_vertices = list(filter(lambda vertex: vertex not in path and graph_values[vertex] == 1, available_vertices))
     random_number_generator.shuffle(forward_vertices)
     return forward_vertices
     
@@ -79,7 +78,7 @@ def _get_available_vertices(number_of_vertices: int, cycle_finding_progress_for_
     return frozenset(range(number_of_vertices)) - all_vertices_in_a_basin | cycle_finding_progress_for_basin.basin.vertices
 
 
-def _pick_one(states: Iterable[int]) -> int:
-    return random_number_generator.choice(list(states))
+def _pick_one(vertices: Iterable[int]) -> int:
+    return random_number_generator.choice(list(vertices))
 
 

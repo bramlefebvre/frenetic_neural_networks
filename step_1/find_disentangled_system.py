@@ -51,7 +51,10 @@ class HairFindingProgressForBasin:
 
     def __post_init__(self):
         self.non_pattern_vertices_in_a_cycle = frozenset(self.basin.vertices - self.basin.pattern_vertices)
-
+    
+    def add_hair_vertices(self, path: tuple[int, ...]):
+        pass
+        
 
 def _find_basins(graph_and_patterns: TournamentAndPatterns) -> tuple[CompletedBasin, ...]:
     basins: tuple[BasinUnderConstruction, ...] = _initialize_basins(graph_and_patterns.patterns)
