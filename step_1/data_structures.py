@@ -33,7 +33,6 @@ class CompletedBasin:
     index: int
     pattern_vertices: frozenset[int]
     vertices: frozenset[int]
-    arcs: frozenset[tuple[int, int]]
 
 @dataclass(frozen = True)
 class BasinUnderConstruction:
@@ -44,7 +43,7 @@ class BasinUnderConstruction:
 
 @dataclass
 class DisentangledSystem:
-    tournament_and_patterns_id: Any
+    graph_and_patterns_id: Any
     graph: npt.NDArray[numpy.int_]
     basins: tuple[CompletedBasin, ...]
     id: Any = None

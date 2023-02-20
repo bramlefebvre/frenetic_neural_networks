@@ -16,17 +16,33 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 from dataclasses import dataclass, field
 from typing import Iterable
-from step_1.data_structures import BasinUnderConstruction, CompletedBasin, TournamentAndPatterns
+from step_1.data_structures import BasinUnderConstruction, CompletedBasin, DisentangledSystem, TournamentAndPatterns
 import numpy
 import numpy.typing as npt
 from enum import Enum, unique
 from step_1.find_cycle import FindCycleResponse, find_cycle
+from step_1.find_hair import find_hair
 
 random_number_generator = numpy.random.default_rng()
 
 def find_disentangled_system(graph_and_patterns: TournamentAndPatterns):
+    basins = _find_basins(graph_and_patterns)
+    graph = _to_disentangled_system_graph(basins, len(graph_and_patterns.tournament))
+    completed_basins = tuple(map(_to_completed_basin, basins))
+    return DisentangledSystem(graph_and_patterns.id, graph, completed_basins)
 
-    pass
+def _to_disentangled_system_graph(basins, number_of_vertices):
+    graph: npt.NDArray[numpy.int_] = -numpy.ones((number_of_vertices, number_of_vertices), dtype=int)
+    arcs = set()
+    arcs.update(*map(lambda basin: basin.arcs, basins))
+    for arc in arcs:
+        graph[arc[0], arc[1]] = 1
+        graph[arc[1], arc[0]] = 0
+    return graph
+
+def _to_completed_basin(basin):
+    return CompletedBasin(basin.index, basin.pattern_vertices, frozenset(basin.vertices))
+
 
 @dataclass
 class CycleFindingProgressForBasin:
@@ -47,29 +63,40 @@ class HairFindingProgressForBasin:
     non_pattern_vertices_in_a_cycle: frozenset[int] = field(init = False)
     length_of_hair_to_find: int = 1
     hair_vertices: set[int] = set()
-    no_vertex_could_be_added: bool = False
+    vertex_could_be_added: bool = True
 
     def __post_init__(self):
         self.non_pattern_vertices_in_a_cycle = frozenset(self.basin.vertices - self.basin.pattern_vertices)
     
-    def add_hair_vertices(self, path: tuple[int, ...]):
-        pass
+    def add_hair_element(self, new_vertex :int, destination_vertex: int):
+        self.hair_vertices.add(new_vertex)
+        self.basin.vertices.add(new_vertex)
+        self.basin.arcs.add((new_vertex, destination_vertex))
         
 
-def _find_basins(graph_and_patterns: TournamentAndPatterns) -> tuple[CompletedBasin, ...]:
+def _find_basins(graph_and_patterns: TournamentAndPatterns) -> tuple[BasinUnderConstruction, ...]:
     basins: tuple[BasinUnderConstruction, ...] = _initialize_basins(graph_and_patterns.patterns)
     graph: npt.NDArray[numpy.int_] = graph_and_patterns.tournament
     _find_cycles_containing_pattern_vertices(graph, basins)
-
-
+    _find_hairs(graph, basins)
+    return basins
 
 def _find_hairs(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruction, ...]):
     hair_finding_progress = list(map(lambda basin: HairFindingProgressForBasin(basin), basins))
     while len(hair_finding_progress) > 0:
         for hair_finding_progress_for_basin in hair_finding_progress:
-            pass
+            find_hair_response = find_hair(graph, hair_finding_progress_for_basin, basins)
+            _handle_find_hair_response(find_hair_response, hair_finding_progress_for_basin)
+        hair_finding_progress = [progress for progress in hair_finding_progress if progress.vertex_could_be_added]
+    
 
-
+def _handle_find_hair_response(find_hair_response, hair_finding_progress_for_basin):
+    if find_hair_response.new_vertex is None:
+        hair_finding_progress_for_basin.vertex_could_be_added = False
+    else:
+        if find_hair_response.increase_length_of_hair_to_find:
+            hair_finding_progress_for_basin.length_of_hair_to_find += 1
+        hair_finding_progress_for_basin.add_hair_element(find_hair_response.new_vertex, find_hair_response.destination_vertex)
 
 
 def _find_cycles_containing_pattern_vertices(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruction, ...]):
@@ -78,7 +105,7 @@ def _find_cycles_containing_pattern_vertices(graph: npt.NDArray[numpy.int_], bas
         for cycle_finding_progress_for_basin in cycle_finding_progress:
             find_cycle_response = find_cycle(graph, cycle_finding_progress_for_basin, basins)
             _handle_find_cycle_response(find_cycle_response, cycle_finding_progress_for_basin)
-        cycle_finding_progress = list(filter(lambda x: not x.finished(), cycle_finding_progress))
+        cycle_finding_progress = [progress for progress in cycle_finding_progress if not progress.finished()]
 
 
 def _handle_find_cycle_response(find_cycle_response: FindCycleResponse, cycle_finding_progress_for_basin: CycleFindingProgressForBasin):
@@ -108,7 +135,7 @@ def _initialize_basins(patterns: tuple[frozenset[int], ...]) -> tuple[BasinUnder
     return tuple(basins)
 
 def _initialize_basin(index: int, pattern_vertices: frozenset[int]) -> BasinUnderConstruction:
-    return BasinUnderConstruction(index, pattern_vertices, set(), set(pattern_vertices), set())
+    return BasinUnderConstruction(index, pattern_vertices, set(pattern_vertices), set())
 
 
 

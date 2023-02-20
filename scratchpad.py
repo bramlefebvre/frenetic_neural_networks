@@ -20,12 +20,4 @@ import numpy
 
 random_number_generator = numpy.random.default_rng()
 
-class Container:
-    def __init__(self, value):
-        self.value = value
-
-a_tuple = (1,2)
-
-a = [1, 2, 3, 4, 5, 6, 7]
-
-print(5 in a)
+print(random_number_generator.choice([]))

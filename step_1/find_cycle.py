@@ -58,7 +58,7 @@ def _continue_path(path: list[int], graph: npt.NDArray[numpy.int_], available_ve
 def _finish_path(path: list[int], graph: npt.NDArray[numpy.int_], forward_vertices: list[int]) -> tuple[int, ...] | None:
     for forward_vertex in forward_vertices:
         if graph[forward_vertex, path[0]] == 1:
-            new_path_list = list(path)
+            new_path_list = path.copy()
             new_path_list.append(forward_vertex)
             return tuple(new_path_list)
     
