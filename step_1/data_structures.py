@@ -15,7 +15,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 import numpy
 import numpy.typing as npt
@@ -29,17 +29,48 @@ class TournamentAndPatterns:
     id: Any = None
 
 @dataclass(frozen = True)
-class CompletedBasin:
-    index: int
-    pattern_vertices: frozenset[int]
-    vertices: frozenset[int]
-
-@dataclass(frozen = True)
 class BasinUnderConstruction:
     index: int
     pattern_vertices: frozenset[int]
     vertices: set[int]
     arcs: set[tuple[int, int]]
+
+@dataclass
+class CycleFindingProgressForBasin:
+    basin: BasinUnderConstruction
+    pattern_vertices_not_in_a_cycle: set[int] = field(init = False)
+    length_of_cycle_to_find: int = 3
+    did_not_have_enough_available_vertices: bool = False
+
+    def __post_init__(self):
+        self.pattern_vertices_not_in_a_cycle = set(self.basin.pattern_vertices)
+    
+    def finished(self) -> bool:
+        return self.did_not_have_enough_available_vertices or len(self.pattern_vertices_not_in_a_cycle) == 0
+
+@dataclass
+class HairFindingProgressForBasin:
+    basin: BasinUnderConstruction
+    non_pattern_vertices_in_a_cycle: frozenset[int] = field(init = False)
+    length_of_hair_to_find: int = 1
+    hair_vertices: set[int] = field(default_factory=set)
+    vertex_could_be_added: bool = True
+
+    def __post_init__(self):
+        self.non_pattern_vertices_in_a_cycle = frozenset(self.basin.vertices - self.basin.pattern_vertices)
+    
+    def add_hair_element(self, new_vertex :int, destination_vertex: int):
+        self.hair_vertices.add(new_vertex)
+        self.basin.vertices.add(new_vertex)
+        self.basin.arcs.add((new_vertex, destination_vertex))
+
+@dataclass(frozen = True)
+class CompletedBasin:
+    index: int
+    pattern_vertices: frozenset[int]
+    vertices: frozenset[int]
+
+
 
 @dataclass
 class DisentangledSystem:

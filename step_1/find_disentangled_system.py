@@ -16,7 +16,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 from dataclasses import dataclass, field
 from typing import Iterable
-from step_1.data_structures import BasinUnderConstruction, CompletedBasin, DisentangledSystem, TournamentAndPatterns
+from step_1.data_structures import BasinUnderConstruction, CompletedBasin, CycleFindingProgressForBasin, DisentangledSystem, HairFindingProgressForBasin, TournamentAndPatterns, TrainingResult
 import numpy
 import numpy.typing as npt
 from enum import Enum, unique
@@ -29,7 +29,7 @@ def find_disentangled_system(graph_and_patterns: TournamentAndPatterns):
     basins = _find_basins(graph_and_patterns)
     graph = _to_disentangled_system_graph(basins, len(graph_and_patterns.tournament))
     completed_basins = tuple(map(_to_completed_basin, basins))
-    return DisentangledSystem(graph_and_patterns.id, graph, completed_basins)
+    return TrainingResult(DisentangledSystem(graph_and_patterns.id, graph, completed_basins))
 
 def _to_disentangled_system_graph(basins, number_of_vertices):
     graph: npt.NDArray[numpy.int_] = -numpy.ones((number_of_vertices, number_of_vertices), dtype=int)
@@ -43,36 +43,6 @@ def _to_disentangled_system_graph(basins, number_of_vertices):
 def _to_completed_basin(basin):
     return CompletedBasin(basin.index, basin.pattern_vertices, frozenset(basin.vertices))
 
-
-@dataclass
-class CycleFindingProgressForBasin:
-    basin: BasinUnderConstruction
-    pattern_vertices_not_in_a_cycle: set[int] = field(init = False)
-    length_of_cycle_to_find: int = 3
-    did_not_have_enough_available_vertices: bool = False
-
-    def __post_init__(self):
-        self.pattern_vertices_not_in_a_cycle = set(self.basin.pattern_vertices)
-    
-    def finished(self) -> bool:
-        return self.did_not_have_enough_available_vertices or len(self.pattern_vertices_not_in_a_cycle) == 0
-
-@dataclass
-class HairFindingProgressForBasin:
-    basin: BasinUnderConstruction
-    non_pattern_vertices_in_a_cycle: frozenset[int] = field(init = False)
-    length_of_hair_to_find: int = 1
-    hair_vertices: set[int] = set()
-    vertex_could_be_added: bool = True
-
-    def __post_init__(self):
-        self.non_pattern_vertices_in_a_cycle = frozenset(self.basin.vertices - self.basin.pattern_vertices)
-    
-    def add_hair_element(self, new_vertex :int, destination_vertex: int):
-        self.hair_vertices.add(new_vertex)
-        self.basin.vertices.add(new_vertex)
-        self.basin.arcs.add((new_vertex, destination_vertex))
-        
 
 def _find_basins(graph_and_patterns: TournamentAndPatterns) -> tuple[BasinUnderConstruction, ...]:
     basins: tuple[BasinUnderConstruction, ...] = _initialize_basins(graph_and_patterns.patterns)
