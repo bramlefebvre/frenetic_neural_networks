@@ -1,6 +1,6 @@
 '''
 Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
-Copyright (C) 2022 Bram Lefebvre
+Copyright (C) 2022-2023 Bram Lefebvre
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
@@ -51,7 +51,7 @@ def _get_median_smallest_basin_size(results):
     return median(smallest_basin_size_list)
     
 def plot_percentual_average_difference():
-    filename = 'data/step_1/sv_p5_2'
+    filename = 'data/step_1/sv_p5'
     training_data_list = step_1_training_analysis_data_dao.get_training_data(filename)
     
     sorted_results: dict[int, list[TrainingAnalysisData]] = {}
@@ -120,7 +120,7 @@ def plot_dependency_on_s():
     plt.show()
 
 def plot_dependency_on_k():
-    filename = 'data/step_1/s50_p5'
+    filename = 'data/step_1/s1000_pv'
     training_data_list = step_1_training_analysis_data_dao.get_training_data(filename)
     
     sorted_results: dict[int, list[TrainingAnalysisData]] = {}

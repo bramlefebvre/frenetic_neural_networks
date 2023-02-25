@@ -35,6 +35,11 @@ class BasinUnderConstruction:
     vertices: set[int]
     arcs: set[tuple[int, int]]
 
+@dataclass(frozen = True)
+class FindCycleResponse:
+    cycle: tuple[int, ...] | None
+    did_not_have_enough_available_vertices: bool = False
+
 @dataclass
 class CycleFindingProgressForBasin:
     basin: BasinUnderConstruction
@@ -47,6 +52,13 @@ class CycleFindingProgressForBasin:
     
     def finished(self) -> bool:
         return self.did_not_have_enough_available_vertices or len(self.pattern_vertices_not_in_a_cycle) == 0
+
+@dataclass(frozen = True)
+class FindHairResponse:
+    new_vertex: int | None
+    destination_vertex: int | None
+    increase_length_of_hair_to_find: bool = False
+    no_free_vertices_anymore: bool = False
 
 @dataclass
 class HairFindingProgressForBasin:
@@ -69,7 +81,6 @@ class CompletedBasin:
     index: int
     pattern_vertices: frozenset[int]
     vertices: frozenset[int]
-
 
 
 @dataclass

@@ -17,7 +17,6 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 from daos.step_2_training_analysis_data_dao import save_training_data
 from daos.tournaments_and_patterns_dao import generate_single_tournament_and_patterns
-from step_1.Moon_version.find_disentangled_system import find_disentangled_system
 from step_2.data_structures import LearningAlgorithm
 from step_2.initialize_dynamics import initialize_dynamics
 from step_2.training import train_starting_with_random_vertex_n_times
@@ -45,7 +44,7 @@ def calculation_duration():
         # number_of_patterns_list = util.generate_number_of_patterns_list(number_of_states)
         number_of_patterns_list = [1]
         for number_of_patterns in number_of_patterns_list:
-            exuberant_systems = analysis_util.generate_exuberant_systems(number_of_states, number_of_patterns, True)
+            exuberant_systems = analysis_util.generate_disentangled_systems(number_of_states, number_of_patterns, True)
             # initial_activity_parameter_factors = generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns)
             initial_activity_parameter_factor_list = [5]
             for initial_activity_parameter_factor in initial_activity_parameter_factor_list:

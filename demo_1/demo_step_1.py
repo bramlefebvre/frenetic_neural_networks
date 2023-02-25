@@ -29,6 +29,7 @@ def demo_step_1():
 
     tournament_and_patterns = tournaments_and_patterns_dao.generate_single_tournament_and_patterns(number_of_vertices, patterns)
 
+    tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('example_thesis', 'data/tournaments')
     exuberant_system = find_disentangled_system.find_disentangled_system(tournament_and_patterns).disentangled_system
 
     print('original tournament:')

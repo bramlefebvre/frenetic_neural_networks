@@ -1,6 +1,6 @@
 '''
 Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
-Copyright (C) 2022 Bram Lefebvre
+Copyright (C) 2022-2023 Bram Lefebvre
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 
 
 def smallest_basin_size_hist():
-    training_data_list = step_1_training_analysis_data_dao.get_training_data('data/step_1/eliminate_cycles/s50_p5')
+    training_data_list = step_1_training_analysis_data_dao.get_training_data('data/step_1/s50_p5')
 
     smallest_basin_size_map = {}
 
@@ -31,11 +31,13 @@ def smallest_basin_size_hist():
         if smallest_basin_size not in smallest_basin_size_map:
             smallest_basin_size_map[smallest_basin_size] = 0
         smallest_basin_size_map[smallest_basin_size] +=1
+    
+    print(smallest_basin_size_map)
 
     smallest_basin_size_items = smallest_basin_size_map.items()
 
     plt.bar([x[0] for x in smallest_basin_size_items], [x[1] for x in smallest_basin_size_items])
-    plt.xticks([5, 6, 7, 8])
+    # plt.xticks([5, 6, 7, 8])
     plt.xlabel('smallest basin size')
     plt.ylabel('frequency')
     plt.show()

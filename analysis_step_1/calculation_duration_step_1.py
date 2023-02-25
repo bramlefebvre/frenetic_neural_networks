@@ -18,7 +18,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 from statistics import mean
 from daos.step_1_training_analysis_data_dao import save_training_data
 from step_1.data_structures import TrainingAnalysisData
-from step_1.Moon_version.find_disentangled_system import find_disentangled_system
+from step_1.find_disentangled_system import find_disentangled_system
 import timeit
 import time
 import analysis_util
@@ -48,7 +48,7 @@ def calculation_duration():
                 patterns = analysis_util.generate_single_state_patterns(number_of_states, number_of_patterns)
                 tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
                 for j in range(10):
-                    timer = timeit.Timer(lambda: find_disentangled_system(tournament_and_patterns, True), timer = time.process_time)
+                    timer = timeit.Timer(lambda: find_disentangled_system(tournament_and_patterns), timer = time.process_time)
                     times_executed, total_duration = timer.autorange()
                     calculation_duration =  (total_duration / times_executed) * 10 ** 3
                     result = TrainingAnalysisData(number_of_states, number_of_patterns, None, calculation_duration)

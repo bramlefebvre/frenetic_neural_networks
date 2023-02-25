@@ -1,6 +1,6 @@
 '''
 Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
-Copyright (C) 2022 Bram Lefebvre
+Copyright (C) 2022-2023 Bram Lefebvre
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
@@ -35,7 +35,7 @@ def _map_graph_to_rate_matrix(graph, driving_value, initial_activity_parameter_f
 
 def _map_element(graph_value, driving_value, initial_activity_parameter_factor, travel_time) -> float:
     rate_matrix_value: float
-    initial_activity_parameter_value: float = (4 / travel_time) * exp(-driving_value / 2) * initial_activity_parameter_factor
+    initial_activity_parameter_value: float = (1 / travel_time) * exp(-driving_value / 2) * initial_activity_parameter_factor
     match graph_value:
         case 0:
             rate_matrix_value = initial_activity_parameter_value * exp(-driving_value / 2)

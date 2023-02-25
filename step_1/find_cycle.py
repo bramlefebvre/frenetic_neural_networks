@@ -15,65 +15,57 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-from dataclasses import dataclass
 from typing import Iterable
 import numpy
 import numpy.typing as npt
-from step_1.data_structures import BasinUnderConstruction
+from step_1.data_structures import BasinUnderConstruction, FindCycleResponse
 from step_1.find_disentangled_system import CycleFindingProgressForBasin
 
 random_number_generator = numpy.random.default_rng()
 
-def find_cycle(graph: npt.NDArray[numpy.int_], cycle_finding_progress_for_basin: CycleFindingProgressForBasin, basins: tuple[BasinUnderConstruction, ...]):
-    available_vertices = _get_available_vertices(len(graph), cycle_finding_progress_for_basin, basins)
+
+
+def find_cycle(graph: npt.NDArray[numpy.int_], cycle_finding_progress_for_basin: CycleFindingProgressForBasin, basins: tuple[BasinUnderConstruction, ...]) -> FindCycleResponse:
+    available_vertices: frozenset[int] = _get_available_vertices(len(graph), cycle_finding_progress_for_basin, basins)
     if len(available_vertices) < cycle_finding_progress_for_basin.length_of_cycle_to_find:
         return FindCycleResponse(None, True)
-    pattern_vertex = _pick_one(cycle_finding_progress_for_basin.pattern_vertices_not_in_a_cycle)
-    path = [pattern_vertex]
-    cycle = _continue_path(path, graph, available_vertices, cycle_finding_progress_for_basin.length_of_cycle_to_find - 1)
+    pattern_vertex: int = _pick_one(cycle_finding_progress_for_basin.pattern_vertices_not_in_a_cycle)
+    path: list[int] = [pattern_vertex]
+    cycle: tuple[int, ...] | None = _continue_path(path, graph, available_vertices, cycle_finding_progress_for_basin.length_of_cycle_to_find - 1)
     return FindCycleResponse(cycle)
 
 
-@dataclass(frozen = True)
-class FindCycleResponse:
-    cycle: tuple[int, ...] | None
-    did_not_have_enough_available_vertices: bool = False
-    
-
 def _continue_path(path: list[int], graph: npt.NDArray[numpy.int_], available_vertices: frozenset[int], number_of_vertices_left: int) -> tuple[int, ...] | None:
-    forward_vertices = _get_forward_vertices(path, graph, available_vertices)
+    forward_vertices: list[int] = _get_forward_vertices(path, graph, available_vertices)
     if number_of_vertices_left == 1:
         return _finish_path(path, graph, forward_vertices)
     else:
         for forward_vertex in forward_vertices:
-            new_path = path.copy()
+            new_path: list[int] = path.copy()
             new_path.append(forward_vertex)
-            cycle = _continue_path(new_path, graph, available_vertices, number_of_vertices_left - 1)
+            cycle: tuple[int, ...] | None = _continue_path(new_path, graph, available_vertices, number_of_vertices_left - 1)
             if cycle is not None:
                 return cycle
-        return None
-
 
 
 def _finish_path(path: list[int], graph: npt.NDArray[numpy.int_], forward_vertices: list[int]) -> tuple[int, ...] | None:
     for forward_vertex in forward_vertices:
         if graph[forward_vertex, path[0]] == 1:
-            new_path_list = path.copy()
+            new_path_list: list[int] = path.copy()
             new_path_list.append(forward_vertex)
             return tuple(new_path_list)
     
 
-
-def _get_forward_vertices(path: list[int], graph: npt.NDArray[numpy.int_], available_vertices: frozenset[int]):
-    last_vertex_in_path = path[-1]
-    graph_values = graph[last_vertex_in_path, :]
-    forward_vertices = list(filter(lambda vertex: vertex not in path and graph_values[vertex] == 1, available_vertices))
+def _get_forward_vertices(path: list[int], graph: npt.NDArray[numpy.int_], available_vertices: frozenset[int]) -> list[int]:
+    last_vertex_in_path: int = path[-1]
+    graph_values: npt.NDArray[numpy.int_] = graph[last_vertex_in_path, :]
+    forward_vertices: list[int] = [vertex for vertex in available_vertices if vertex not in path and graph_values[vertex] == 1]
     random_number_generator.shuffle(forward_vertices)
     return forward_vertices
     
 
 def _get_available_vertices(number_of_vertices: int, cycle_finding_progress_for_basin: CycleFindingProgressForBasin, basins: tuple[BasinUnderConstruction, ...]) -> frozenset[int]:
-    all_vertices_in_a_basin = set()
+    all_vertices_in_a_basin: set[int] = set()
     all_vertices_in_a_basin.update(*map(lambda x: x.vertices, basins))
     return frozenset(range(number_of_vertices)) - all_vertices_in_a_basin | cycle_finding_progress_for_basin.basin.vertices
 

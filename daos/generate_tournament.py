@@ -21,16 +21,16 @@ import numpy.typing as npt
 
 random_number_generator = numpy.random.default_rng()
 
-def generate_random_strong_tournament(number_of_states):
+def generate_strong_tournament(number_of_states):
     found: bool = False
     tournament = None
     while not found:
-        tournament = _generate_random_tournament(number_of_states)
+        tournament = generate_tournament(number_of_states)
         found = hamilton_cycle_complete_tournament_exists(tournament)
     assert tournament is not None
     return tournament
 
-def _generate_random_tournament(number_of_states):
+def generate_tournament(number_of_states):
     tournament = _generate_upper_half_random_tournament(number_of_states)
     _complete_tournament(tournament)
     return tournament

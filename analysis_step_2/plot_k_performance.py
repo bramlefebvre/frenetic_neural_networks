@@ -22,7 +22,7 @@ def filter_result(result):
     return result.number_of_states == 100 and result.training_set_size == 400 and round(result.initial_activity_parameter_factor, 2) == round(result.number_of_states / result.number_of_patterns * 4 / 10, 2)
 
 def plot_k_performance():
-    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/algorithm_3_eliminate_cycles/s100_pv_a5_n50')
+    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/s1000_pv_a20_n250')
     # filtered_training_results = list(filter(filter_result, training_data_list))
 
     sorted_results = {}
@@ -48,7 +48,6 @@ def plot_k_performance():
         else:
             performance_list.append(-0.1)
 
-    print(performance_list)
 
     plt.scatter(number_of_patterns_list, performance_list)
     plt.xlabel('number of patterns')

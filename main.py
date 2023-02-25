@@ -1,6 +1,6 @@
 '''
 Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
-Copyright (C) 2022 Bram Lefebvre
+Copyright (C) 2022-2023 Bram Lefebvre
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
@@ -45,5 +45,4 @@ from demo_1.demo_step_2 import demo_step_2
 from demo_1.demo_step_2_2 import demo_step_2_2
 from analysis_step_1.smallest_basin_size_hist import smallest_basin_size_hist
 
-demo_step_1()
-
+plot_a_performance()

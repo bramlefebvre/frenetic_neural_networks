@@ -19,7 +19,7 @@ from typing import Iterable
 import numpy
 import math
 from daos.tournaments_and_patterns_dao import generate_single_tournament_and_patterns
-from step_1.Moon_version.find_disentangled_system import find_disentangled_system
+from step_1.find_disentangled_system import find_disentangled_system
 
 random_number_generator = numpy.random.default_rng()
 
@@ -49,22 +49,20 @@ def generate_number_of_patterns_list(number_of_states):
         step = math.floor(maximum_number_of_patterns / 100)
     return list(range(2, maximum_number_of_patterns + 1, step))
 
-def generate_exuberant_systems(number_of_states, number_of_patterns, eliminate_cycles_outside_pattern: bool):
+def generate_disentangled_systems(number_of_states, number_of_patterns):
     patterns = generate_single_state_patterns(number_of_states, number_of_patterns)
-    exuberant_systems = []
-    for i in range(10):
+    disentangled_systems = []
+    for i in range(100):
         tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
-        for j in range(10):
-            exuberant_system = find_disentangled_system(tournament_and_patterns, eliminate_cycles_outside_pattern).disentangled_system
-            id = {
-                'number_of_states': number_of_states,
-                'number_of_patterns': number_of_patterns,
-                'tournament_and_patterns_index': i,
-                'exuberant_system_index': j
-            }
-            exuberant_system.id = id
-            exuberant_systems.append(exuberant_system)
-    return exuberant_systems
+        disentangled_system = find_disentangled_system(tournament_and_patterns).disentangled_system
+        id = {
+            'number_of_states': number_of_states,
+            'number_of_patterns': number_of_patterns,
+            'index': i
+        }
+        disentangled_system.id = id
+        disentangled_systems.append(disentangled_system)
+    return disentangled_systems
 
 def result_is_successful(result):
     return all(map(lambda size_of_basin: _basin_is_big_enough(size_of_basin, result), result.sizes_of_basins))
