@@ -22,22 +22,22 @@ from step_1.find_hair import FindHairResponse, find_hair
 
 random_number_generator = numpy.random.default_rng()
 
-def find_disentangled_system(graph_and_patterns: TournamentAndPatterns):
+def find_disentangled_system(graph_and_patterns: TournamentAndPatterns) -> TrainingResult:
     basins: tuple[BasinUnderConstruction, ...] = _find_basins(graph_and_patterns)
     graph: npt.NDArray[numpy.int_] = _to_disentangled_system_graph(basins, len(graph_and_patterns.tournament))
     completed_basins: tuple[CompletedBasin, ...] = tuple(map(_to_completed_basin, basins))
     return TrainingResult(DisentangledSystem(graph_and_patterns.id, graph, completed_basins))
 
-def _to_disentangled_system_graph(basins, number_of_vertices):
+def _to_disentangled_system_graph(basins: tuple[BasinUnderConstruction, ...], number_of_vertices: int) -> npt.NDArray[numpy.int_]:
     graph: npt.NDArray[numpy.int_] = -numpy.ones((number_of_vertices, number_of_vertices), dtype=int)
-    arcs = set()
+    arcs: set[tuple[int, int]] = set()
     arcs.update(*map(lambda basin: basin.arcs, basins))
     for arc in arcs:
         graph[arc[0], arc[1]] = 1
         graph[arc[1], arc[0]] = 0
     return graph
 
-def _to_completed_basin(basin) -> CompletedBasin:
+def _to_completed_basin(basin: BasinUnderConstruction) -> CompletedBasin:
     return CompletedBasin(basin.index, basin.pattern_vertices, frozenset(basin.vertices))
 
 
@@ -48,7 +48,7 @@ def _find_basins(graph_and_patterns: TournamentAndPatterns) -> tuple[BasinUnderC
     _find_hairs(graph, basins)
     return basins
 
-def _find_hairs(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruction, ...]):
+def _find_hairs(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruction, ...]) -> None:
     hair_finding_progress = list(map(lambda basin: HairFindingProgressForBasin(basin), basins))
     while len(hair_finding_progress) > 0:
         for hair_finding_progress_for_basin in hair_finding_progress:
@@ -57,7 +57,7 @@ def _find_hairs(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruc
         hair_finding_progress: list[HairFindingProgressForBasin] = [progress for progress in hair_finding_progress if progress.vertex_could_be_added]
     
 
-def _handle_find_hair_response(find_hair_response: FindHairResponse, hair_finding_progress_for_basin: HairFindingProgressForBasin):
+def _handle_find_hair_response(find_hair_response: FindHairResponse, hair_finding_progress_for_basin: HairFindingProgressForBasin) -> None:
     if find_hair_response.new_vertex is None:
         hair_finding_progress_for_basin.vertex_could_be_added = False
     else:
