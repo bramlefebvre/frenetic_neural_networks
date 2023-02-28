@@ -1,6 +1,6 @@
 '''
 Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
-Copyright (C) 2022 Bram Lefebvre
+Copyright (C) 2022-2023 Bram Lefebvre
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
@@ -17,7 +17,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 import math
 from analysis_step_2.data_structures import TrainingAnalysisData
-from daos.exuberant_systems_dao import generate_cycle
+from daos.disentangled_systems_dao import generate_cycle
 from daos.step_2_training_analysis_data_dao import save_training_data
 from step_2.data_structures import LearningAlgorithm
 from step_2.initialize_dynamics import initialize_dynamics
@@ -33,7 +33,7 @@ driving_value = 5
 travel_time = 1
 learning_rate = 0.5
 desired_residence_time = 0.2
-filename = 'data/step_2/algorithm_3/cv_a5_n2x'
+filename = 'data/step_2/cv_a5_nx'
 
 # (success, exuberant_system_id, number_of_states, number_of_patterns, driving_value, 
 # initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, 
@@ -54,14 +54,14 @@ def generate_training_set_size_list(number_of_states):
     return list(range(1, max_training_set_size, step))
 
 def train_cycles():
-    number_of_states_list = [10 * i for i in range(1, 11)]
+    number_of_states_list = range(3, 21)
     for number_of_states in number_of_states_list:
         training_data_list = []
         cycle = generate_cycle(number_of_states)
         initial_activity_parameter_factors = [5]
         for initial_activity_parameter_factor in initial_activity_parameter_factors:
             initial_dynamics = initialize_dynamics(cycle, driving_value, initial_activity_parameter_factor, travel_time)
-            training_set_size_list = [2 * number_of_states]
+            training_set_size_list = [number_of_states]
             for training_set_size in training_set_size_list:
                 print('[number_of_states, initial_activity_parameter_factor, training_set_size]:')
                 print([number_of_states, initial_activity_parameter_factor, training_set_size])

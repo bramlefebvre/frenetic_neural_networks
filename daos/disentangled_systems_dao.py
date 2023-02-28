@@ -1,6 +1,6 @@
 '''
 Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
-Copyright (C) 2022 Bram Lefebvre
+Copyright (C) 2022-2023 Bram Lefebvre
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
@@ -19,16 +19,16 @@ import daos.base_dao as base_dao
 import numpy
 from step_1.data_structures import CompletedBasin, DisentangledSystem
 
-def get_single_exuberant_system(id, filename):
+def get_single_disentangled_system(id, filename):
     serialized = base_dao.read_entry(id, filename)
-    return deserialize_exuberant_system(serialized)
+    return deserialize_disentangled_system(serialized)
 
-def get_exuberant_systems(filename):
+def get_disentangled_systems(filename):
     serialized_exuberant_systems = base_dao.read_data(filename)
-    return list(map(deserialize_exuberant_system, serialized_exuberant_systems))
+    return list(map(deserialize_disentangled_system, serialized_exuberant_systems))
 
-def save_exuberant_system(exuberant_system, filename):
-    serialized = serialize_exuberant_system(exuberant_system)
+def save_disentangled_system(exuberant_system, filename):
+    serialized = serialize_disentangled_system(exuberant_system)
     base_dao.add_single_entry(serialized, filename)
 
 def generate_cycle(number_of_states):
@@ -43,21 +43,21 @@ def generate_cycle(number_of_states):
             graph[vertex + 1, vertex] = 0
     return DisentangledSystem(None, graph, basins)
 
-def serialize_exuberant_system(exuberant_system):
+def serialize_disentangled_system(exuberant_system):
     serialized = {
-        'tournament_and_patterns_id': exuberant_system.tournament_and_patterns_id,
+        'graph_and_patterns_id': exuberant_system.graph_and_patterns_id,
         'graph': exuberant_system.graph.tolist(),
         'basins': list(map(_serialize_basin, exuberant_system.basins)),
         'id': exuberant_system.id
     }
     return serialized 
 
-def deserialize_exuberant_system(serialized):
-    tournament_and_patterns_id = serialized['tournament_and_patterns_id']
+def deserialize_disentangled_system(serialized):
+    graph_and_patterns_id = serialized['graph_and_patterns_id']
     graph = numpy.array(serialized['graph'], dtype = int)
     basins = tuple(map(_deserialize_basin, serialized['basins']))
     id = serialized['id']
-    return DisentangledSystem(tournament_and_patterns_id, graph, basins, id)
+    return DisentangledSystem(graph_and_patterns_id, graph, basins, id)
 
 def _deserialize_basin(serialized):
     pattern_vertices = frozenset(serialized['pattern_vertices'])

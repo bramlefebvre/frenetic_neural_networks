@@ -15,7 +15,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-import daos.exuberant_systems_dao as exuberant_systems_dao
+import daos.disentangled_systems_dao as disentangled_systems_dao
 from step_2.calculate_path import calculate_path
 from step_2.data_structures import LearningAlgorithm
 from step_2.initialize_dynamics import initialize_dynamics
@@ -28,7 +28,7 @@ def pprint(object):
 
 def demo_step_2_2():
 
-    exuberant_system = exuberant_systems_dao.get_single_exuberant_system('size_20', 'data/exuberant_systems')
+    exuberant_system = disentangled_systems_dao.get_single_disentangled_system('size_20', 'data/exuberant_systems')
 
     print('basins:')
     print([set(basin.vertices) for basin in exuberant_system.basins])

@@ -17,7 +17,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 import numpy
 import daos.base_dao as base_dao
-import daos.exuberant_systems_dao as exuberant_systems_dao
+import daos.disentangled_systems_dao as disentangled_systems_dao
 from visualization.data_structures import CompleteTrainingResult
 
 def get_complete_training_result(id, filename):
@@ -31,7 +31,7 @@ def save_complete_training_result(complete_training_result, filename):
 def _serialize_complete_training_result(complete_training_result):
     serialized = {
         'success': complete_training_result.success,
-        'exuberant_system': exuberant_systems_dao.serialize_exuberant_system(complete_training_result.exuberant_system),
+        'exuberant_system': disentangled_systems_dao.serialize_disentangled_system(complete_training_result.exuberant_system),
         'rate_matrix': complete_training_result.rate_matrix.tolist()
     }
     return serialized
@@ -39,7 +39,7 @@ def _serialize_complete_training_result(complete_training_result):
 def _deserialize_complete_training_result(serialized):
     success = serialized['success']
     serialized_exuberant_system = serialized['exuberant_system']
-    exuberant_system = exuberant_systems_dao.deserialize_exuberant_system(serialized_exuberant_system)
+    exuberant_system = disentangled_systems_dao.deserialize_disentangled_system(serialized_exuberant_system)
     rate_matrix = numpy.array(serialized['rate_matrix'])
     return CompleteTrainingResult(success, exuberant_system, rate_matrix)
     

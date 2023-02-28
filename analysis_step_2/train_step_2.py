@@ -33,7 +33,7 @@ driving_value = 5
 travel_time = 1
 learning_rate = 0.5
 desired_residence_time = 0.2
-filename = 'data/step_2/s50_p10_av_n100'
+filename = 'data/step_2/s50_p10_av_n200_high_2'
 
 # def _generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns):
 #     fraction = 1 / 10 * number_of_states / number_of_patterns
@@ -57,9 +57,9 @@ def train():
         for number_of_patterns in number_of_patterns_list:
             disentangled_systems = analysis_util.generate_disentangled_systems(number_of_states, number_of_patterns)
             # initial_activity_parameter_factors = _generate_initial_activity_parameter_factors_list(number_of_states)
-            initial_activity_parameter_factor_list = [i for i in range(1, 21)]
+            initial_activity_parameter_factor_list = range(1, 101)
             for initial_activity_parameter_factor in initial_activity_parameter_factor_list:
-                training_set_size_list = [100]
+                training_set_size_list = [200]
                 for training_set_size in training_set_size_list:
                     print('[number_of_states, number_of_patterns, initial_activity_parameter_factor, training_set_size]:')
                     print([number_of_states, number_of_patterns, initial_activity_parameter_factor, training_set_size])
@@ -67,12 +67,33 @@ def train():
                         initial_dynamics = initialize_dynamics(disentangled_system, driving_value, initial_activity_parameter_factor, travel_time)
                         training_result = train_starting_with_random_vertex_n_times(initial_dynamics, algorithm, learning_rate, desired_residence_time, training_set_size)
                         if training_result.success:
-                            performance = calculate_performance(training_result.dynamics, desired_residence_time, 100)
+                            performance = calculate_performance(training_result.dynamics, desired_residence_time, 1)
                         else: 
                             performance = None
                         training_data = TrainingAnalysisData(disentangled_system.id, training_result.success, number_of_states, number_of_patterns, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance, None)
                         training_data_list.append(training_data)
         save_training_data(training_data_list, filename)
+
+def train_driving_value():
+    number_of_states = 50
+    number_of_patterns = 10
+    initial_activity_parameter_factor = 20
+    training_set_size = 200
+    disentangled_systems = analysis_util.generate_disentangled_systems(number_of_states, number_of_patterns)
+    driving_value_list = range(1, 11)
+    training_data_list = []
+    for driving_value in driving_value_list:
+        for disentangled_system in disentangled_systems:
+            initial_dynamics = initialize_dynamics(disentangled_system, driving_value, initial_activity_parameter_factor, travel_time)
+            training_result = train_starting_with_random_vertex_n_times(initial_dynamics, algorithm, learning_rate, desired_residence_time, training_set_size)
+            if training_result.success:
+                performance = calculate_performance(training_result.dynamics, desired_residence_time, 100)
+            else: 
+                performance = None
+            training_data = TrainingAnalysisData(disentangled_system.id, training_result.success, number_of_states, number_of_patterns, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance, None)
+            training_data_list.append(training_data)
+    save_training_data(training_data_list, filename)
+
 
 def train_R():
     learning_rate_list = [0.5]

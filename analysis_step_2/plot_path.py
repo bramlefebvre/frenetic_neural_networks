@@ -15,7 +15,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-from daos.exuberant_systems_dao import get_single_exuberant_system
+from daos.disentangled_systems_dao import get_single_disentangled_system
 from step_2.data_structures import LearningAlgorithm
 from step_2.initialize_dynamics import initialize_dynamics
 from step_2.training import train_starting_with_random_vertex_n_times
@@ -23,7 +23,7 @@ from step_2.calculate_performance import calculate_performance
 from step_2.calculate_path import calculate_path
 import matplotlib.pyplot as plt
 
-exuberant_system = get_single_exuberant_system('example_thesis', 'data/exuberant_systems')
+exuberant_system = get_single_disentangled_system('example_thesis', 'data/exuberant_systems')
 
 initial_dynamics = initialize_dynamics(exuberant_system, 5, 0.3, 1)
 training_result = train_starting_with_random_vertex_n_times(initial_dynamics, LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC, 0.5, 0.2, 32)

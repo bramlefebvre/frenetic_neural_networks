@@ -17,13 +17,13 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 import daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_dao
 import matplotlib.pyplot as plt
-
+import math
 
 def _filter_result(result):
     return result.number_of_states == 20 and result.training_set_size == 20 and result.number_of_patterns == 2
 
 def plot_a_performance():
-    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/s50_p10_av_n25_2')
+    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/s50_p10_av_n200_high')
     # filtered_training_results = list(filter(_filter_result, training_results))
 
     sorted_results = {}
@@ -48,7 +48,9 @@ def plot_a_performance():
         else:
             performance_list.append(-0.1)
 
-    plt.scatter(initial_activity_parameter_factors, performance_list)
-    plt.xlabel('initial activity parameter factor')
+    initial_activity_parameter_list = [a * math.exp(-2.5) for a in initial_activity_parameter_factors]
+
+    plt.scatter(initial_activity_parameter_list, performance_list)
+    plt.xlabel('initial value activity parameters')
     plt.ylabel('performance')
     plt.show()
