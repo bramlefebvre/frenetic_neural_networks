@@ -53,6 +53,8 @@ def _find_hairs(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruc
     while len(hair_finding_progress) > 0:
         for hair_finding_progress_for_basin in hair_finding_progress:
             find_hair_response: FindHairResponse = find_hair(graph, hair_finding_progress_for_basin, basins)
+            if find_hair_response.no_free_vertices_anymore:
+                return
             _handle_find_hair_response(find_hair_response, hair_finding_progress_for_basin)
         hair_finding_progress: list[HairFindingProgressForBasin] = [progress for progress in hair_finding_progress if progress.vertex_could_be_added]
     
@@ -62,9 +64,10 @@ def _handle_find_hair_response(find_hair_response: FindHairResponse, hair_findin
         hair_finding_progress_for_basin.vertex_could_be_added = False
     else:
         assert find_hair_response.destination_vertex is not None
+        assert find_hair_response.length_of_hair is not None
         if find_hair_response.increase_length_of_hair_to_find:
             hair_finding_progress_for_basin.length_of_hair_to_find += 1
-        hair_finding_progress_for_basin.add_hair_element(find_hair_response.new_vertex, find_hair_response.destination_vertex)
+        hair_finding_progress_for_basin.add_hair_element(find_hair_response.new_vertex, find_hair_response.destination_vertex, find_hair_response.length_of_hair)
 
 
 def _find_cycles_containing_pattern_vertices(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruction, ...]):

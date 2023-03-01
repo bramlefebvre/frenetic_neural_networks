@@ -33,7 +33,7 @@ driving_value = 5
 travel_time = 1
 learning_rate = 0.5
 desired_residence_time = 0.2
-filename = 'data/step_2/s50_p10_av_n200_high_2'
+filename = 'data/step_2/s50_p10_a100_n200_ev'
 
 # def _generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns):
 #     fraction = 1 / 10 * number_of_states / number_of_patterns
@@ -77,18 +77,19 @@ def train():
 def train_driving_value():
     number_of_states = 50
     number_of_patterns = 10
-    initial_activity_parameter_factor = 20
+    initial_activity_parameter_factor = 100
     training_set_size = 200
     disentangled_systems = analysis_util.generate_disentangled_systems(number_of_states, number_of_patterns)
-    driving_value_list = range(1, 11)
+    driving_value_list = [math.log(5), math.log(6), math.log(7), math.log(8), math.log(9), math.log(10)]
     training_data_list = []
     for driving_value in driving_value_list:
         for disentangled_system in disentangled_systems:
             initial_dynamics = initialize_dynamics(disentangled_system, driving_value, initial_activity_parameter_factor, travel_time)
             training_result = train_starting_with_random_vertex_n_times(initial_dynamics, algorithm, learning_rate, desired_residence_time, training_set_size)
             if training_result.success:
-                performance = calculate_performance(training_result.dynamics, desired_residence_time, 100)
-            else: 
+                performance = calculate_performance(training_result.dynamics, desired_residence_time, 1)
+            else:
+                print('NO SUCCESS!!!!')
                 performance = None
             training_data = TrainingAnalysisData(disentangled_system.id, training_result.success, number_of_states, number_of_patterns, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance, None)
             training_data_list.append(training_data)

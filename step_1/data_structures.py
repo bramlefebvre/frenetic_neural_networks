@@ -57,6 +57,7 @@ class CycleFindingProgressForBasin:
 class FindHairResponse:
     new_vertex: int | None
     destination_vertex: int | None
+    length_of_hair: int | None
     increase_length_of_hair_to_find: bool = False
     no_free_vertices_anymore: bool = False
 
@@ -65,16 +66,22 @@ class HairFindingProgressForBasin:
     basin: BasinUnderConstruction
     non_pattern_vertices_in_a_cycle: frozenset[int] = field(init = False)
     length_of_hair_to_find: int = 1
-    hair_vertices: set[int] = field(default_factory=set)
+    hair_start_vertices_for_length: dict[int, set[int]] = field(default_factory=dict)
     vertex_could_be_added: bool = True
 
     def __post_init__(self):
         self.non_pattern_vertices_in_a_cycle = frozenset(self.basin.vertices - self.basin.pattern_vertices)
     
-    def add_hair_element(self, new_vertex :int, destination_vertex: int):
-        self.hair_vertices.add(new_vertex)
+    def add_hair_element(self, new_vertex :int, destination_vertex: int, length_of_hair: int):
+        self._add_hair_start_vertex(new_vertex, length_of_hair)
         self.basin.vertices.add(new_vertex)
         self.basin.arcs.add((new_vertex, destination_vertex))
+
+    def _add_hair_start_vertex(self, new_vertex: int, length_of_hair: int):
+        if not length_of_hair in self.hair_start_vertices_for_length:
+            self.hair_start_vertices_for_length[length_of_hair] = set()
+        self.hair_start_vertices_for_length[length_of_hair].add(new_vertex)
+
 
 @dataclass(frozen = True)
 class CompletedBasin:

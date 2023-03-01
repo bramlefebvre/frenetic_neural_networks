@@ -27,19 +27,21 @@ random_number_generator = numpy.random.default_rng()
 def find_hair(graph: npt.NDArray[numpy.int_], hair_finding_progress_for_basin: HairFindingProgressForBasin, basins: tuple[BasinUnderConstruction, ...]) -> FindHairResponse:
     free_vertices: frozenset[int] = _get_free_vertices(len(graph), basins)
     if len(free_vertices) == 0:
-        find_hair_response: FindHairResponse = FindHairResponse(None, None, False, True)
+        find_hair_response: FindHairResponse = FindHairResponse(None, None, None, False, True)
     else:
         hair_length: int = hair_finding_progress_for_basin.length_of_hair_to_find
         path: tuple[int, int] | None = _find_hair_of_certain_length(graph, hair_finding_progress_for_basin, free_vertices, hair_length)
         if path is None:
+            if hair_length not in hair_finding_progress_for_basin.hair_start_vertices_for_length:
+                return FindHairResponse(None, None, None)
             hair_length += 1
             path = _find_hair_of_certain_length(graph, hair_finding_progress_for_basin, free_vertices, hair_length)
             if path is None:
-                find_hair_response = FindHairResponse(None, None)
+                find_hair_response = FindHairResponse(None, None, None)
             else:
-                find_hair_response = FindHairResponse(path[0], path[1], True)
+                find_hair_response = FindHairResponse(path[0], path[1], hair_length, True)
         else:
-            find_hair_response = FindHairResponse(path[0], path[1])
+            find_hair_response = FindHairResponse(path[0], path[1], hair_length)
     return find_hair_response
 
 
@@ -67,32 +69,16 @@ def _find_hair_of_length_longer_than_1(graph: npt.NDArray[numpy.int_], hair_find
     
 
 def _get_fitting_hair_vertex(new_vertex: int, graph: npt.NDArray[numpy.int_], hair_finding_progress_for_basin: HairFindingProgressForBasin, hair_length: int) -> int | None:
-    hair_vertices: list[int] = [vertex for vertex in hair_finding_progress_for_basin.hair_vertices if graph[new_vertex, vertex] == 1 and _length_already_present_hair_fits(hair_finding_progress_for_basin, hair_length, vertex)]
+    length_already_existing_hair: int = hair_length - 1
+    assert length_already_existing_hair in hair_finding_progress_for_basin.hair_start_vertices_for_length
+    fitting_start_vertices_existing_hair: set[int] = hair_finding_progress_for_basin.hair_start_vertices_for_length[length_already_existing_hair]
+    hair_vertices: list[int] = [vertex for vertex in fitting_start_vertices_existing_hair if graph[new_vertex, vertex] == 1]
+
     if len(hair_vertices) == 0:
         return None
     else:
         return _pick_one(hair_vertices)
-    
-def _length_already_present_hair_fits(hair_finding_progress_for_basin: HairFindingProgressForBasin, hair_length: int, already_present_hair_vertex: int) -> bool:
-    number_of_vertices_left_to_add: int = hair_length - 1
-    number_of_vertices_on_hair_starting_from_already_present_hair_vertex: int = _number_of_vertices_on_hair_starting_from_already_present_hair_vertex(hair_finding_progress_for_basin, already_present_hair_vertex)
-    return number_of_vertices_left_to_add == number_of_vertices_on_hair_starting_from_already_present_hair_vertex
 
-def _number_of_vertices_on_hair_starting_from_already_present_hair_vertex(hair_finding_progress_for_basin: HairFindingProgressForBasin, already_present_hair_vertex: int) -> int:
-    number: int = 1
-    arcs: set[tuple[int, int]] = hair_finding_progress_for_basin.basin.arcs
-    destination: int = _destination_arc_starting_from_vertex(arcs, already_present_hair_vertex)
-    while destination in hair_finding_progress_for_basin.hair_vertices:
-        number += 1
-        destination = _destination_arc_starting_from_vertex(arcs, destination)
-    assert destination in hair_finding_progress_for_basin.non_pattern_vertices_in_a_cycle
-    return number
-        
-
-def _destination_arc_starting_from_vertex(arcs: set[tuple[int, int]], vertex: int) -> int:
-    destinations_of_arcs_starting_from_vertex: list[int] = [arc[1] for arc in arcs if arc[0] == vertex]
-    assert len(destinations_of_arcs_starting_from_vertex) == 1
-    return destinations_of_arcs_starting_from_vertex[0]
 
 def _get_free_vertices(number_of_vertices: int, basins: tuple[BasinUnderConstruction, ...]) -> frozenset[int]:
     vertices_in_a_basin: set[int] = set()

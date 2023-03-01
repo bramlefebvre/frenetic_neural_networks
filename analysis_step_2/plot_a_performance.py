@@ -23,7 +23,7 @@ def _filter_result(result):
     return result.number_of_states == 20 and result.training_set_size == 20 and result.number_of_patterns == 2
 
 def plot_a_performance():
-    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/s50_p10_av_n200_high')
+    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/s50_p10_av_n200_high_2')
     # filtered_training_results = list(filter(_filter_result, training_results))
 
     sorted_results = {}
