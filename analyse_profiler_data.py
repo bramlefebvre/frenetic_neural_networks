@@ -17,5 +17,5 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 import pstats
 
-stats = pstats.Stats('data/step_2_profiler_data_2')
+stats = pstats.Stats('data/step_1/profile_data')
 stats.sort_stats(pstats.SortKey.CUMULATIVE).print_stats(20)
