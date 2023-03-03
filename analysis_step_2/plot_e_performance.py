@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import math
 
 def plot_e_performance():
-    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/s50_p10_a100_n200_ev')
+    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/s50_p10_a20_n200_ev_2')
     # filtered_training_results = list(filter(_filter_result, training_results))
 
     sorted_results = {}
@@ -40,11 +40,14 @@ def plot_e_performance():
     
     # plt.show()
 
-    plt.scatter(driving_value_list, performance_list)
-    my_xticks = ['log(5)', 'log(6)', 'log(7)', 'log(8)', 'log(9)', 'log(10)']
-    plt.xticks(driving_value_list, my_xticks)
+    print(driving_value_list)
+    print(performance_list)
 
-    plt.xlabel('driving value')
-    plt.ylabel('performance')
-    plt.show()
+    # plt.scatter(driving_value_list, performance_list)
+    # my_xticks = ['log(5)', 'log(6)', 'log(7)', 'log(8)', 'log(9)', 'log(10)']
+    # plt.xticks(driving_value_list, my_xticks)
+
+    # plt.xlabel('driving value')
+    # plt.ylabel('performance')
+    # plt.show()
     
