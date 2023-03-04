@@ -150,6 +150,38 @@ def plot_dependency_on_k():
     plt.ylabel('average difference in size basins')
     plt.show()
 
+def plot_dependency_on_d():
+    filename = 'data/step_1/s50_p10_dv'
+    training_data_list = step_1_training_analysis_data_dao.get_training_data(filename)
+    sorted_results: dict[float, list[TrainingAnalysisData]] = {}
+    for result in training_data_list:
+        fraction_of_arcs_present = result.fraction_of_arcs_present
+        if fraction_of_arcs_present not in sorted_results:
+            sorted_results[fraction_of_arcs_present] = []
+        sorted_results[fraction_of_arcs_present].append(result)
+    
+    fraction_of_arcs_present_list = []
+    average_difference_list = []
+
+    for fraction_of_arcs_present, results in sorted_results.items():
+        fraction_of_arcs_present_list.append(fraction_of_arcs_present)
+        number = 0
+        summed_average_differences = 0
+        for result in results:
+            number += 1
+            sizes_of_basins = result.sizes_of_basins
+            if sizes_of_basins is None:
+                raise ValueError('sizes of basins is None')
+            summed_average_differences += _calculate_average_difference(sizes_of_basins)
+        average_difference_list.append(summed_average_differences / number)
+    
+    plt.scatter(fraction_of_arcs_present_list, average_difference_list)
+    plt.xlabel('fraction of arcs present')
+    plt.ylabel('average difference in size basins')
+    plt.show()
+
+
+
 
 def _calculate_average_difference(sizes_of_basins: list[int]):
     if len(sizes_of_basins) == 1:

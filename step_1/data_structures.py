@@ -103,10 +103,11 @@ class TrainingResult:
     disentangled_system: DisentangledSystem
 
 
-@dataclass
+@dataclass(frozen = True)
 class TrainingAnalysisData:
     number_of_states: int
     number_of_patterns: int
+    fraction_of_arcs_present: float
     sizes_of_basins: list[int] | None
     calculation_duration: float | None
 

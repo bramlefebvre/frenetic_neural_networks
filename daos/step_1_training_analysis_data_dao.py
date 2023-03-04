@@ -1,6 +1,6 @@
 '''
 Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
-Copyright (C) 2022 Bram Lefebvre
+Copyright (C) 2022-2023 Bram Lefebvre
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
@@ -31,6 +31,7 @@ def _serialize_training_data(training_result):
     serialized = {
         'number_of_states': training_result.number_of_states,
         'number_of_patterns': training_result.number_of_patterns,
+        'fraction_of_arcs_present': training_result.fraction_of_arcs_present,
         'sizes_of_basins': training_result.sizes_of_basins,
         'calculation_duration': training_result.calculation_duration
     }
@@ -39,8 +40,9 @@ def _serialize_training_data(training_result):
 def _deserialize_training_data(serialized):
     number_of_states = serialized['number_of_states']
     number_of_patterns = serialized['number_of_patterns']
+    fraction_of_arcs_present = serialized['fraction_of_arcs_present']
     sizes_of_basins = serialized['sizes_of_basins']
     calculation_duration = serialized['calculation_duration']
-    return TrainingAnalysisData(number_of_states, number_of_patterns, sizes_of_basins, calculation_duration)
+    return TrainingAnalysisData(number_of_states, number_of_patterns, fraction_of_arcs_present, sizes_of_basins, calculation_duration)
 
 
