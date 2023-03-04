@@ -18,7 +18,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 from typing import Iterable
 import numpy
 import math
-from daos.tournaments_and_patterns_dao import generate_single_tournament_and_patterns
+from daos.graphs_and_patterns_dao import generate_single_tournament_and_patterns
 from step_1.find_disentangled_system import find_disentangled_system
 
 random_number_generator = numpy.random.default_rng()

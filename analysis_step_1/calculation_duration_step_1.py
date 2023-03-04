@@ -22,7 +22,7 @@ from step_1.find_disentangled_system import find_disentangled_system
 import timeit
 import time
 import analysis_util
-from daos.tournaments_and_patterns_dao import generate_single_tournament_and_patterns
+from daos.graphs_and_patterns_dao import generate_single_tournament_and_patterns
 import daos.step_1_training_analysis_data_dao as step_1_training_analysis_data_dao
 
 def _get_mean(getter, results):

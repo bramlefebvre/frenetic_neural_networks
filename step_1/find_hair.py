@@ -86,7 +86,7 @@ def _get_free_vertices(number_of_vertices: int, basins: tuple[BasinUnderConstruc
     return frozenset(range(number_of_vertices)) - vertices_in_a_basin
 
 def _pick_one_arc(arcs: list[tuple[int, int]]) -> tuple[int, int]:
-    return random_number_generator.choice(arcs)
+    return tuple(random_number_generator.choice(arcs))
 
 def _pick_one(vertices: list[int]) -> int:
     return random_number_generator.choice(vertices)

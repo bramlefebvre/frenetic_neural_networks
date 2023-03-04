@@ -17,7 +17,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 from statistics import mean
 from daos.step_2_training_analysis_data_dao import save_training_data
-from daos.tournaments_and_patterns_dao import generate_single_tournament_and_patterns
+from daos.graphs_and_patterns_dao import generate_single_tournament_and_patterns
 from step_2.data_structures import LearningAlgorithm
 from step_2.initialize_dynamics import initialize_dynamics
 from step_2.training import train_starting_with_random_vertex_n_times

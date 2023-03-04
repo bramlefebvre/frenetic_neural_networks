@@ -23,8 +23,8 @@ import numpy.typing as npt
 
 
 @dataclass(frozen = True)
-class TournamentAndPatterns:
-    tournament: npt.NDArray[numpy.int_]
+class GraphAndPatterns:
+    graph: npt.NDArray[numpy.int_]
     patterns: tuple[frozenset[int], ...]
     id: Any = None
 

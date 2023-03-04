@@ -15,7 +15,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-import daos.tournaments_and_patterns_dao as tournaments_and_patterns_dao
+import daos.graphs_and_patterns_dao as graphs_and_patterns_dao
 import step_1.Moon_version.find_disentangled_system as find_disentangled_system
 import pandas
 from step_2.calculate_path import calculate_path
@@ -30,11 +30,11 @@ def pprint(object):
 def demo_all():
     number_of_vertices = 12
     serialized_patterns = [[0], [2], [3]]
-    patterns = tournaments_and_patterns_dao.to_tuple_of_sets(serialized_patterns)
-    tournament_and_patterns = tournaments_and_patterns_dao.generate_single_tournament_and_patterns(number_of_vertices, patterns)
+    patterns = graphs_and_patterns_dao.to_tuple_of_sets(serialized_patterns)
+    tournament_and_patterns = graphs_and_patterns_dao.generate_single_tournament_and_patterns(number_of_vertices, patterns)
     exuberant_system = find_disentangled_system.find_disentangled_system(tournament_and_patterns, False).disentangled_system
     print('original tournament:')
-    pprint(tournament_and_patterns.tournament)
+    pprint(tournament_and_patterns.graph)
     print('basins:')
     print([set(basin.vertices) for basin in exuberant_system.basins])
     print('graph:')

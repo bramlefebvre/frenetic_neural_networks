@@ -15,7 +15,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-from daos.tournaments_and_patterns_dao import generate_single_tournament_and_patterns
+from daos.graphs_and_patterns_dao import generate_single_tournament_and_patterns
 from step_1.find_disentangled_system import find_disentangled_system
 import analysis_util
 import cProfile

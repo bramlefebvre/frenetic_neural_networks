@@ -15,13 +15,13 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-from daos.tournaments_and_patterns_dao import get_single_tournament_and_patterns
+from daos.graphs_and_patterns_dao import get_single_graph_and_patterns
 import timeit
 import time
 from step_1.Moon_version.find_disentangled_system import find_disentangled_system
 
 
-tournament_and_patterns = get_single_tournament_and_patterns('1000_50_0', 'data/step_1/tournament_1000_50_0')
+tournament_and_patterns = get_single_graph_and_patterns('1000_50_0', 'data/step_1/tournament_1000_50_0')
 
 timer = timeit.Timer(lambda: find_disentangled_system(tournament_and_patterns, True))
 times_executed, total_duration = timer.autorange()

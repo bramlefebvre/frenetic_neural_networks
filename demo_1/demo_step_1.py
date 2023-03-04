@@ -15,7 +15,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-import daos.tournaments_and_patterns_dao as tournaments_and_patterns_dao
+import daos.graphs_and_patterns_dao as graphs_and_patterns_dao
 import step_1.find_disentangled_system as find_disentangled_system
 import pandas
 
@@ -25,15 +25,15 @@ def pprint(object):
 def demo_step_1():
     number_of_vertices = 12
     serialized_patterns = [[0], [2], [3]]
-    patterns = tournaments_and_patterns_dao.to_tuple_of_sets(serialized_patterns)
+    patterns = graphs_and_patterns_dao.to_tuple_of_sets(serialized_patterns)
 
-    tournament_and_patterns = tournaments_and_patterns_dao.generate_single_tournament_and_patterns(number_of_vertices, patterns)
+    tournament_and_patterns = graphs_and_patterns_dao.generate_single_tournament_and_patterns(number_of_vertices, patterns)
 
-    tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('example_thesis', 'data/tournaments')
+    tournament_and_patterns = graphs_and_patterns_dao.get_single_graph_and_patterns('example_thesis', 'data/tournaments')
     exuberant_system = find_disentangled_system.find_disentangled_system(tournament_and_patterns).disentangled_system
 
     print('original tournament:')
-    pprint(tournament_and_patterns.tournament)
+    pprint(tournament_and_patterns.graph)
     print('exuberant system graph:')
     pprint(exuberant_system.graph)
     print('basins:')

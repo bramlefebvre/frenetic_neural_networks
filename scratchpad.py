@@ -1,14 +1,11 @@
 
-from dataclasses import dataclass, field
 
 
-a = {}
+from daos.graphs_and_patterns_dao import generate_single_graph_and_patterns
+from step_1.find_disentangled_system import find_disentangled_system
 
-@dataclass
-class DictTestClass:
-    dict_field: dict[int, set[int]] = field(default_factory=dict)
 
-test = DictTestClass()
 
-test.dict_field[1] = {2, 3}
-print(2 not in test.dict_field)
+graph_and_patterns = generate_single_graph_and_patterns(10, (frozenset({0}), frozenset({2})), 0.8)
+
+find_disentangled_system(graph_and_patterns)

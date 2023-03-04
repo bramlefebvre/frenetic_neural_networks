@@ -14,7 +14,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 <https://www.gnu.org/licenses/>.
 '''
 
-from step_1.data_structures import BasinUnderConstruction, CompletedBasin, CycleFindingProgressForBasin, DisentangledSystem, HairFindingProgressForBasin, TournamentAndPatterns, TrainingResult
+from step_1.data_structures import BasinUnderConstruction, CompletedBasin, CycleFindingProgressForBasin, DisentangledSystem, HairFindingProgressForBasin, GraphAndPatterns, TrainingResult
 import numpy
 import numpy.typing as npt
 from step_1.find_cycle import FindCycleResponse, find_cycle
@@ -22,9 +22,9 @@ from step_1.find_hair import FindHairResponse, find_hair
 
 random_number_generator = numpy.random.default_rng()
 
-def find_disentangled_system(graph_and_patterns: TournamentAndPatterns) -> TrainingResult:
+def find_disentangled_system(graph_and_patterns: GraphAndPatterns) -> TrainingResult:
     basins: tuple[BasinUnderConstruction, ...] = _find_basins(graph_and_patterns)
-    graph: npt.NDArray[numpy.int_] = _to_disentangled_system_graph(basins, len(graph_and_patterns.tournament))
+    graph: npt.NDArray[numpy.int_] = _to_disentangled_system_graph(basins, len(graph_and_patterns.graph))
     completed_basins: tuple[CompletedBasin, ...] = tuple(map(_to_completed_basin, basins))
     return TrainingResult(DisentangledSystem(graph_and_patterns.id, graph, completed_basins))
 
@@ -41,9 +41,9 @@ def _to_completed_basin(basin: BasinUnderConstruction) -> CompletedBasin:
     return CompletedBasin(basin.index, basin.pattern_vertices, frozenset(basin.vertices))
 
 
-def _find_basins(graph_and_patterns: TournamentAndPatterns) -> tuple[BasinUnderConstruction, ...]:
+def _find_basins(graph_and_patterns: GraphAndPatterns) -> tuple[BasinUnderConstruction, ...]:
     basins: tuple[BasinUnderConstruction, ...] = _initialize_basins(graph_and_patterns.patterns)
-    graph: npt.NDArray[numpy.int_] = graph_and_patterns.tournament
+    graph: npt.NDArray[numpy.int_] = graph_and_patterns.graph
     _find_cycles_containing_pattern_vertices(graph, basins)
     _find_hairs(graph, basins)
     return basins

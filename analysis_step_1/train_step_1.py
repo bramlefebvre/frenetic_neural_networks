@@ -15,7 +15,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-from daos.tournaments_and_patterns_dao import generate_single_tournament_and_patterns
+from daos.graphs_and_patterns_dao import generate_single_graph_and_patterns
 from step_1.data_structures import TrainingAnalysisData
 from step_1.find_disentangled_system import find_disentangled_system
 from daos.step_1_training_analysis_data_dao import save_training_data
@@ -26,6 +26,7 @@ import analysis_util
 
 low = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 high = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
+fraction_of_arcs_present = 0.5
 
 def train():
     number_of_states_list = [1000]
@@ -38,17 +39,11 @@ def train():
             print([number_of_states, number_of_patterns])
             for i in range(100):
                 patterns = analysis_util.generate_single_state_patterns(number_of_states, number_of_patterns)
-                tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
-                disentangled_system = find_disentangled_system(tournament_and_patterns).disentangled_system
+                graph_and_patterns = generate_single_graph_and_patterns(number_of_states, patterns, fraction_of_arcs_present)
+                disentangled_system = find_disentangled_system(graph_and_patterns).disentangled_system
                 sizes_of_basins = analysis_util.to_sizes_of_basins(disentangled_system)
                 training_data = TrainingAnalysisData(number_of_states, number_of_patterns, sizes_of_basins, None)
                 training_data_list.append(training_data)
-        save_training_data(training_data_list, 'data/step_1/s1000_pv')
+        save_training_data(training_data_list, 'data/step_1/s1000_pv_d0.5')
 
 
-
-        # for j in range(10):
-        #             disentangled_system = find_disentangled_system(tournament_and_patterns).disentangled_system
-        #             sizes_of_basins = analysis_util.to_sizes_of_basins(disentangled_system)
-        #             training_data = TrainingAnalysisData(number_of_states, number_of_patterns, sizes_of_basins, None)
-        #             training_data_list.append(training_data)

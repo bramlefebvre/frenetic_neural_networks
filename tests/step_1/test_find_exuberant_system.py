@@ -17,7 +17,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 import unittest
 from unittest.mock import MagicMock, patch
-import daos.tournaments_and_patterns_dao as tournaments_and_patterns_dao
+import daos.graphs_and_patterns_dao as graphs_and_patterns_dao
 from step_1.Moon_version.find_disentangled_system import find_disentangled_system
 from copy import deepcopy
 
@@ -26,16 +26,16 @@ filename = 'tests/data/tournaments'
 class GeneralMoonType2TestCase0(unittest.TestCase):
 
     def test_entries_are_turned_into_minus_one_or_stay_the_same(self):
-        tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('size_8_0', filename)
+        tournament_and_patterns = graphs_and_patterns_dao.get_single_graph_and_patterns('size_8_0', filename)
         exuberant_system = find_disentangled_system(tournament_and_patterns)
-        tournament = tournament_and_patterns.tournament
+        tournament = tournament_and_patterns.graph
         graph = exuberant_system.graph
         for row in range(8):
             for column in range(8):
                 self.assertIn(graph[row, column], {tournament[row, column], -1}, 'problem for row: {row} and column: {column}'.format(row = str(row), column = str(column)))
 
     def test_only_arcs_between_vertices_of_same_basin(self):
-        tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('size_8_0', filename)
+        tournament_and_patterns = graphs_and_patterns_dao.get_single_graph_and_patterns('size_8_0', filename)
         exuberant_system = find_disentangled_system(tournament_and_patterns)
         basins = exuberant_system.basins
         graph = exuberant_system.graph
@@ -46,7 +46,7 @@ class GeneralMoonType2TestCase0(unittest.TestCase):
                     self.assertIn(column, basin.vertices, 'problem for row: {row} and column: {column}'.format(row = str(row), column = str(column)))
 
     def test_at_least_one_incoming_and_one_leaving_arc(self):
-        tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('size_8_0', filename)
+        tournament_and_patterns = graphs_and_patterns_dao.get_single_graph_and_patterns('size_8_0', filename)
         exuberant_system = find_disentangled_system(tournament_and_patterns)
         basins = exuberant_system.basins
         graph = exuberant_system.graph
@@ -63,7 +63,7 @@ class SpecificMoonType2TestCase0(unittest.TestCase):
     @patch('step_1.find_exuberant_system.find_cycle')
     def test_specific_0(self, find_cycle_mock):
         find_cycle_mock = _copy_mock(find_cycle_mock)
-        tournament_and_patterns = tournaments_and_patterns_dao.get_single_tournament_and_patterns('size_8_0', filename)
+        tournament_and_patterns = graphs_and_patterns_dao.get_single_graph_and_patterns('size_8_0', filename)
         exuberant_system = find_disentangled_system(tournament_and_patterns)
         
         self.assertEqual(exuberant_system.tournament_and_patterns_id, 'size_8_0')
@@ -74,7 +74,7 @@ class SpecificMoonType2TestCase0(unittest.TestCase):
         calls = find_cycle_mock.call_args_list
         self.assertEqual(len(calls), 4)
         for call in calls:
-            self.assertEqual(call.args[0].tolist(), tournament_and_patterns.tournament.tolist())
+            self.assertEqual(call.args[0].tolist(), tournament_and_patterns.graph.tolist())
         self._check_first_call(calls[0])
         self._check_second_call(calls[1])
         self._check_third_call(calls[2])
