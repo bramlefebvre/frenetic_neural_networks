@@ -18,8 +18,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 from typing import Iterable
 import numpy
 import numpy.typing as npt
-from step_1.data_structures import BasinUnderConstruction, FindCycleResponse
-from step_1.find_disentangled_system import CycleFindingProgressForBasin
+from step_1.data_structures import BasinUnderConstruction, FindCycleResponse, CycleFindingProgressForBasin
 
 random_number_generator = numpy.random.default_rng()
 

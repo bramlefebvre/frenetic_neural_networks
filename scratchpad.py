@@ -11,7 +11,11 @@ random_number_generator = numpy.random.default_rng()
 # find_disentangled_system(graph_and_patterns)
 
 
-graph = -numpy.ones((2, 2), dtype=numpy.int_)
+a = [(1, 1), (1, 2), (1, 2, 3)]
 
-a = numpy.int32(1)
-print(0 not in graph[a, :])
+def _pick_one_tuple(tuples: list[tuple[int, ...]]) -> tuple[int, ...]:
+    index = random_number_generator.integers(len(tuples))
+    return tuples[index]
+
+print(type(_pick_one_tuple(a)))
+

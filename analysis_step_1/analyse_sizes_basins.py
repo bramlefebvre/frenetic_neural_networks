@@ -120,7 +120,7 @@ def plot_dependency_on_s():
     plt.show()
 
 def plot_dependency_on_k():
-    filename = 'data/step_1/s1000_pv'
+    filename = 'data/step_1/s1000_pv_d1'
     training_data_list = step_1_training_analysis_data_dao.get_training_data(filename)
     
     sorted_results: dict[int, list[TrainingAnalysisData]] = {}
