@@ -81,8 +81,8 @@ def _find_cycles_containing_pattern_vertices(graph: npt.NDArray[numpy.int_], bas
 
 def _handle_find_cycle_response(find_cycle_response: FindCycleResponse, cycle_finding_progress_for_basin: CycleFindingProgressForBasin):
     if find_cycle_response.cycle is None:
-        if find_cycle_response.did_not_have_enough_available_vertices:
-            cycle_finding_progress_for_basin.did_not_have_enough_available_vertices = True
+        if find_cycle_response.no_cycle_can_be_found:
+            cycle_finding_progress_for_basin.no_cycle_can_be_found = True
         else:
             cycle_finding_progress_for_basin.length_of_cycle_to_find += 1
     else:

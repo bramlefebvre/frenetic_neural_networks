@@ -58,8 +58,7 @@ def _finish_path(path: list[int], graph: npt.NDArray[numpy.int_], forward_vertic
 
 def _get_forward_vertices(path: list[int], graph: npt.NDArray[numpy.int_], available_vertices: frozenset[int]) -> list[int]:
     last_vertex_in_path: int = path[-1]
-    graph_values: npt.NDArray[numpy.int_] = graph[last_vertex_in_path, :]
-    forward_vertices: list[int] = [vertex for vertex in available_vertices if vertex not in path and graph_values[vertex] == 1]
+    forward_vertices: list[int] = [vertex for vertex in available_vertices if vertex not in path and graph[last_vertex_in_path, vertex] == 1]
     random_number_generator.shuffle(forward_vertices)
     return forward_vertices
     

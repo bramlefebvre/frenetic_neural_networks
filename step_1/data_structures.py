@@ -38,20 +38,21 @@ class BasinUnderConstruction:
 @dataclass(frozen = True)
 class FindCycleResponse:
     cycle: tuple[int, ...] | None
-    did_not_have_enough_available_vertices: bool = False
+    no_cycle_can_be_found: bool = False
 
 @dataclass
 class CycleFindingProgressForBasin:
     basin: BasinUnderConstruction
     pattern_vertices_not_in_a_cycle: set[int] = field(init = False)
     length_of_cycle_to_find: int = 3
-    did_not_have_enough_available_vertices: bool = False
+    no_cycle_can_be_found: bool = False
 
     def __post_init__(self):
         self.pattern_vertices_not_in_a_cycle = set(self.basin.pattern_vertices)
     
     def finished(self) -> bool:
-        return self.did_not_have_enough_available_vertices or len(self.pattern_vertices_not_in_a_cycle) == 0
+        return self.no_cycle_can_be_found or len(self.pattern_vertices_not_in_a_cycle) == 0
+
 
 @dataclass(frozen = True)
 class FindHairResponse:

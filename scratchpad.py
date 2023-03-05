@@ -10,6 +10,8 @@ random_number_generator = numpy.random.default_rng()
 
 # find_disentangled_system(graph_and_patterns)
 
-a = [1, 2, 3, 4, 5, 6, 7, 8]
-random_number_generator.shuffle(a)
-print(type(a))
+
+graph = -numpy.ones((2, 2), dtype=numpy.int_)
+
+a = numpy.int32(1)
+print(0 not in graph[a, :])
