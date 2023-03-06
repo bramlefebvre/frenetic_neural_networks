@@ -45,27 +45,45 @@ def _to_completed_basin(basin: BasinUnderConstruction) -> CompletedBasin:
 def _find_basins(graph_and_patterns: GraphAndPatterns) -> tuple[BasinUnderConstruction, ...]:
     basins: tuple[BasinUnderConstruction, ...] = _initialize_basins(graph_and_patterns.patterns)
     graph: npt.NDArray[numpy.int_] = graph_and_patterns.graph
-    _find_cycles_containing_pattern_vertices_2(graph, basins)
+    _find_cycles_containing_pattern_vertices_1(graph, basins)
     _find_hairs(graph, basins)
     return basins
 
 def _find_hairs(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruction, ...]) -> None:
-    hair_finding_progress = list(map(lambda basin: HairFindingProgressForBasin(basin), basins))
+    hair_finding_progress: list[HairFindingProgressForBasin] = [HairFindingProgressForBasin(basin) for basin in basins if _size_of_basin(basin) > 0]
+    _find_hairs_for_smaller_basins(graph, hair_finding_progress, basins)
+    
     while len(hair_finding_progress) > 0:
         for hair_finding_progress_for_basin in hair_finding_progress:
             find_hair_response: FindHairResponse = find_hair(graph, hair_finding_progress_for_basin, basins)
             if find_hair_response.no_free_vertices_anymore:
                 return
             _handle_find_hair_response(find_hair_response, hair_finding_progress_for_basin)
-        hair_finding_progress: list[HairFindingProgressForBasin] = [progress for progress in hair_finding_progress if progress.vertex_could_be_added]
-    
+        hair_finding_progress = [progress for progress in hair_finding_progress if progress.vertex_could_be_added]
+
+
+def _find_hairs_for_smaller_basins(graph: npt.NDArray[numpy.int_], hair_finding_progress: list[HairFindingProgressForBasin], basins: tuple[BasinUnderConstruction, ...]):
+    size_biggest_basin = max([_size_of_basin(hair_finding_progress_for_basin.basin) for hair_finding_progress_for_basin in hair_finding_progress])
+    progress_smaller_basins = [hair_finding_progress_for_basin for hair_finding_progress_for_basin in hair_finding_progress if 
+                               _size_of_basin(hair_finding_progress_for_basin.basin) < size_biggest_basin]
+    while len(progress_smaller_basins) > 0:
+        for hair_finding_progress_for_basin in progress_smaller_basins:
+            find_hair_response = find_hair(graph, hair_finding_progress_for_basin, basins)
+            if find_hair_response.no_free_vertices_anymore:
+                return
+            _handle_find_hair_response(find_hair_response, hair_finding_progress_for_basin)
+        progress_smaller_basins = [progress for progress in progress_smaller_basins if progress.vertex_could_be_added and _size_of_basin(progress.basin) < size_biggest_basin]
+
+
+def _size_of_basin(basin: BasinUnderConstruction):
+    return len(basin.vertices) - len(basin.pattern_vertices)
+
 
 def _handle_find_hair_response(find_hair_response: FindHairResponse, hair_finding_progress_for_basin: HairFindingProgressForBasin) -> None:
     if find_hair_response.new_vertex is None:
         hair_finding_progress_for_basin.vertex_could_be_added = False
     else:
-        assert find_hair_response.destination_vertex is not None
-        assert find_hair_response.length_of_hair is not None
+        assert find_hair_response.destination_vertex is not None and find_hair_response.length_of_hair is not None
         if find_hair_response.increase_length_of_hair_to_find:
             hair_finding_progress_for_basin.length_of_hair_to_find += 1
         hair_finding_progress_for_basin.add_hair_element(find_hair_response.new_vertex, find_hair_response.destination_vertex, find_hair_response.length_of_hair)

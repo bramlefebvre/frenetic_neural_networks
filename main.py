@@ -50,5 +50,5 @@ from demo_1.demo_step_2 import demo_step_2
 from demo_1.demo_step_2_2 import demo_step_2_2
 from analysis_step_1.smallest_basin_size_hist import smallest_basin_size_hist
 
-step_1_plot_dependency_on_k()
 
+step_1_plot_dependency_on_d()

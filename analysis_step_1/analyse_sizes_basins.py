@@ -151,7 +151,7 @@ def plot_dependency_on_k():
     plt.show()
 
 def plot_dependency_on_d():
-    filename = 'data/step_1/s50_p10_dv'
+    filename = 'data/step_1/s100_p10_dv'
     training_data_list = step_1_training_analysis_data_dao.get_training_data(filename)
     sorted_results: dict[float, list[TrainingAnalysisData]] = {}
     for result in training_data_list:

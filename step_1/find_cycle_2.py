@@ -34,7 +34,7 @@ def _find_cycles(path: list[int], graph: npt.NDArray[numpy.int_], available_vert
         for forward_vertex in forward_vertices:
             new_path: list[int] = path.copy()
             new_path.append(forward_vertex)
-            cycles.extend(_find_cycles(new_path, graph, available_vertices))
+            cycles.extend(_find_cycles(new_path, graph, available_vertices)) # gives memory error
     return cycles
     
 

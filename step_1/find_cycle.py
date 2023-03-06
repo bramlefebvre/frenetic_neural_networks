@@ -57,9 +57,13 @@ def _finish_path(path: list[int], graph: npt.NDArray[numpy.int_], forward_vertic
 
 def _get_forward_vertices(path: list[int], graph: npt.NDArray[numpy.int_], available_vertices: frozenset[int]) -> list[int]:
     last_vertex_in_path: int = path[-1]
-    forward_vertices: list[int] = [vertex for vertex in available_vertices if vertex not in path and graph[last_vertex_in_path, vertex] == 1]
-    random_number_generator.shuffle(forward_vertices)
-    return forward_vertices
+    forward_vertices = set([vertex for vertex in available_vertices if vertex not in path and graph[last_vertex_in_path, vertex] == 1])
+    path_without_last_vertex = path[:-1]
+    vertices_to_exclude = [vertex for vertex in available_vertices if any([graph[vertex_in_path_not_last, vertex] == 1 for vertex_in_path_not_last in path_without_last_vertex])]
+    forward_vertices.difference_update(vertices_to_exclude)
+    forward_vertices_list = list(forward_vertices)
+    random_number_generator.shuffle(forward_vertices_list)
+    return forward_vertices_list
     
 
 def _get_available_vertices(number_of_vertices: int, cycle_finding_progress_for_basin: CycleFindingProgressForBasin, basins: tuple[BasinUnderConstruction, ...]) -> frozenset[int]:
