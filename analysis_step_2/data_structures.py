@@ -1,6 +1,6 @@
 '''
 Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
-Copyright (C) 2022 Bram Lefebvre
+Copyright (C) 2022-2023 Bram Lefebvre
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
@@ -16,10 +16,9 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 class TrainingAnalysisData:
-    def __init__(self, exuberant_system_id, success, number_of_states, number_of_patterns, driving_value,
+    def __init__(self, success, number_of_states, number_of_patterns, driving_value,
                  initial_activity_parameter_factor, travel_time, algorithm, learning_rate, 
                  desired_residence_time, training_set_size, performance, calculation_duration):
-        self.exuberant_system_id = exuberant_system_id
         self.success = success
         self.number_of_states = number_of_states
         self.number_of_patterns = number_of_patterns

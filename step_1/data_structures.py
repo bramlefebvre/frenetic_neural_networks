@@ -91,7 +91,7 @@ class CompletedBasin:
     vertices: frozenset[int]
 
 
-@dataclass
+@dataclass(frozen = True)
 class DisentangledSystem:
     graph_and_patterns_id: Any
     graph: npt.NDArray[numpy.int_]

@@ -1,6 +1,6 @@
 '''
 Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
-Copyright (C) 2022 Bram Lefebvre
+Copyright (C) 2022-2023 Bram Lefebvre
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
@@ -29,7 +29,6 @@ def get_training_data(filename):
 
 def _deserialize_training_data(serialized):
     success = serialized['success']
-    exuberant_system_id = serialized['exuberant_system_id']
     number_of_states = serialized['number_of_states']
     number_of_patterns = serialized['number_of_patterns']
     driving_value = serialized['driving_value']
@@ -39,7 +38,6 @@ def _deserialize_training_data(serialized):
     learning_rate = serialized['learning_rate']
     desired_residence_time = serialized['desired_residence_time']
     training_set_size = serialized['training_set_size']
-    # for backward compatibility
     if 'performance' in serialized:
         performance = serialized['performance']
     else:
@@ -48,12 +46,11 @@ def _deserialize_training_data(serialized):
         calculation_duration = serialized['calculation_duration']    
     else:
         calculation_duration = None
-    return TrainingAnalysisData(exuberant_system_id, success, number_of_states, number_of_patterns, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance, calculation_duration)
+    return TrainingAnalysisData(success, number_of_states, number_of_patterns, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance, calculation_duration)
 
 def _serialize_training_data(training_result):
     serialized = {
         'success': training_result.success,
-        'exuberant_system_id': training_result.exuberant_system_id,
         'number_of_states': training_result.number_of_states,
         'number_of_patterns': training_result.number_of_patterns,
         'driving_value': training_result.driving_value,
