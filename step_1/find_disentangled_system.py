@@ -67,12 +67,15 @@ def _find_hairs_for_smaller_basins(graph: npt.NDArray[numpy.int_], hair_finding_
     progress_smaller_basins = [hair_finding_progress_for_basin for hair_finding_progress_for_basin in hair_finding_progress if 
                                _size_of_basin(hair_finding_progress_for_basin.basin) < size_biggest_basin]
     while len(progress_smaller_basins) > 0:
-        for hair_finding_progress_for_basin in progress_smaller_basins:
+        size_smallest_basins = min([_size_of_basin(hair_finding_progress_for_basin.basin) for hair_finding_progress_for_basin in progress_smaller_basins])
+        progress_smallest_basins = [hair_finding_progress_for_basin for hair_finding_progress_for_basin in progress_smaller_basins if _size_of_basin(hair_finding_progress_for_basin.basin) == size_smallest_basins]
+        for hair_finding_progress_for_basin in progress_smallest_basins:
             find_hair_response = find_hair(graph, hair_finding_progress_for_basin, basins)
             if find_hair_response.no_free_vertices_anymore:
                 return
             _handle_find_hair_response(find_hair_response, hair_finding_progress_for_basin)
-        progress_smaller_basins = [progress for progress in progress_smaller_basins if progress.vertex_could_be_added and _size_of_basin(progress.basin) < size_biggest_basin]
+        progress_smaller_basins = [hair_finding_progress_for_basin for hair_finding_progress_for_basin in progress_smaller_basins if 
+                                   hair_finding_progress_for_basin.vertex_could_be_added and _size_of_basin(hair_finding_progress_for_basin.basin) < size_biggest_basin]
 
 
 def _size_of_basin(basin: BasinUnderConstruction):

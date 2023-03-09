@@ -50,7 +50,7 @@ def _get_median_smallest_basin_size(results):
         smallest_basin_size_list.append(smallest_basin_size)
     return median(smallest_basin_size_list)
     
-def plot_percentual_average_difference():
+def plot_relative_average_difference():
     filename = 'data/step_1/sv_p5'
     training_data_list = step_1_training_analysis_data_dao.get_training_data(filename)
     
@@ -120,7 +120,7 @@ def plot_dependency_on_s():
     plt.show()
 
 def plot_dependency_on_k():
-    filename = 'data/step_1/s1000_pv_d1'
+    filename = 'data/step_1/s1000_pv'
     training_data_list = step_1_training_analysis_data_dao.get_training_data(filename)
     
     sorted_results: dict[int, list[TrainingAnalysisData]] = {}

@@ -10,5 +10,5 @@ random_number_generator = numpy.random.default_rng()
 
 a: float = 1
 
-
+print(a == 2)
 
