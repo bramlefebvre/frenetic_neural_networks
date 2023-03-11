@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import math
 
 def plot_e_performance():
-    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/s50_p10_a20_n200_ev_2')
+    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/s50_p10_a20_n200_ev')
     # filtered_training_results = list(filter(_filter_result, training_results))
 
     sorted_results = {}

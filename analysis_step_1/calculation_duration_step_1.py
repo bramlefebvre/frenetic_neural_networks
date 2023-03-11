@@ -51,7 +51,7 @@ def calculation_duration():
                 timer = timeit.Timer(lambda: find_disentangled_system(tournament_and_patterns), timer = time.process_time)
                 times_executed, total_duration = timer.autorange()
                 calculation_duration =  (total_duration / times_executed) * 10 ** 3
-                result = TrainingAnalysisData(number_of_states, number_of_patterns, None, calculation_duration)
+                result = TrainingAnalysisData(number_of_states, number_of_patterns, 1, None, calculation_duration)
                 results.append(result)
         save_training_data(results, 'data/step_1/calc_s1000_p10')
 

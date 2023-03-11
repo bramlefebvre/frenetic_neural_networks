@@ -33,7 +33,7 @@ driving_value = 5
 travel_time = 1
 learning_rate = 0.5
 desired_residence_time = 0.2
-filename = 'data/step_2/s1000_pv_a20_n250'
+filename = 'data/step_2/s50_p10_a20_n200_ev'
 
 # def _generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns):
 #     fraction = 1 / 10 * number_of_states / number_of_patterns
@@ -78,7 +78,7 @@ def train():
 def train_driving_value():
     number_of_states = 50
     number_of_patterns = 10
-    initial_activity_parameter_factor = 100
+    initial_activity_parameter_factor = 20
     training_set_size = 200
     disentangled_systems = analysis_util.generate_disentangled_systems(number_of_states, number_of_patterns)
     driving_value_list = [math.log(5), math.log(6), math.log(7), math.log(8), math.log(9), math.log(10)]

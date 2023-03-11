@@ -66,7 +66,7 @@ def calculation_duration():
                         timer = timeit.Timer(lambda: train_starting_with_random_vertex_n_times(initial_dynamics, algorithm, learning_rate, desired_residence_time, training_set_size), timer = time.process_time)
                         times_executed, total_duration = timer.autorange()
                         calculation_duration = (total_duration / times_executed) * 10 ** 3
-                        result = TrainingAnalysisData(disentangled_system.id, None, number_of_states, number_of_patterns, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, None, calculation_duration)
+                        result = TrainingAnalysisData(None, number_of_states, number_of_patterns, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, None, calculation_duration)
                         results.append(result)
         save_training_data(results, filename)
 

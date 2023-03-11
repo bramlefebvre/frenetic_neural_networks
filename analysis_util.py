@@ -52,7 +52,7 @@ def generate_number_of_patterns_list(number_of_states):
 def generate_disentangled_systems(number_of_states, number_of_patterns):
     patterns = generate_single_state_patterns(number_of_states, number_of_patterns)
     disentangled_systems = []
-    for i in range(10):
+    for i in range(100):
         tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
         disentangled_system = find_disentangled_system(tournament_and_patterns).disentangled_system
         disentangled_systems.append(disentangled_system)

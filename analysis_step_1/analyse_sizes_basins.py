@@ -151,7 +151,7 @@ def plot_dependency_on_k():
     plt.show()
 
 def plot_dependency_on_d():
-    filename = 'data/step_1/s100_p10_dv'
+    filename = 'data/step_1/s50_p5_dv'
     training_data_list = step_1_training_analysis_data_dao.get_training_data(filename)
     sorted_results: dict[float, list[TrainingAnalysisData]] = {}
     for result in training_data_list:
@@ -175,10 +175,16 @@ def plot_dependency_on_d():
             summed_average_differences += _calculate_average_difference(sizes_of_basins)
         average_difference_list.append(summed_average_differences / number)
     
-    plt.scatter(fraction_of_arcs_present_list, average_difference_list)
-    plt.xlabel('fraction of arcs present')
-    plt.ylabel('average difference in size basins')
-    plt.show()
+    print('fraction of arcs present list:')
+    print(fraction_of_arcs_present_list)
+    print('average difference in size basins:')
+    print(average_difference_list)
+
+
+    # plt.scatter(fraction_of_arcs_present_list, average_difference_list)
+    # plt.xlabel('fraction of arcs present')
+    # plt.ylabel('average difference in size basins')
+    # plt.show()
 
 
 
