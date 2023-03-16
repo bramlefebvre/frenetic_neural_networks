@@ -1,6 +1,6 @@
 '''
 Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
-Copyright (C) 2022 Bram Lefebvre
+Copyright (C) 2022-2023 Bram Lefebvre
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
@@ -51,5 +51,5 @@ def plot_k_performance():
 
     plt.scatter(number_of_patterns_list, performance_list)
     plt.xlabel('number of patterns')
-    plt.ylabel('performance')
+    plt.ylabel('$P_{fren}$')
     plt.show()

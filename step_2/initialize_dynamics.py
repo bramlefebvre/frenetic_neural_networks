@@ -21,9 +21,9 @@ from math import exp
 from step_2.data_structures import Dynamics
 
 
-def initialize_dynamics(exuberant_system, driving_value, initial_activity_parameter_factor, travel_time):
-    rate_matrix = _map_graph_to_rate_matrix(exuberant_system.graph, driving_value, initial_activity_parameter_factor, travel_time)
-    return Dynamics(rate_matrix, exuberant_system, driving_value, initial_activity_parameter_factor, travel_time)
+def initialize_dynamics(disentangled_system, driving_value, initial_activity_parameter_factor, travel_time):
+    rate_matrix = _map_graph_to_rate_matrix(disentangled_system.graph, driving_value, initial_activity_parameter_factor, travel_time)
+    return Dynamics(rate_matrix, disentangled_system, driving_value, initial_activity_parameter_factor, travel_time)
 
 def _map_graph_to_rate_matrix(graph, driving_value, initial_activity_parameter_factor, travel_time) -> npt.NDArray[numpy.double]:
     number_of_states: int = len(graph)

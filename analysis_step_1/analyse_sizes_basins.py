@@ -65,15 +65,15 @@ def plot_relative_average_difference():
     percentual_average_difference_list = []
     for number_of_states, results in sorted_results.items():
         number_of_states_list.append(number_of_states)
-        percentual_average_difference_list.append(_get_percentual_average_difference(number_of_states, results))
+        percentual_average_difference_list.append(_get_relative_average_difference(number_of_states, results))
 
     plt.scatter(number_of_states_list, percentual_average_difference_list)
     plt.xlabel('number of states')
-    plt.ylabel('relative average difference in size basins (%)')
+    plt.ylabel(r'$D_{dis} \cdot k/(N-k)\ (\%)$')
     plt.show()
     
 
-def _get_percentual_average_difference(number_of_states, results):
+def _get_relative_average_difference(number_of_states, results):
     number = 0
     summed_average_differences = 0
     number_of_patterns = results[0].number_of_patterns
@@ -147,7 +147,7 @@ def plot_dependency_on_k():
 
     plt.scatter(number_of_patterns_list, average_difference_list)
     plt.xlabel('number of patterns')
-    plt.ylabel('average difference in size basins')
+    plt.ylabel('$D_{dis}$')
     plt.show()
 
 def plot_dependency_on_d():

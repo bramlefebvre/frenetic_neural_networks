@@ -33,7 +33,7 @@ driving_value = 5
 travel_time = 1
 learning_rate = 0.5
 desired_residence_time = 0.2
-filename = 'data/step_2/s50_p10_a20_n200_ev'
+filename = 'data/step_2/s50_p5_a2_n100_Rv'
 
 # def _generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns):
 #     fraction = 1 / 10 * number_of_states / number_of_patterns
@@ -98,23 +98,23 @@ def train_driving_value():
 
 
 def train_R():
-    learning_rate_list = [0.5]
+    learning_rate_list = [0.01 * i for i in range(1, 99)]
     number_of_states = 50
     number_of_patterns = 5
-    initial_activity_parameter_factor = 4
-    training_set_size = 200
-    exuberant_systems = analysis_util.generate_disentangled_systems(number_of_states, number_of_patterns)
+    initial_activity_parameter_factor = 2
+    training_set_size = 100
+    disentangled_systems = analysis_util.generate_disentangled_systems(number_of_states, number_of_patterns)
     training_data_list = []
     for learning_rate in learning_rate_list:
         print('learning_rate:')
         print(learning_rate)
-        for exuberant_system in exuberant_systems:
-            initial_dynamics = initialize_dynamics(exuberant_system, driving_value, initial_activity_parameter_factor, travel_time)
+        for disentangled_system in disentangled_systems:
+            initial_dynamics = initialize_dynamics(disentangled_system, driving_value, initial_activity_parameter_factor, travel_time)
             training_result = train_starting_with_random_vertex_n_times(initial_dynamics, algorithm, learning_rate, desired_residence_time, training_set_size)
             if training_result.success:
                 performance = calculate_performance(training_result.dynamics, desired_residence_time, 100)
             else:
                 performance = None
-            training_data = TrainingAnalysisData(training_result.success, number_of_states, 1, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance, None)
+            training_data = TrainingAnalysisData(training_result.success, number_of_states, number_of_patterns, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance, None)
             training_data_list.append(training_data)
     save_training_data(training_data_list, filename)
