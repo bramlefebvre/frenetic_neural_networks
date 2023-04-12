@@ -33,7 +33,7 @@ def generate_graph(number_of_states: int, fraction_of_arcs_present: float) -> np
 
 
 def generate_tournament(number_of_states: int) -> npt.NDArray[numpy.int_]:
-    tournament: npt.NDArray[numpy.int_] = _generate_upper_half_random_tournament(number_of_states)
+    tournament: npt.NDArray[numpy.int_] = _generate_upper_right_half_random_tournament(number_of_states)
     _complete_tournament(tournament)
     return tournament
 
@@ -45,6 +45,23 @@ def generate_strong_tournament(number_of_states)-> npt.NDArray[numpy.int_]:
         found = hamilton_cycle_complete_tournament_exists(tournament)
     assert tournament is not None
     return tournament
+
+def randomize_upper_half_and_fill_in_lower_half_graph(graph: npt.NDArray[numpy.int_], number_of_states: int):
+    _randomize_upper_half_graph(graph, number_of_states)
+    _fill_in_lower_half_graph(graph, number_of_states)
+
+def _randomize_upper_half_graph(graph: npt.NDArray[numpy.int_], number_of_states: int):
+    for row in range(number_of_states):
+        for column in range(row + 1, number_of_states):
+            if graph[row, column] == 0:
+                graph[row, column] = random_number_generator.integers(2)
+
+
+def _fill_in_lower_half_graph(graph: npt.NDArray[numpy.int_], number_of_states: int):
+    for i in range(number_of_states):
+        for j in range(i + 1, number_of_states):
+            graph[j, i] = _reverse(graph[i, j])
+    
 
 def _pick_edges_to_remove(number_of_states: int, fraction_of_arcs_present: float) -> set[tuple[int, int]]:
     number_of_edges: int = number_of_states * (number_of_states - 1)/2 # type: ignore
@@ -65,7 +82,7 @@ def _all_edges(number_of_states: int) -> set[tuple[int, int]]:
 def _pick_one_edge(arcs: list[tuple[int, int]]) -> tuple[int, int]:
     return tuple(random_number_generator.choice(arcs))
 
-def _generate_upper_half_random_tournament(number_of_states: int) -> npt.NDArray[numpy.int_]:
+def _generate_upper_right_half_random_tournament(number_of_states: int) -> npt.NDArray[numpy.int_]:
     tournament: npt.NDArray[numpy.int_] = -numpy.ones((number_of_states, number_of_states), dtype = int)
     for row in range(number_of_states):
         for column in range(number_of_states):

@@ -19,7 +19,6 @@ import numpy
 import numpy.typing as npt
 from step_1.find_cycle import FindCycleResponse, find_cycle
 from step_1.find_hair import FindHairResponse, find_hair
-from step_1.find_cycle_2 import find_cycle as find_cycle_2
 
 random_number_generator = numpy.random.default_rng()
 
@@ -92,12 +91,12 @@ def _handle_find_hair_response(find_hair_response: FindHairResponse, hair_findin
         hair_finding_progress_for_basin.add_hair_element(find_hair_response.new_vertex, find_hair_response.destination_vertex, find_hair_response.length_of_hair)
 
 
-def _find_cycles_containing_pattern_vertices_2(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruction, ...]):
-    for basin in basins:
-        cycle = find_cycle_2(graph, basin, basins)
-        if cycle is not None:
-            basin.vertices.update(cycle)
-            basin.arcs.update(_cycle_to_arcs(cycle))
+# def _find_cycles_containing_pattern_vertices_2(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruction, ...]):
+#     for basin in basins:
+#         cycle = find_cycle_2(graph, basin, basins)
+#         if cycle is not None:
+#             basin.vertices.update(cycle)
+#             basin.arcs.update(_cycle_to_arcs(cycle))
         
 
 def _find_cycles_containing_pattern_vertices_1(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruction, ...]):
