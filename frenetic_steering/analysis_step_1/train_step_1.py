@@ -15,11 +15,11 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-from daos.graphs_and_patterns_dao import generate_single_graph_and_patterns
-from step_1.data_structures import TrainingAnalysisData
-from step_1.find_disentangled_system import find_disentangled_system
-from daos.step_1_training_analysis_data_dao import save_training_data
-import analysis_util
+from frenetic_steering.daos.graphs_and_patterns_dao import generate_single_graph_and_patterns
+from frenetic_steering.step_1.data_structures import TrainingAnalysisData
+from frenetic_steering.step_1.find_disentangled_system import find_disentangled_system
+from frenetic_steering.daos.step_1_training_analysis_data_dao import save_training_data
+import frenetic_steering.analysis_util as analysis_util
 
 
 

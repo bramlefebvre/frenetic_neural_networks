@@ -16,9 +16,9 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 import numpy
-import daos.base_dao as base_dao
-import daos.disentangled_systems_dao as disentangled_systems_dao
-from visualization.data_structures import CompleteTrainingResult
+import frenetic_steering.daos.base_dao as base_dao
+import frenetic_steering.daos.disentangled_systems_dao as disentangled_systems_dao
+from frenetic_steering.visualization.data_structures import CompleteTrainingResult
 
 def get_complete_training_result(id, filename):
     serialized = base_dao.read_entry(id, filename)

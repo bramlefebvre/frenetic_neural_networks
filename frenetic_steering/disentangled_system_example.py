@@ -18,8 +18,8 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 import numpy
 import numpy.typing as npt
 
-from step_1.data_structures import CompletedBasin, DisentangledSystem
-import daos.disentangled_systems_dao as disentangled_systems_dao
+from frenetic_steering.step_1.data_structures import CompletedBasin, DisentangledSystem
+import frenetic_steering.daos.disentangled_systems_dao as disentangled_systems_dao
 
 graph: npt.NDArray[numpy.int_] = -numpy.ones((8, 8), dtype=int)
 

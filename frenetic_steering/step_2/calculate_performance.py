@@ -15,7 +15,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-from step_2.calculate_path import calculate_path
+from frenetic_steering.step_2.calculate_path import calculate_path
 
 def calculate_performance(dynamics, desired_residence_time, n):
     rate_matrix = dynamics.rate_matrix

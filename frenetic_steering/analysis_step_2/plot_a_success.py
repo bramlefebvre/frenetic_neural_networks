@@ -1,6 +1,6 @@
 '''
 Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
-Copyright (C) 2022 Bram Lefebvre
+Copyright (C) 2022-2023 Bram Lefebvre
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
@@ -15,7 +15,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-import daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_dao
+import frenetic_steering.daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_dao
 import matplotlib.pyplot as plt
 
 def plot_a_success():

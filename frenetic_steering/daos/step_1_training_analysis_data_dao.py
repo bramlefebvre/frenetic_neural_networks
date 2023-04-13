@@ -15,8 +15,8 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-import daos.base_dao as base_dao
-from step_1.data_structures import TrainingAnalysisData
+import frenetic_steering.daos.base_dao as base_dao
+from frenetic_steering.step_1.data_structures import TrainingAnalysisData
 
 def save_training_data(training_data, filename):
     serialized_training_data = list(map(_serialize_training_data, training_data))

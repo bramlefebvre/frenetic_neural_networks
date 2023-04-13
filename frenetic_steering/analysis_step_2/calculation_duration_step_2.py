@@ -16,16 +16,16 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 from statistics import mean
-from daos.step_2_training_analysis_data_dao import save_training_data
-from daos.graphs_and_patterns_dao import generate_single_tournament_and_patterns
-from step_2.data_structures import LearningAlgorithm
-from step_2.initialize_dynamics import initialize_dynamics
-from step_2.training import train_starting_with_random_vertex_n_times
-from analysis_step_2.data_structures import TrainingAnalysisData
-import analysis_util
+from frenetic_steering.daos.step_2_training_analysis_data_dao import save_training_data
+from frenetic_steering.daos.graphs_and_patterns_dao import generate_single_tournament_and_patterns
+from frenetic_steering.step_2.data_structures import LearningAlgorithm
+from frenetic_steering.step_2.initialize_dynamics import initialize_dynamics
+from frenetic_steering.step_2.training import train_starting_with_random_vertex_n_times
+from frenetic_steering.analysis_step_2.data_structures import TrainingAnalysisData
+import frenetic_steering.analysis_util as analysis_util
 import timeit
 import time
-import daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_dao
+import frenetic_steering.daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_dao
 
 def generate_initial_activity_parameter_factors_list(number_of_states, number_of_patterns):
     fraction = 1 / 10 * number_of_states / number_of_patterns

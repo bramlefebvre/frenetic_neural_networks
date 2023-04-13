@@ -16,7 +16,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 from dataclasses import dataclass
-from step_1.data_structures import DisentangledSystem
+from frenetic_steering.step_1.data_structures import DisentangledSystem
 
 
 @dataclass

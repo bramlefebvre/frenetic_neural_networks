@@ -15,8 +15,8 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-import daos.graphs_and_patterns_dao as graphs_and_patterns_dao
-import step_1.find_disentangled_system as find_disentangled_system
+import frenetic_steering.daos.graphs_and_patterns_dao as graphs_and_patterns_dao
+import frenetic_steering.step_1.find_disentangled_system as find_disentangled_system
 import pandas
 
 def pprint(object):

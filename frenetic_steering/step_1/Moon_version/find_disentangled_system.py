@@ -16,16 +16,14 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 from dataclasses import dataclass
-from step_1.Moon_version.find_cycle import find_cycle
-from step_1.Moon_version.find_hamilton_cycle import hamilton_cycle_exists
-from step_1.data_structures import CycleFindingEvent, DisentangledSystem
-from step_1.data_structures import BasinUnderConstruction
-from step_1.data_structures import CompletedBasin
+from frenetic_steering.step_1.Moon_version.find_cycle import find_cycle
+from frenetic_steering.step_1.Moon_version.find_hamilton_cycle import hamilton_cycle_exists
+from frenetic_steering.step_1.Moon_version.data_structures import BasinUnderConstruction, CycleFindingEvent
+from frenetic_steering.step_1.data_structures import CompletedBasin, DisentangledSystem, TrainingResult
 import numpy
 import numpy.typing as npt
 import copy
-from step_1.data_structures import TrainingResult
-from step_1.Moon_version.eliminate_cycles_outside_pattern import eliminate_cycles
+from frenetic_steering.step_1.Moon_version.eliminate_cycles_outside_pattern import eliminate_cycles
 
 def find_disentangled_system(tournament_and_patterns, eliminate_cycles_outside_pattern: bool) -> TrainingResult:
     tournament: npt.NDArray[numpy.int_]  = tournament_and_patterns.tournament
@@ -36,7 +34,7 @@ def find_disentangled_system(tournament_and_patterns, eliminate_cycles_outside_p
     completed_basins = tuple(map(_to_completed_basin, basins))
     exuberant_system = DisentangledSystem(tournament_and_patterns.id, exuberant_system_graph, completed_basins)
     cycle_finding_history = basins_and_cycle_finding_history.cycle_finding_history
-    return TrainingResult(exuberant_system, cycle_finding_history)
+    return TrainingResult(exuberant_system)
 
 def _gather_all_cycles(basins: tuple[BasinUnderConstruction, ...]) -> set[tuple[int, ...]]:
     cycles: set[tuple[int, ...]] = set()

@@ -1,6 +1,6 @@
 '''
 Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
-Copyright (C) 2022 Bram Lefebvre
+Copyright (C) 2022-2023 Bram Lefebvre
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
@@ -16,9 +16,9 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 import copy
-from step_2.data_structures import LearningAlgorithm, LearningStepResultWithoutRateMatrix, TrainingResult
-from step_2.execute_learning_step import algorithm_2
-from step_2.execute_learning_step.algorithm_3 import algorithm_3
+from frenetic_steering.step_2.data_structures import LearningAlgorithm, LearningStepResultWithoutRateMatrix, TrainingResult
+from frenetic_steering.step_2.execute_learning_step import algorithm_2
+from frenetic_steering.step_2.execute_learning_step.algorithm_3 import algorithm_3
 import numpy
 
 random_number_generator = numpy.random.default_rng()

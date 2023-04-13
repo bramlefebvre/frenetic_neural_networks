@@ -15,7 +15,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-import daos.step_1_training_analysis_data_dao as step_1_training_analysis_data_dao
+import frenetic_steering.daos.step_1_training_analysis_data_dao as step_1_training_analysis_data_dao
 import matplotlib.pyplot as plt
 
 

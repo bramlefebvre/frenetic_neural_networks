@@ -16,9 +16,9 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 from typing import Any
-from daos.generate_graph import generate_graph, generate_tournament
-import daos.base_dao as base_dao
-from step_1.data_structures import GraphAndPatterns
+from frenetic_steering.daos.generate_graph import generate_graph, generate_tournament
+import frenetic_steering.daos.base_dao as base_dao
+from frenetic_steering.step_1.data_structures import GraphAndPatterns
 import numpy
 import numpy.typing as npt
 

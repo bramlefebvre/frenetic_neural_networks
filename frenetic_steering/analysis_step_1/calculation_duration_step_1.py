@@ -16,14 +16,14 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 from statistics import mean
-from daos.step_1_training_analysis_data_dao import save_training_data
-from step_1.data_structures import TrainingAnalysisData
-from step_1.find_disentangled_system import find_disentangled_system
+from frenetic_steering.daos.step_1_training_analysis_data_dao import save_training_data
+from frenetic_steering.step_1.data_structures import TrainingAnalysisData
+from frenetic_steering.step_1.find_disentangled_system import find_disentangled_system
 import timeit
 import time
-import analysis_util
-from daos.graphs_and_patterns_dao import generate_single_tournament_and_patterns
-import daos.step_1_training_analysis_data_dao as step_1_training_analysis_data_dao
+import frenetic_steering.analysis_util as analysis_util
+from frenetic_steering.daos.graphs_and_patterns_dao import generate_single_tournament_and_patterns
+import frenetic_steering.daos.step_1_training_analysis_data_dao as step_1_training_analysis_data_dao
 
 def _get_mean(getter, results):
     data = [getter(result) for result in results]

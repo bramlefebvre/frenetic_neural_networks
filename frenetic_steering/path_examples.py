@@ -1,9 +1,9 @@
-import daos.disentangled_systems_dao as disentangled_systems_dao
+import frenetic_steering.daos.disentangled_systems_dao as disentangled_systems_dao
 
-from step_2.calculate_path import calculate_path
-from step_2.data_structures import LearningAlgorithm
-from step_2.initialize_dynamics import initialize_dynamics
-from step_2.training import train_starting_with_random_vertex_n_times
+from frenetic_steering.step_2.calculate_path import calculate_path
+from frenetic_steering.step_2.data_structures import LearningAlgorithm
+from frenetic_steering.step_2.initialize_dynamics import initialize_dynamics
+from frenetic_steering.step_2.training import train_starting_with_random_vertex_n_times
 import matplotlib.pyplot as plt
 
 disentangled_system = disentangled_systems_dao.get_single_disentangled_system('example_thesis', 'data/disentangled_systems')

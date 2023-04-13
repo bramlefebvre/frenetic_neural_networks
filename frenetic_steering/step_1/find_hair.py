@@ -18,8 +18,8 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 import numpy
 import numpy.typing as npt
 
-from step_1.data_structures import BasinUnderConstruction, FindHairResponse
-from step_1.find_disentangled_system import HairFindingProgressForBasin
+from frenetic_steering.step_1.data_structures import BasinUnderConstruction, FindHairResponse
+from frenetic_steering.step_1.find_disentangled_system import HairFindingProgressForBasin
 
 random_number_generator = numpy.random.default_rng()
 

@@ -14,11 +14,11 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 <https://www.gnu.org/licenses/>.
 '''
 
-from step_1.data_structures import BasinUnderConstruction, CompletedBasin, CycleFindingProgressForBasin, DisentangledSystem, HairFindingProgressForBasin, GraphAndPatterns, TrainingResult
+from frenetic_steering.step_1.data_structures import BasinUnderConstruction, CompletedBasin, CycleFindingProgressForBasin, DisentangledSystem, HairFindingProgressForBasin, GraphAndPatterns, TrainingResult
 import numpy
 import numpy.typing as npt
-from step_1.find_cycle import FindCycleResponse, find_cycle
-from step_1.find_hair import FindHairResponse, find_hair
+from frenetic_steering.step_1.find_cycle import FindCycleResponse, find_cycle
+from frenetic_steering.step_1.find_hair import FindHairResponse, find_hair
 
 random_number_generator = numpy.random.default_rng()
 

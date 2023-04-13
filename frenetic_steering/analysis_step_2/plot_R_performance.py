@@ -15,11 +15,11 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-import daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_dao
+import frenetic_steering.daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_dao
 import matplotlib.pyplot as plt
 
 def plot_R_performance():
-    training_data_list = step_2_training_analysis_data_dao.get_training_data('data/step_2/s50_p5_a2_n100_Rv')
+    training_data_list = step_2_training_analysis_data_dao.get_training_data('frenetic_steering/data/step_2/s50_p5_a2_n100_Rv')
     sorted_results = {}
 
     for result in training_data_list:

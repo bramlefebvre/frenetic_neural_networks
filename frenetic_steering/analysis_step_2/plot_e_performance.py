@@ -1,6 +1,5 @@
 
-import daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_dao
-import matplotlib
+import frenetic_steering.daos.step_2_training_analysis_data_dao as step_2_training_analysis_data_dao
 import matplotlib.pyplot as plt
 import math
 

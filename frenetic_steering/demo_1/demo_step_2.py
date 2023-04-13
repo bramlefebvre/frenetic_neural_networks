@@ -1,6 +1,6 @@
 '''
 Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
-Copyright (C) 2022 Bram Lefebvre
+Copyright (C) 2022-2023 Bram Lefebvre
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
@@ -15,12 +15,12 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-import daos.disentangled_systems_dao as disentangled_systems_dao
-from step_2.calculate_path import calculate_path
-from step_2.data_structures import LearningAlgorithm
-from step_2.initialize_dynamics import initialize_dynamics
-import step_2.training as training
-from step_2.calculate_performance import calculate_performance 
+import frenetic_steering.daos.disentangled_systems_dao as disentangled_systems_dao
+from frenetic_steering.step_2.calculate_path import calculate_path
+from frenetic_steering.step_2.data_structures import LearningAlgorithm
+from frenetic_steering.step_2.initialize_dynamics import initialize_dynamics
+import frenetic_steering.step_2.training as training
+from frenetic_steering.step_2.calculate_performance import calculate_performance 
 import pandas
 
 def pprint(object):

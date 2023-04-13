@@ -16,13 +16,13 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 import math
-from analysis_step_2.data_structures import TrainingAnalysisData
-from daos.disentangled_systems_dao import generate_cycle
-from daos.step_2_training_analysis_data_dao import save_training_data
-from step_2.data_structures import LearningAlgorithm
-from step_2.initialize_dynamics import initialize_dynamics
-from step_2.training import train_starting_with_random_vertex_n_times
-from step_2.calculate_performance import calculate_performance
+from frenetic_steering.analysis_step_2.data_structures import TrainingAnalysisData
+from frenetic_steering.daos.disentangled_systems_dao import generate_cycle
+from frenetic_steering.daos.step_2_training_analysis_data_dao import save_training_data
+from frenetic_steering.step_2.data_structures import LearningAlgorithm
+from frenetic_steering.step_2.initialize_dynamics import initialize_dynamics
+from frenetic_steering.step_2.training import train_starting_with_random_vertex_n_times
+from frenetic_steering.step_2.calculate_performance import calculate_performance
 
 
 algorithm_2 = LearningAlgorithm.WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES
@@ -71,7 +71,7 @@ def train_cycles():
                         performance = calculate_performance(training_result.dynamics, desired_residence_time, 100)
                     else: 
                         performance = None
-                    training_data = TrainingAnalysisData(None, training_result.success, number_of_states, 1, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance, None)
+                    training_data = TrainingAnalysisData(training_result.success, number_of_states, 1, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance, None)
                     training_data_list.append(training_data)
         save_training_data(training_data_list, filename)
 
@@ -92,6 +92,6 @@ def train_cycles_R():
                 performance = calculate_performance(training_result.dynamics, desired_residence_time, 100)
             else:
                 performance = None
-            training_data = TrainingAnalysisData(None, training_result.success, number_of_states, 1, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance, None)
+            training_data = TrainingAnalysisData(training_result.success, number_of_states, 1, driving_value, initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, training_set_size, performance, None)
             training_data_list.append(training_data)
     save_training_data(training_data_list, filename)

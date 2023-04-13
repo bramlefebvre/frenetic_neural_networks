@@ -16,13 +16,13 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 import math
-from daos.step_2_training_analysis_data_dao import save_training_data
-from analysis_step_2.data_structures import TrainingAnalysisData
-from step_2.data_structures import LearningAlgorithm
-from step_2.initialize_dynamics import initialize_dynamics
-from step_2.training import train_starting_with_random_vertex_n_times
-from step_2.calculate_performance import calculate_performance
-import analysis_util
+from frenetic_steering.daos.step_2_training_analysis_data_dao import save_training_data
+from frenetic_steering.analysis_step_2.data_structures import TrainingAnalysisData
+from frenetic_steering.step_2.data_structures import LearningAlgorithm
+from frenetic_steering.step_2.initialize_dynamics import initialize_dynamics
+from frenetic_steering.step_2.training import train_starting_with_random_vertex_n_times
+from frenetic_steering.step_2.calculate_performance import calculate_performance
+import frenetic_steering.analysis_util as analysis_util
 
 algorithm_2 = LearningAlgorithm.WHEN_HAS_LEFT_PATTERN_STATE_ONLY_DECREASE_RATES
 algorithm_3 = LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC

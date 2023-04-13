@@ -15,9 +15,9 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-import daos.base_dao as base_dao
+import frenetic_steering.daos.base_dao as base_dao
 import numpy
-from step_1.data_structures import CompletedBasin, DisentangledSystem
+from frenetic_steering.step_1.data_structures import CompletedBasin, DisentangledSystem
 
 def get_single_disentangled_system(id, filename):
     serialized = base_dao.read_entry(id, filename)

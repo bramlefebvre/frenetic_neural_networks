@@ -16,7 +16,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 import math
 import numpy
-from step_1.Moon_version.find_hamilton_cycle import hamilton_cycle_complete_tournament_exists
+from frenetic_steering.step_1.Moon_version.find_hamilton_cycle import hamilton_cycle_complete_tournament_exists
 import numpy.typing as npt
 
 
@@ -101,5 +101,4 @@ def _reverse(value) -> int:
     if value == 0:
         return 1
     else:
-        assert value == 1
         return 0

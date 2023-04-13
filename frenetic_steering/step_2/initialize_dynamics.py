@@ -18,7 +18,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 import numpy
 import numpy.typing as npt
 from math import exp
-from step_2.data_structures import Dynamics
+from frenetic_steering.step_2.data_structures import Dynamics
 
 
 def initialize_dynamics(disentangled_system, driving_value, initial_activity_parameter_factor, travel_time):

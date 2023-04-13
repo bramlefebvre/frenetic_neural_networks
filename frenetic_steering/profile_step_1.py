@@ -15,9 +15,9 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-from daos.graphs_and_patterns_dao import generate_single_tournament_and_patterns
-from step_1.find_disentangled_system import find_disentangled_system
-import analysis_util
+from frenetic_steering.daos.graphs_and_patterns_dao import generate_single_tournament_and_patterns
+from frenetic_steering.step_1.find_disentangled_system import find_disentangled_system
+import frenetic_steering.analysis_util as analysis_util
 import cProfile
 
 number_of_states = 100

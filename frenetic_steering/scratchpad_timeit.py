@@ -1,6 +1,6 @@
 '''
 Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
-Copyright (C) 2022 Bram Lefebvre
+Copyright (C) 2022-2023 Bram Lefebvre
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
 Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
@@ -15,10 +15,10 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-from daos.graphs_and_patterns_dao import get_single_graph_and_patterns
+from frenetic_steering.daos.graphs_and_patterns_dao import get_single_graph_and_patterns
 import timeit
 import time
-from step_1.Moon_version.find_disentangled_system import find_disentangled_system
+from frenetic_steering.step_1.Moon_version.find_disentangled_system import find_disentangled_system
 
 
 tournament_and_patterns = get_single_graph_and_patterns('1000_50_0', 'data/step_1/tournament_1000_50_0')

@@ -15,13 +15,13 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-from daos.graphs_and_patterns_dao import generate_single_tournament_and_patterns
-from step_1.Moon_version.find_disentangled_system import find_disentangled_system
-from step_2.calculate_path import calculate_path
-from step_2.calculate_performance import calculate_performance
-from step_2.data_structures import LearningAlgorithm
-from step_2.initialize_dynamics import initialize_dynamics
-from step_2.training import train_starting_with_random_vertex_n_times
+from frenetic_steering.daos.graphs_and_patterns_dao import generate_single_tournament_and_patterns
+from frenetic_steering.step_1.Moon_version.find_disentangled_system import find_disentangled_system
+from frenetic_steering.step_2.calculate_path import calculate_path
+from frenetic_steering.step_2.calculate_performance import calculate_performance
+from frenetic_steering.step_2.data_structures import LearningAlgorithm
+from frenetic_steering.step_2.initialize_dynamics import initialize_dynamics
+from frenetic_steering.step_2.training import train_starting_with_random_vertex_n_times
 
 def train_example():
     patterns = (frozenset({0}),)

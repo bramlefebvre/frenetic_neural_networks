@@ -16,7 +16,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 import numpy
-from step_2.data_structures import Path
+from frenetic_steering.step_2.data_structures import Path
 
 random_number_generator = numpy.random.default_rng()
 
