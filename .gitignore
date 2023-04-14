@@ -1,5 +1,5 @@
 __pycache__/
 /.venv/
-/frenetic_steering/data/**
+/data/
 /build/
-/frenetic_steering.egg-info/
+/src/frenetic_steering.egg-info/
