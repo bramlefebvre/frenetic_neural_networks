@@ -23,9 +23,9 @@ from frenetic_steering.step_2.calculate_performance import calculate_performance
 from frenetic_steering.step_2.calculate_path import calculate_path
 import matplotlib.pyplot as plt
 
-exuberant_system = get_single_disentangled_system('example_thesis', 'data/exuberant_systems')
+disentangled_system = get_single_disentangled_system('example_thesis', 'data/exuberant_systems')
 
-initial_dynamics = initialize_dynamics(exuberant_system, 5, 0.3, 1)
+initial_dynamics = initialize_dynamics(disentangled_system, 5, 0.3, 1)
 training_result = train_starting_with_random_vertex_n_times(initial_dynamics, LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC, 0.5, 0.2, 32)
 trained_dynamics = training_result.dynamics
 performance = calculate_performance(training_result.dynamics, 0.2, 100)

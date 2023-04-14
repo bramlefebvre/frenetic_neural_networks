@@ -24,11 +24,11 @@ def get_single_disentangled_system(id, filename):
     return deserialize_disentangled_system(serialized)
 
 def get_disentangled_systems(filename):
-    serialized_exuberant_systems = base_dao.read_data(filename)
-    return list(map(deserialize_disentangled_system, serialized_exuberant_systems))
+    serialized_disentangled_systems = base_dao.read_data(filename)
+    return list(map(deserialize_disentangled_system, serialized_disentangled_systems))
 
-def save_disentangled_system(exuberant_system, filename):
-    serialized = serialize_disentangled_system(exuberant_system)
+def save_disentangled_system(disentangled_system, filename):
+    serialized = serialize_disentangled_system(disentangled_system)
     base_dao.add_single_entry(serialized, filename)
 
 def generate_cycle(number_of_states):
@@ -43,12 +43,12 @@ def generate_cycle(number_of_states):
             graph[vertex + 1, vertex] = 0
     return DisentangledSystem(None, graph, basins)
 
-def serialize_disentangled_system(exuberant_system):
+def serialize_disentangled_system(disentangled_system):
     serialized = {
-        'graph_and_patterns_id': exuberant_system.graph_and_patterns_id,
-        'graph': exuberant_system.graph.tolist(),
-        'basins': list(map(_serialize_basin, exuberant_system.basins)),
-        'id': exuberant_system.id
+        'graph_and_patterns_id': disentangled_system.graph_and_patterns_id,
+        'graph': disentangled_system.graph.tolist(),
+        'basins': list(map(_serialize_basin, disentangled_system.basins)),
+        'id': disentangled_system.id
     }
     return serialized 
 
