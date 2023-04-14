@@ -16,7 +16,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 from frenetic_steering.daos.graphs_and_patterns_dao import generate_single_tournament_and_patterns
-from frenetic_steering.step_1.Moon_version.find_disentangled_system import find_disentangled_system
+from frenetic_steering.step_1.find_disentangled_system import find_disentangled_system
 from frenetic_steering.step_2.calculate_path import calculate_path
 from frenetic_steering.step_2.calculate_performance import calculate_performance
 from frenetic_steering.step_2.data_structures import LearningAlgorithm
@@ -26,7 +26,7 @@ from frenetic_steering.step_2.training import train_starting_with_random_vertex_
 def train_example():
     patterns = (frozenset({0}),)
     tournament_and_patterns = generate_single_tournament_and_patterns(100, patterns)
-    exuberant_system = find_disentangled_system(tournament_and_patterns, False).disentangled_system
+    exuberant_system = find_disentangled_system(tournament_and_patterns).disentangled_system
     # print('exuberant system found')
     # initial_dynamics = initialize_dynamics(exuberant_system, 5, 5, 1)
     # training_result = train_starting_with_random_vertex_n_times(initial_dynamics, LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC, 0.5, 0.2, 400)
