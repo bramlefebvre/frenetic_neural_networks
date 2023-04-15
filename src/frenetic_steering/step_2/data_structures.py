@@ -31,6 +31,13 @@ class Dynamics:
         for basin in self.exuberant_system.basins:
             if state in basin.vertices:
                 return basin
+                       
+class RateMatrix:
+    def __init__(self, id, disentangled_system_id, rate_matrix):
+        self.id = id
+        self.disentangled_system_id = disentangled_system_id
+        self.rate_matrix = rate_matrix
+
 
 # immutable?
 class Path:

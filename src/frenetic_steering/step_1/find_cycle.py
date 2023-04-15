@@ -73,6 +73,6 @@ def _get_available_vertices(number_of_vertices: int, cycle_finding_progress_for_
 
 
 def _pick_one(vertices: Iterable[int]) -> int:
-    return random_number_generator.choice(list(vertices))
+    return random_number_generator.choice(list(vertices)).item()
 
 
