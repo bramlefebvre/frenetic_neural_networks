@@ -14,6 +14,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 <https://www.gnu.org/licenses/>.
 '''
 
+# bad implementation: finds all cycles and then selects one of shortest length
 
 from typing import Iterable
 import numpy
