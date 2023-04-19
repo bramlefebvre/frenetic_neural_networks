@@ -15,34 +15,38 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-from typing import Iterable
+from typing import Callable, Iterable
 import numpy
 import numpy.typing as npt
-from frenetic_steering.step_1.data_structures import BasinUnderConstruction, FindCycleResponse, CycleFindingProgressForBasin
+from frenetic_steering.step_1.data_structures import BasinUnderConstruction, DistanceCalculator, FindCycleResponse, CycleFindingProgressForBasin
 
 random_number_generator = numpy.random.default_rng()
 
 
-
-def find_cycle(graph: npt.NDArray[numpy.int_], cycle_finding_progress_for_basin: CycleFindingProgressForBasin, basins: tuple[BasinUnderConstruction, ...]) -> FindCycleResponse:
+def find_cycle(graph: npt.NDArray[numpy.int_], cycle_finding_progress_for_basin: CycleFindingProgressForBasin, basins: tuple[BasinUnderConstruction, ...], distance_calculator: DistanceCalculator | None = None) -> FindCycleResponse:
     available_vertices: frozenset[int] = _get_available_vertices(len(graph), cycle_finding_progress_for_basin, basins)
     if len(available_vertices) < cycle_finding_progress_for_basin.length_of_cycle_to_find:
         return FindCycleResponse(None, True)
     pattern_vertex: int = _pick_one(cycle_finding_progress_for_basin.pattern_vertices_not_in_a_cycle)
+    distance_function: Callable[[int], float] | None
+    if distance_calculator is None:
+        distance_function = None
+    else:
+        distance_function = distance_calculator.get_distance_to_pattern_vertex_function(pattern_vertex)
     path: list[int] = [pattern_vertex]
-    cycle: tuple[int, ...] | None = _continue_path(path, graph, available_vertices, cycle_finding_progress_for_basin.length_of_cycle_to_find - 1)
+    cycle: tuple[int, ...] | None = _continue_path(path, graph, available_vertices, cycle_finding_progress_for_basin.length_of_cycle_to_find - 1, distance_function)
     return FindCycleResponse(cycle)
 
 
-def _continue_path(path: list[int], graph: npt.NDArray[numpy.int_], available_vertices: frozenset[int], number_of_vertices_left: int) -> tuple[int, ...] | None:
-    forward_vertices: list[int] = _get_forward_vertices(path, graph, available_vertices)
+def _continue_path(path: list[int], graph: npt.NDArray[numpy.int_], available_vertices: frozenset[int], number_of_vertices_left: int, distance_function: Callable[[int], float] | None = None) -> tuple[int, ...] | None:
+    forward_vertices: list[int] = _get_forward_vertices(path, graph, available_vertices, distance_function)
     if number_of_vertices_left == 1:
         return _finish_path(path, graph, forward_vertices)
     else:
         for forward_vertex in forward_vertices:
             new_path: list[int] = path.copy()
             new_path.append(forward_vertex)
-            cycle: tuple[int, ...] | None = _continue_path(new_path, graph, available_vertices, number_of_vertices_left - 1)
+            cycle: tuple[int, ...] | None = _continue_path(new_path, graph, available_vertices, number_of_vertices_left - 1, distance_function)
             if cycle is not None:
                 return cycle
 
@@ -55,7 +59,7 @@ def _finish_path(path: list[int], graph: npt.NDArray[numpy.int_], forward_vertic
             return tuple(new_path_list)
     
 
-def _get_forward_vertices(path: list[int], graph: npt.NDArray[numpy.int_], available_vertices: frozenset[int]) -> list[int]:
+def _get_forward_vertices(path: list[int], graph: npt.NDArray[numpy.int_], available_vertices: frozenset[int], distance_function: Callable[[int], float] | None = None) -> list[int]:
     last_vertex_in_path: int = path[-1]
     forward_vertices = set([vertex for vertex in available_vertices if vertex not in path and graph[last_vertex_in_path, vertex] == 1])
     path_without_last_vertex = path[:-1]
@@ -63,6 +67,8 @@ def _get_forward_vertices(path: list[int], graph: npt.NDArray[numpy.int_], avail
     forward_vertices.difference_update(vertices_to_exclude)
     forward_vertices_list = list(forward_vertices)
     random_number_generator.shuffle(forward_vertices_list)
+    if distance_function is not None:
+        forward_vertices_list.sort(key=distance_function)
     return forward_vertices_list
     
 

@@ -19,7 +19,12 @@ from dataclasses import dataclass, field
 from typing import Any
 import numpy
 import numpy.typing as npt
-            
+
+
+class DistanceCalculator:
+    
+    def get_distance_to_pattern_vertex_function(self, pattern_vertex):
+        pass
 
 
 @dataclass(frozen = True)

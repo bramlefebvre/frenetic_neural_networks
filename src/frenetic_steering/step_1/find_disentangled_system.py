@@ -14,16 +14,18 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 <https://www.gnu.org/licenses/>.
 '''
 
-from frenetic_steering.step_1.data_structures import BasinUnderConstruction, CompletedBasin, CycleFindingProgressForBasin, DisentangledSystem, HairFindingProgressForBasin, GraphAndPatterns, TrainingResult
+from typing import Callable
+from frenetic_steering.step_1.data_structures import BasinUnderConstruction, CompletedBasin, CycleFindingProgressForBasin, DisentangledSystem, DistanceCalculator, FindCycleResponse, FindHairResponse, HairFindingProgressForBasin, GraphAndPatterns, TrainingResult
 import numpy
 import numpy.typing as npt
-from frenetic_steering.step_1.find_cycle import FindCycleResponse, find_cycle
-from frenetic_steering.step_1.find_hair import FindHairResponse, find_hair
+from frenetic_steering.step_1.find_cycle import find_cycle
+from frenetic_steering.step_1.find_hair import find_hair
 
 random_number_generator = numpy.random.default_rng()
+        
 
-def find_disentangled_system(graph_and_patterns: GraphAndPatterns) -> TrainingResult:
-    basins: tuple[BasinUnderConstruction, ...] = _find_basins(graph_and_patterns)
+def find_disentangled_system(graph_and_patterns: GraphAndPatterns, distance_calculator: DistanceCalculator | None = None) -> TrainingResult:
+    basins: tuple[BasinUnderConstruction, ...] = _find_basins(graph_and_patterns, distance_calculator)
     graph: npt.NDArray[numpy.int_] = _to_disentangled_system_graph(basins, len(graph_and_patterns.graph))
     completed_basins: tuple[CompletedBasin, ...] = tuple(map(_to_completed_basin, basins))
     return TrainingResult(DisentangledSystem(graph_and_patterns.id, graph, completed_basins))
@@ -41,27 +43,27 @@ def _to_completed_basin(basin: BasinUnderConstruction) -> CompletedBasin:
     return CompletedBasin(basin.index, basin.pattern_vertices, frozenset(basin.vertices))
 
 
-def _find_basins(graph_and_patterns: GraphAndPatterns) -> tuple[BasinUnderConstruction, ...]:
+def _find_basins(graph_and_patterns: GraphAndPatterns, distance_calculator: DistanceCalculator | None = None) -> tuple[BasinUnderConstruction, ...]:
     basins: tuple[BasinUnderConstruction, ...] = _initialize_basins(graph_and_patterns.patterns)
     graph: npt.NDArray[numpy.int_] = graph_and_patterns.graph
-    _find_cycles_containing_pattern_vertices(graph, basins)
-    _find_hairs(graph, basins)
+    _find_cycles_containing_pattern_vertices(graph, basins, distance_calculator)
+    _find_hairs(graph, basins, distance_calculator)
     return basins
 
-def _find_hairs(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruction, ...]) -> None:
+def _find_hairs(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruction, ...], distance_calculator: DistanceCalculator | None = None) -> None:
     hair_finding_progress: list[HairFindingProgressForBasin] = [HairFindingProgressForBasin(basin) for basin in basins if _size_of_basin(basin) > 0]
-    _find_hairs_for_smaller_basins(graph, hair_finding_progress, basins)
+    _find_hairs_for_smaller_basins(graph, hair_finding_progress, basins, distance_calculator)
     
     while len(hair_finding_progress) > 0:
         for hair_finding_progress_for_basin in hair_finding_progress:
-            find_hair_response: FindHairResponse = find_hair(graph, hair_finding_progress_for_basin, basins)
+            find_hair_response: FindHairResponse = find_hair(graph, hair_finding_progress_for_basin, basins, distance_calculator)
             if find_hair_response.no_free_vertices_anymore:
                 return
             _handle_find_hair_response(find_hair_response, hair_finding_progress_for_basin)
         hair_finding_progress = [progress for progress in hair_finding_progress if progress.vertex_could_be_added]
 
 
-def _find_hairs_for_smaller_basins(graph: npt.NDArray[numpy.int_], hair_finding_progress: list[HairFindingProgressForBasin], basins: tuple[BasinUnderConstruction, ...]):
+def _find_hairs_for_smaller_basins(graph: npt.NDArray[numpy.int_], hair_finding_progress: list[HairFindingProgressForBasin], basins: tuple[BasinUnderConstruction, ...], distance_calculator: DistanceCalculator | None = None):
     size_biggest_basin = max([_size_of_basin(hair_finding_progress_for_basin.basin) for hair_finding_progress_for_basin in hair_finding_progress])
     progress_smaller_basins = [hair_finding_progress_for_basin for hair_finding_progress_for_basin in hair_finding_progress if 
                                _size_of_basin(hair_finding_progress_for_basin.basin) < size_biggest_basin]
@@ -69,7 +71,7 @@ def _find_hairs_for_smaller_basins(graph: npt.NDArray[numpy.int_], hair_finding_
         size_smallest_basins = min([_size_of_basin(hair_finding_progress_for_basin.basin) for hair_finding_progress_for_basin in progress_smaller_basins])
         progress_smallest_basins = [hair_finding_progress_for_basin for hair_finding_progress_for_basin in progress_smaller_basins if _size_of_basin(hair_finding_progress_for_basin.basin) == size_smallest_basins]
         for hair_finding_progress_for_basin in progress_smallest_basins:
-            find_hair_response = find_hair(graph, hair_finding_progress_for_basin, basins)
+            find_hair_response = find_hair(graph, hair_finding_progress_for_basin, basins, distance_calculator)
             if find_hair_response.no_free_vertices_anymore:
                 return
             _handle_find_hair_response(find_hair_response, hair_finding_progress_for_basin)
@@ -91,11 +93,11 @@ def _handle_find_hair_response(find_hair_response: FindHairResponse, hair_findin
         hair_finding_progress_for_basin.add_hair_element(find_hair_response.new_vertex, find_hair_response.destination_vertex, find_hair_response.length_of_hair)
         
 
-def _find_cycles_containing_pattern_vertices(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruction, ...]):
+def _find_cycles_containing_pattern_vertices(graph: npt.NDArray[numpy.int_], basins: tuple[BasinUnderConstruction, ...], distance_calculator: DistanceCalculator | None = None):
     cycle_finding_progress: list[CycleFindingProgressForBasin] = list(map(lambda basin: CycleFindingProgressForBasin(basin), basins))
     while len(cycle_finding_progress) > 0:
         for cycle_finding_progress_for_basin in cycle_finding_progress:
-            find_cycle_response: FindCycleResponse = find_cycle(graph, cycle_finding_progress_for_basin, basins)
+            find_cycle_response: FindCycleResponse = find_cycle(graph, cycle_finding_progress_for_basin, basins, distance_calculator)
             _handle_find_cycle_response(find_cycle_response, cycle_finding_progress_for_basin)
         cycle_finding_progress = [progress for progress in cycle_finding_progress if not progress.finished()]
 
