@@ -48,7 +48,13 @@ def generate_strong_tournament(number_of_states)-> npt.NDArray[numpy.int_]:
 
 def randomize_upper_half_and_fill_in_lower_half_graph(graph: npt.NDArray[numpy.int_], number_of_states: int):
     _randomize_upper_half_graph(graph, number_of_states)
-    _fill_in_lower_half_graph(graph, number_of_states)
+    fill_in_lower_half_graph(graph, number_of_states)
+
+def fill_in_lower_half_graph(graph: npt.NDArray[numpy.int_], number_of_states: int):
+    for i in range(number_of_states):
+        for j in range(i + 1, number_of_states):
+            if graph[i, j] != -1:
+                graph[j, i] = _reverse(graph[i, j])
 
 def _randomize_upper_half_graph(graph: npt.NDArray[numpy.int_], number_of_states: int):
     for row in range(number_of_states):
@@ -56,12 +62,6 @@ def _randomize_upper_half_graph(graph: npt.NDArray[numpy.int_], number_of_states
             if graph[row, column] == 0:
                 graph[row, column] = random_number_generator.integers(2)
 
-
-def _fill_in_lower_half_graph(graph: npt.NDArray[numpy.int_], number_of_states: int):
-    for i in range(number_of_states):
-        for j in range(i + 1, number_of_states):
-            graph[j, i] = _reverse(graph[i, j])
-    
 
 def _pick_edges_to_remove(number_of_states: int, fraction_of_arcs_present: float) -> set[tuple[int, int]]:
     number_of_edges: int = number_of_states * (number_of_states - 1)/2 # type: ignore
