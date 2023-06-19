@@ -24,5 +24,5 @@ def _serialize_rate_matrix(rate_matrix):
 def _deserialize_rate_matrix(serialized):
     id = serialized['id']
     disentangled_system_id = serialized['disentangled_system_id']
-    rate_matrix = numpy.array(serialized['rate_matrix'], dtype = int)
+    rate_matrix = numpy.array(serialized['rate_matrix'], dtype = float)
     return RateMatrix(id, disentangled_system_id, rate_matrix)
