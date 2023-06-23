@@ -34,7 +34,7 @@ def generate_graph(number_of_states: int, fraction_of_arcs_present: float) -> np
 
 def generate_tournament(number_of_states: int) -> npt.NDArray[numpy.int_]:
     tournament: npt.NDArray[numpy.int_] = _generate_upper_right_half_random_tournament(number_of_states)
-    _complete_tournament(tournament)
+    _fill_in_lower_left_half_graph(tournament, len(tournament))
     return tournament
 
 def generate_strong_tournament(number_of_states)-> npt.NDArray[numpy.int_]:
@@ -46,20 +46,20 @@ def generate_strong_tournament(number_of_states)-> npt.NDArray[numpy.int_]:
     assert tournament is not None
     return tournament
 
-def randomize_upper_half_and_fill_in_lower_half_graph(graph: npt.NDArray[numpy.int_], number_of_states: int):
-    _randomize_upper_half_graph(graph, number_of_states)
-    fill_in_lower_half_graph(graph, number_of_states)
+def randomize_upper_right_half_and_fill_in_lower_left_half_graph(graph: npt.NDArray[numpy.int_], number_of_states: int):
+    _randomize_upper_right_half_graph(graph, number_of_states)
+    _fill_in_lower_left_half_graph(graph, number_of_states)
 
-def fill_in_lower_half_graph(graph: npt.NDArray[numpy.int_], number_of_states: int):
+def _fill_in_lower_left_half_graph(graph: npt.NDArray[numpy.int_], number_of_states: int):
     for i in range(number_of_states):
         for j in range(i + 1, number_of_states):
             if graph[i, j] != -1:
                 graph[j, i] = _reverse(graph[i, j])
 
-def _randomize_upper_half_graph(graph: npt.NDArray[numpy.int_], number_of_states: int):
+def _randomize_upper_right_half_graph(graph: npt.NDArray[numpy.int_], number_of_states: int):
     for row in range(number_of_states):
         for column in range(row + 1, number_of_states):
-            if graph[row, column] == 0:
+            if graph[row, column] != -1:
                 graph[row, column] = random_number_generator.integers(2)
 
 
@@ -90,15 +90,10 @@ def _generate_upper_right_half_random_tournament(number_of_states: int) -> npt.N
                 tournament[row, column] = random_number_generator.integers(2)
     return tournament
 
-def _complete_tournament(tournament: npt.NDArray[numpy.int_]) -> None:
-    number_of_states: int = len(tournament)
-    for row in range(number_of_states):
-        for column in range(number_of_states):
-            if row > column:
-                tournament[row, column] = _reverse(tournament[column, row])
-
 def _reverse(value) -> int:
+    assert value == 0 or value == 1
     if value == 0:
         return 1
     else:
+        assert value == 1
         return 0
