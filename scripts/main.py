@@ -53,4 +53,3 @@ from frenetic_steering.demo_1.demo_step_2_2 import demo_step_2_2
 from frenetic_steering.analysis_step_1.smallest_basin_size_hist import smallest_basin_size_hist
 
 
-plot_R_performance()

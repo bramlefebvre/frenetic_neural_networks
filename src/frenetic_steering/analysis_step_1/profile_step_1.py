@@ -16,7 +16,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 from frenetic_steering.daos.graphs_and_patterns_dao import generate_single_tournament_and_patterns
-from frenetic_steering.step_1.find_disentangled_system import find_disentangled_system
+from frenetic_steering.step_1 import find_disentangled_system
 import frenetic_steering.analysis_util as analysis_util
 import cProfile
 
@@ -26,6 +26,6 @@ number_of_patterns = 5
 
 patterns = analysis_util.generate_single_state_patterns(number_of_states, number_of_patterns)
 tournament_and_patterns = generate_single_tournament_and_patterns(number_of_states, patterns)
-cProfile.run('find_disentangled_system(tournament_and_patterns)', 'data/step_1/profile_data')
+cProfile.run('find_disentangled_system.find_disentangled_system(tournament_and_patterns)', 'data/step_1/profile_data')
 
 

@@ -80,7 +80,7 @@ def _all_edges(number_of_states: int) -> set[tuple[int, int]]:
     return all_edges
 
 def _pick_one_edge(arcs: list[tuple[int, int]]) -> tuple[int, int]:
-    return tuple(random_number_generator.choice(arcs))
+    return tuple(random_number_generator.choice(arcs)) # type: ignore
 
 def _generate_upper_right_half_random_tournament(number_of_states: int) -> npt.NDArray[numpy.int_]:
     tournament: npt.NDArray[numpy.int_] = -numpy.ones((number_of_states, number_of_states), dtype = int)
