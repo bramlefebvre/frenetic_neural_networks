@@ -63,7 +63,7 @@ def _find_hair_of_length_1(graph: npt.NDArray[numpy.int_], hair_finding_progress
     if len(possibilities) == 0:
         return None
     else:
-        return _pick_one_arc(possibilities)
+        return _pick_one_arc(possibilities, distance_function)
 
 def _find_hair_of_length_longer_than_1(graph: npt.NDArray[numpy.int_], hair_finding_progress_for_basin: HairFindingProgressForBasin, free_vertices: frozenset[int], hair_length: int, distance_function: Callable[[int], float] | None = None) -> tuple[int, int] | None:
     shuffled_free_vertices: list[int] = list(free_vertices)
@@ -100,7 +100,7 @@ def _pick_one_arc(arcs: list[tuple[int, int]], distance_function: Callable[[int]
         minimum_distance = min([distance_function(arc[0]) for arc in arcs])
         arcs_with_minimum_distance = [arc for arc in arcs if distance_function(arc[0]) == minimum_distance]
         response = tuple([vertex.item() for vertex in random_number_generator.choice(arcs_with_minimum_distance)])
-    return response
+    return response # type: ignore
 
 def _pick_one(vertices: list[int]) -> int:
     return random_number_generator.choice(vertices).item()
