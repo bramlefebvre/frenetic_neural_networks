@@ -40,8 +40,7 @@ def _to_disentangled_system_graph(basins: tuple[BasinUnderConstruction, ...], nu
     return graph
 
 def _to_completed_basin(basin: BasinUnderConstruction) -> CompletedBasin:
-    return CompletedBasin(basin.index, basin.pattern_vertices, frozenset(basin.vertices))
-
+    return CompletedBasin(basin.index, basin.pattern_vertices, frozenset(basin.vertices), basin.cycle)
 
 def _find_basins(graph_and_patterns: GraphAndPatterns, distance_calculator: DistanceCalculator | None = None) -> tuple[BasinUnderConstruction, ...]:
     basins: tuple[BasinUnderConstruction, ...] = _initialize_basins(graph_and_patterns.patterns)
@@ -113,6 +112,7 @@ def _handle_find_cycle_response(find_cycle_response: FindCycleResponse, cycle_fi
         cycle_finding_progress_for_basin.pattern_vertices_not_in_a_cycle.difference_update(cycle)
         cycle_finding_progress_for_basin.basin.vertices.update(cycle)
         cycle_finding_progress_for_basin.basin.arcs.update(_cycle_to_arcs(cycle))
+        cycle_finding_progress_for_basin.basin.cycle = cycle
 
 
 def _cycle_to_arcs(cycle: tuple[int, ...]) -> set[tuple[int, int]]:
@@ -128,7 +128,7 @@ def _initialize_basins(patterns: tuple[frozenset[int], ...]) -> tuple[BasinUnder
     return tuple(basins)
 
 def _initialize_basin(index: int, pattern_vertices: frozenset[int]) -> BasinUnderConstruction:
-    return BasinUnderConstruction(index, pattern_vertices, set(pattern_vertices), set())
+    return BasinUnderConstruction(index, pattern_vertices, set(pattern_vertices), set(), None)
 
 
 

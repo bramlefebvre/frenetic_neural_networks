@@ -33,12 +33,13 @@ class GraphAndPatterns:
     patterns: tuple[frozenset[int], ...]
     id: Any = None
 
-@dataclass(frozen = True)
+@dataclass
 class BasinUnderConstruction:
     index: int
     pattern_vertices: frozenset[int]
     vertices: set[int]
     arcs: set[tuple[int, int]]
+    cycle: tuple[int, ...] | None
 
 @dataclass(frozen = True)
 class FindCycleResponse:
@@ -94,6 +95,7 @@ class CompletedBasin:
     index: int
     pattern_vertices: frozenset[int]
     vertices: frozenset[int]
+    cycle: tuple[int, ...] | None
 
 
 @dataclass(frozen = True)

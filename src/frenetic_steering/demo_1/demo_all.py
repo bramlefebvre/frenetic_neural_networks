@@ -16,7 +16,7 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 
 
 import frenetic_steering.daos.graphs_and_patterns_dao as graphs_and_patterns_dao
-import frenetic_steering.step_1.Moon_version.find_disentangled_system as find_disentangled_system
+import frenetic_steering.step_1.find_disentangled_system as find_disentangled_system
 import pandas
 from frenetic_steering.step_2.calculate_path import calculate_path
 from frenetic_steering.step_2.calculate_performance import calculate_performance
@@ -32,7 +32,7 @@ def demo_all():
     serialized_patterns = [[0], [2], [3]]
     patterns = graphs_and_patterns_dao.to_tuple_of_sets(serialized_patterns)
     tournament_and_patterns = graphs_and_patterns_dao.generate_single_tournament_and_patterns(number_of_vertices, patterns)
-    exuberant_system = find_disentangled_system.find_disentangled_system(tournament_and_patterns, False).disentangled_system
+    exuberant_system = find_disentangled_system.find_disentangled_system(tournament_and_patterns, None).disentangled_system
     print('original tournament:')
     pprint(tournament_and_patterns.graph)
     print('basins:')

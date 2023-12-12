@@ -15,8 +15,8 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 
-from frenetic_steering.demo_1.demo_step_1 import demo_step_1
-# from demo_1.demo_step_2 import demo_step_2
-# from demo_1.demo_step_2_2 import demo_step_2_2
+from frenetic_steering.demo_1.demo_all import demo_all
 
-demo_step_1()
+
+
+demo_all()
