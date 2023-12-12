@@ -5,7 +5,6 @@ build-backend = "setuptools.build_meta"
 name = "frenetic_steering"
 version = "1.0.0"
 dependencies = [
-    "numpy",
-    "matplotlib",
-    "pandas"
+    "matplotlib == 3.8.0",
+    "pandas == 2.1.1"
 ]
