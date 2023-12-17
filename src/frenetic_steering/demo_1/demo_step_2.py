@@ -27,8 +27,6 @@ def pprint(object):
     print(pandas.DataFrame(object))
 
 def demo_step_2():
-
-
     exuberant_system = disentangled_systems_dao.get_single_disentangled_system('example_thesis', 'data/exuberant_systems')
 
     print('basins:')

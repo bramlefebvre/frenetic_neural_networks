@@ -95,11 +95,11 @@ def _get_free_vertices(number_of_vertices: int, basins: tuple[BasinUnderConstruc
 
 def _pick_one_arc(arcs: list[tuple[int, int]], distance_function: Callable[[int], float] | None = None) -> tuple[int, int]:
     if distance_function is None:
-        response = tuple([vertex.item() for vertex in random_number_generator.choice(arcs)])
+        response = tuple([vertex.item() for vertex in random_number_generator.choice(arcs)]) # type: ignore
     else:
         minimum_distance = min([distance_function(arc[0]) for arc in arcs])
         arcs_with_minimum_distance = [arc for arc in arcs if distance_function(arc[0]) == minimum_distance]
-        response = tuple([vertex.item() for vertex in random_number_generator.choice(arcs_with_minimum_distance)])
+        response = tuple([vertex.item() for vertex in random_number_generator.choice(arcs_with_minimum_distance)]) # type: ignore
     return response # type: ignore
 
 def _pick_one(vertices: list[int]) -> int:

@@ -22,8 +22,6 @@ from frenetic_steering.daos.step_1_training_analysis_data_dao import save_traini
 import frenetic_steering.analysis_util as analysis_util
 
 
-
-
 low = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
 high = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 fraction_of_arcs_present = 1

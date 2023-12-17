@@ -14,7 +14,6 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 <https://www.gnu.org/licenses/>.
 '''
 
-from typing import Callable
 from frenetic_steering.step_1.data_structures import BasinUnderConstruction, CompletedBasin, CycleFindingProgressForBasin, DisentangledSystem, DistanceCalculator, FindCycleResponse, FindHairResponse, HairFindingProgressForBasin, GraphAndPatterns, TrainingResult
 import numpy
 import numpy.typing as npt
