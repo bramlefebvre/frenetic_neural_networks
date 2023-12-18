@@ -32,13 +32,13 @@ def demo_all():
     serialized_patterns = [[0], [2], [3]]
     patterns = graphs_and_patterns_dao.to_tuple_of_sets(serialized_patterns)
     tournament_and_patterns = graphs_and_patterns_dao.generate_single_tournament_and_patterns(number_of_vertices, patterns)
-    exuberant_system = find_disentangled_system.find_disentangled_system(tournament_and_patterns, None).disentangled_system
+    disentangled_system = find_disentangled_system.find_disentangled_system(tournament_and_patterns, None).disentangled_system
     print('original tournament:')
     pprint(tournament_and_patterns.graph)
     print('basins:')
-    print([set(basin.vertices) for basin in exuberant_system.basins])
+    print([set(basin.vertices) for basin in disentangled_system.basins])
     print('graph:')
-    pprint(exuberant_system.graph)
+    pprint(disentangled_system.graph)
 
     travel_time = 1
     driving_value = 5
@@ -49,7 +49,7 @@ def demo_all():
 
     algorithm = LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC
 
-    dynamics = initialize_dynamics(exuberant_system, driving_value, initial_activity_parameter_factor, travel_time)
+    dynamics = initialize_dynamics(disentangled_system, driving_value, initial_activity_parameter_factor, travel_time)
     print('initial rate matrix:')
     pprint(dynamics.rate_matrix)
 

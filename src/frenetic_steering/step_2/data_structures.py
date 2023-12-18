@@ -20,15 +20,15 @@ from enum import Enum, unique
 
 # immutable?
 class Dynamics:
-    def __init__(self, rate_matrix, exuberant_system, driving_value, initial_activity_parameter_factor, travel_time):
+    def __init__(self, rate_matrix, disentangled_system, driving_value, initial_activity_parameter_factor, travel_time):
         self.rate_matrix = rate_matrix
-        self.exuberant_system = exuberant_system
+        self.disentangled_system = disentangled_system
         self.driving_value = driving_value
         self.initial_activity_parameter_factor = initial_activity_parameter_factor
         self.travel_time = travel_time
 
     def get_basin_for_state(self, state):
-        for basin in self.exuberant_system.basins:
+        for basin in self.disentangled_system.basins:
             if state in basin.vertices:
                 return basin
                        

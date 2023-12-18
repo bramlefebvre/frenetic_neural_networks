@@ -30,11 +30,11 @@ def demo_step_1():
     tournament_and_patterns = graphs_and_patterns_dao.generate_single_tournament_and_patterns(number_of_vertices, patterns)
 
     tournament_and_patterns = graphs_and_patterns_dao.get_single_graph_and_patterns('example_thesis', 'data/tournaments')
-    exuberant_system = find_disentangled_system.find_disentangled_system(tournament_and_patterns).disentangled_system
+    disentangled_system = find_disentangled_system.find_disentangled_system(tournament_and_patterns).disentangled_system
 
     print('original tournament:')
     pprint(tournament_and_patterns.graph)
     print('exuberant system graph:')
-    pprint(exuberant_system.graph)
+    pprint(disentangled_system.graph)
     print('basins:')
-    print([set(basin.vertices) for basin in exuberant_system.basins])
+    print([set(basin.vertices) for basin in disentangled_system.basins])

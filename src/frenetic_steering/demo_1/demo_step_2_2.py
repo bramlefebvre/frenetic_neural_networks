@@ -28,12 +28,12 @@ def pprint(object):
 
 def demo_step_2_2():
 
-    exuberant_system = disentangled_systems_dao.get_single_disentangled_system('size_20', 'data/exuberant_systems')
+    disentangled_system = disentangled_systems_dao.get_single_disentangled_system('size_20', 'data/exuberant_systems')
 
     print('basins:')
-    print([set(basin.vertices) for basin in exuberant_system.basins])
+    print([set(basin.vertices) for basin in disentangled_system.basins])
     print('graph:')
-    pprint(exuberant_system.graph)
+    pprint(disentangled_system.graph)
 
     travel_time = 1
     driving_value = 5
@@ -43,7 +43,7 @@ def demo_step_2_2():
     desired_residence_time = 0.2
     algorithm = LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC
 
-    initial_dynamics = initialize_dynamics(exuberant_system, driving_value, initial_activity_parameter_factor, travel_time)
+    initial_dynamics = initialize_dynamics(disentangled_system, driving_value, initial_activity_parameter_factor, travel_time)
 
     print('initial rate matrix:')
     pprint(initial_dynamics.rate_matrix)

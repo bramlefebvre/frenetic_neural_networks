@@ -35,7 +35,7 @@ learning_rate = 0.5
 desired_residence_time = 0.2
 filename = 'data/step_2/cv_a5_nx'
 
-# (success, exuberant_system_id, number_of_states, number_of_patterns, driving_value, 
+# (success, disentangled_system_id, number_of_states, number_of_patterns, driving_value, 
 # initial_activity_parameter_factor, travel_time, algorithm, learning_rate, desired_residence_time, 
 # training_set_size, performance):
 

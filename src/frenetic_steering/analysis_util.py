@@ -34,8 +34,8 @@ def generate_single_state_patterns(number_of_states, number_of_patterns):
         states.remove(state)
     return to_tuple_of_sets(patterns)
 
-def to_sizes_of_basins(exuberant_system) -> list[int]:
-    basins = exuberant_system.basins
+def to_sizes_of_basins(disentangled_system) -> list[int]:
+    basins = disentangled_system.basins
     sizes_of_basins: list[int] = []
     for basin in basins:
         size_of_basin = len(basin.vertices) - len(basin.pattern_vertices)

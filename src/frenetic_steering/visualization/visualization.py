@@ -38,15 +38,15 @@ def train_and_save_complete_training_result():
 def _train():
     tournament_and_patterns = generate_single_tournament_and_patterns(8, [[0], [1]])
     step_1_training_result = find_disentangled_system(tournament_and_patterns, True)
-    exuberant_system = step_1_training_result.disentangled_system
-    initial_dynamics = initialize_dynamics(exuberant_system, 5, 1, 1)
+    disentangled_system = step_1_training_result.disentangled_system
+    initial_dynamics = initialize_dynamics(disentangled_system, 5, 1, 1)
     step_2_training_result = train_starting_with_each_vertex_n_times(initial_dynamics, LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC, 0.5, 0.2, 4)
     trained_dynamics = step_2_training_result.dynamics
     if step_2_training_result.success:
         performance = calculate_performance(trained_dynamics, 0.2, 100)
         print('performance:')
         print(performance)
-    complete_training_result = CompleteTrainingResult(step_2_training_result.success, exuberant_system, trained_dynamics.rate_matrix)
+    complete_training_result = CompleteTrainingResult(step_2_training_result.success, disentangled_system, trained_dynamics.rate_matrix)
     complete_learning_history = CompleteLearningHistory(step_1_training_result.cycle_finding_history, step_2_training_result.learning_step_results)
     return (complete_training_result, complete_learning_history)
 

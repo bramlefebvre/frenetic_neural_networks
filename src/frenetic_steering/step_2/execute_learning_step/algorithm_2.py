@@ -28,7 +28,7 @@ def execute_learning_step(dynamics, initial_state, learning_rate, desired_reside
         return failure_learning_step_result
     basin = dynamics.get_basin_for_state(initial_state)
     pattern_states = basin.pattern_vertices
-    graph = dynamics.exuberant_system.graph
+    graph = dynamics.disentangled_system.graph
     input = GetRateChangeInstructionsFunctionInput(graph, path.path['state'], pattern_states)
     path_type = determine_path_type(input, path.path, path.residence_time_last_state, desired_residence_time)
     rate_change_instructions = rate_change_instructions_function_map[path_type](input)
