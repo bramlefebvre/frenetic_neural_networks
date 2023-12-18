@@ -24,10 +24,12 @@ failure_learning_step_result = LearningStepResult(False, None, None, None)
 
 def execute_learning_step(dynamics, initial_state, learning_rate, desired_residence_time):
     rate_matrix = dynamics.rate_matrix.copy()
+    basin = dynamics.get_basin_for_state(initial_state)
+    if basin is None:
+        return LearningStepResult(True, rate_matrix, None, None)
     path = calculate_path(rate_matrix, initial_state, dynamics.travel_time)
     if path is None:
         return failure_learning_step_result
-    basin = dynamics.get_basin_for_state(initial_state)
     pattern_states = basin.pattern_vertices
     graph = dynamics.disentangled_system.graph
     input = GetRateChangeInstructionsFunctionInput(graph, path.path['state'], pattern_states)
