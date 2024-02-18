@@ -1,26 +1,26 @@
 from PIL import Image
 from os import listdir
 from os.path import isfile, join
+from frenetic_steering.daos import base_dao
 
 
-
-
-original_patterns_folder = "C:\\Users\\braml\\work_documents\\original_patterns"
-converted_patterns_folder = "C:\\Users\\braml\\work_documents\\converted_patterns"
-
+config = base_dao.read_data("config")
+original_patterns_folder = config["original_patterns_folder"] # type: ignore
+converted_patterns_folder = config["converted_patterns_folder"] # type: ignore
+image_size = tuple(config["image_size"]) # type: ignore
 
 def convert_patterns():
-    pattern_files = [f for f in listdir(original_patterns_folder) if isfile(join(original_patterns_folder, f))]
-    for pattern_file in pattern_files:
+    for pattern_file in listdir(original_patterns_folder):
         path = join(original_patterns_folder, pattern_file)
-        image = Image.open(path)
-        image = _to_black_white_image(image)
-        path = join(converted_patterns_folder, pattern_file)
-        image.save(path)
+        if isfile(path):
+            image = Image.open(path)
+            image = _to_resized_black_white_image(image)
+            path = join(converted_patterns_folder, pattern_file)
+            image.save(path)
 
 
-def _to_black_white_image(image):
-    image = image.resize((100, 100))
+def _to_resized_black_white_image(image):
+    image = image.resize(image_size)
     if image.mode != '1':
         image = image.convert('1')
     return image
