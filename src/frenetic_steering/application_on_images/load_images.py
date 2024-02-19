@@ -5,7 +5,6 @@ import numpy
 from frenetic_steering.daos import base_dao
 
 
-
 config = base_dao.read_data("config")
 converted_patterns_folder = config["converted_patterns_folder"] # type: ignore
 image_size = tuple(config["image_size"]) # type: ignore
