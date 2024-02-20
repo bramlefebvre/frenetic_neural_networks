@@ -7,7 +7,7 @@ from frenetic_steering.daos import base_dao
 
 config = base_dao.read_data("config")
 converted_patterns_folder = config["converted_patterns_folder"] # type: ignore
-image_size = tuple(config["image_size"]) # type: ignore
+image_size = config["image_width"], config["image_height"] # type: ignore
 input_file = config["input_file"] # type: ignore
 
 def _load_pattern_filename_list():
@@ -33,7 +33,10 @@ def _load_image(filename):
     number_of_pixels = image_size[0]*image_size[1]
     spin_values = numpy.zeros(number_of_pixels, dtype=numpy.int8)
     image = Image.open(filename)
+    image = image.convert('1')
     image_data = list(image.getdata())
     for i, pixel_value in enumerate(image_data):
+        if pixel_value == 255:
+            pixel_value = 1
         spin_values[i] = pixel_value
     return spin_values

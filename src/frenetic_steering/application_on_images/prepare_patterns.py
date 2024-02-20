@@ -7,7 +7,7 @@ from frenetic_steering.daos import base_dao
 config = base_dao.read_data("config")
 original_patterns_folder = config["original_patterns_folder"] # type: ignore
 converted_patterns_folder = config["converted_patterns_folder"] # type: ignore
-image_size = tuple(config["image_size"]) # type: ignore
+image_size = config["image_width"], config["image_height"] # type: ignore
 
 def convert_patterns():
     for pattern_file in listdir(original_patterns_folder):

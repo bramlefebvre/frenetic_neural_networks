@@ -1,11 +1,13 @@
 from dataclasses import dataclass
 from frenetic_steering.step_1.data_structures import DisentangledSystem, CompletedBasin
 from frenetic_steering.step_1.local_disentangling.find_closest_pattern import find_closest_pattern
+from frenetic_steering.application_on_images.load_images import load_input
 from frenetic_steering.step_1.local_disentangling.util import number_of_spins_with_different_value
 import numpy
 import copy 
 import numpy.typing as npt
 
+from frenetic_steering.application_on_images.show_image import show_image
 
 type State = npt.NDArray[numpy.int8]
 
@@ -15,6 +17,7 @@ random_number_generator = numpy.random.default_rng()
 def find_local_disentangled_system():
     pattern, distance = find_closest_pattern()
     cycle = _find_cycle(pattern)
+    input = load_input()
     start_length_hair = _minimum_length_hair(input, cycle, distance)
     hair = _find_hair(cycle, input, start_length_hair)
     return _to_local_disentangled_system(cycle, hair)
@@ -33,8 +36,40 @@ def _minimum_length_hair(input, cycle, distance):
         minimum_length_hair = distance + 1
     return minimum_length_hair
 
-def _to_local_disentangled_system(cycle, hair):
-    pass
+@dataclass(frozen = True)
+class Cycle:
+    flipped_spins: tuple[int, int]
+    cycle: list[State]
+
+@dataclass(frozen = True)
+class Hair:
+    index_destination_state_on_cycle: int
+    hair: list[State]
+
+def _to_local_disentangled_system(cycle: Cycle, hair: Hair):
+    hair_length = len(hair.hair)
+    index_to_state_map: dict[int, State] = {}
+    for i, state in enumerate(hair.hair):
+        index_to_state_map[i] = state
+    for i in range(4):
+        index_cycle_state = (hair.index_destination_state_on_cycle + i) % 4
+        index_to_state_map[hair_length + i] = cycle.cycle[index_cycle_state]
+    number_of_states = hair_length + 4
+    graph = _initialize_graph(number_of_states)
+    pattern_vertices = frozenset([key for key, value in index_to_state_map.items() if (value == cycle.cycle[0]).all()])
+    completed_basin = CompletedBasin(0, pattern_vertices, frozenset(range(number_of_states)), tuple(range(hair_length, hair_length + 4)))
+    disentangled_system = DisentangledSystem(None, graph, (completed_basin, ), None)
+    return LocalDisentangledSystem(index_to_state_map, disentangled_system)
+
+def _initialize_graph(number_of_states):
+    graph = -numpy.ones((number_of_states, number_of_states), dtype=numpy.int8)
+    for i in range(number_of_states - 1):
+        graph[i, i + 1] = 1
+        graph[i + 1, i] = 0
+    graph[number_of_states - 1, number_of_states - 4] = 1
+    graph[number_of_states - 4, number_of_states - 1] = 0
+    return graph
+
 
 def _find_hair(cycle, input, start_length_hair):
     return _find_hair_with_length(cycle, input, start_length_hair)
@@ -64,24 +99,24 @@ def _get_index_closest_state(state_0, states):
 
 
 def _spins_with_different_value_excluding_cycle_flipped_spins(cycle, state):
-    central_cycle_state = cycle.cycle[3]
+    central_cycle_state = cycle.cycle[2]
     spins_with_different_value = _spins_with_different_value(state, central_cycle_state)
     spins_with_different_value.difference_update(cycle.flipped_spins)
     return spins_with_different_value
 
-def _spins_with_different_value(state_1, state_2):
+def _spins_with_different_value(state_0, state_1):
     spins_with_different_value = set()
-    for i, state_1_i in enumerate(state_1):
-        if state_1_i != state_2[i]:
+    for i, state_0_i in enumerate(state_0):
+        if state_0_i != state_1[i]:
             spins_with_different_value.add(i)
     return spins_with_different_value
 
-def _find_cycle(pattern: npt.NDArray[numpy.int8]):
+def _find_cycle(pattern: State):
     number_of_spins = len(pattern)
     spins = set(range(number_of_spins))
-    spin_to_flip_1 = random_number_generator.choice(number_of_spins)
+    spin_to_flip_1: int = random_number_generator.choice(number_of_spins)
     spins.remove(spin_to_flip_1)
-    spin_to_flip_2 = random_number_generator.choice(list(spins))
+    spin_to_flip_2: int = random_number_generator.choice(list(spins))
     cycle = []
     cycle.append(pattern)
     state = _flip_spin_of_state(pattern, spin_to_flip_1)
@@ -107,15 +142,7 @@ def _flip_spin_value(spin_value):
         flipped_spin_value = 1
     return flipped_spin_value
         
-@dataclass(frozen = True)
-class Cycle:
-    flipped_spins: tuple[int, int]
-    cycle: list[State]
 
-@dataclass(frozen = True)
-class Hair:
-    index_destination_state_on_cycle: int
-    hair: list[State]
 
 @dataclass(frozen = True)
 class LocalDisentangledSystem:
