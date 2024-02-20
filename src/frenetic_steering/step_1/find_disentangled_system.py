@@ -25,12 +25,12 @@ random_number_generator = numpy.random.default_rng()
 
 def find_disentangled_system(graph_and_patterns: GraphAndPatterns, distance_calculator: DistanceCalculator | None = None) -> TrainingResult:
     basins: tuple[BasinUnderConstruction, ...] = _find_basins(graph_and_patterns, distance_calculator)
-    graph: npt.NDArray[numpy.int_] = _to_disentangled_system_graph(basins, len(graph_and_patterns.graph))
+    graph: npt.NDArray[numpy.int8] = _to_disentangled_system_graph(basins, len(graph_and_patterns.graph))
     completed_basins: tuple[CompletedBasin, ...] = tuple(map(_to_completed_basin, basins))
     return TrainingResult(DisentangledSystem(graph_and_patterns.id, graph, completed_basins))
 
 def _to_disentangled_system_graph(basins: tuple[BasinUnderConstruction, ...], number_of_vertices: int) -> npt.NDArray[numpy.int_]:
-    graph: npt.NDArray[numpy.int_] = -numpy.ones((number_of_vertices, number_of_vertices), dtype=int)
+    graph: npt.NDArray[numpy.int8] = -numpy.ones((number_of_vertices, number_of_vertices), dtype=numpy.int8)
     arcs: set[tuple[int, int]] = set()
     arcs.update(*map(lambda basin: basin.arcs, basins))
     for arc in arcs:

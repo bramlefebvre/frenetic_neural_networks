@@ -30,7 +30,7 @@ def find_disentangled_system(tournament_and_patterns, eliminate_cycles_outside_p
     patterns = tournament_and_patterns.patterns
     basins_and_cycle_finding_history = _find_cycles_per_basin(tournament, patterns)
     basins: tuple[BasinUnderConstruction, ...] = basins_and_cycle_finding_history.basins
-    exuberant_system_graph: npt.NDArray[numpy.int_] = _to_exuberant_system_graph(basins, len(tournament), eliminate_cycles_outside_pattern)
+    exuberant_system_graph: npt.NDArray[numpy.int8] = _to_exuberant_system_graph(basins, len(tournament), eliminate_cycles_outside_pattern)
     completed_basins = tuple(map(_to_completed_basin, basins))
     exuberant_system = DisentangledSystem(tournament_and_patterns.id, exuberant_system_graph, completed_basins)
     cycle_finding_history = basins_and_cycle_finding_history.cycle_finding_history
@@ -43,7 +43,7 @@ def _gather_all_cycles(basins: tuple[BasinUnderConstruction, ...]) -> set[tuple[
     return cycles
 
 def _to_exuberant_system_graph(basins: tuple[BasinUnderConstruction, ...], number_of_states: int, eliminate_cycles_outside_pattern: bool):
-    graph: npt.NDArray[numpy.int_] = -numpy.ones((number_of_states, number_of_states), dtype=int)
+    graph: npt.NDArray[numpy.int8] = -numpy.ones((number_of_states, number_of_states), dtype=numpy.int8)
     cycles: set[tuple[int, ...]] = _gather_all_cycles(basins)
     arcs: set[tuple[int, int]] = _to_arcs(cycles)
     if eliminate_cycles_outside_pattern:

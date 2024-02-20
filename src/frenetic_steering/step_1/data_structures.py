@@ -101,7 +101,7 @@ class CompletedBasin:
 @dataclass(frozen = True)
 class DisentangledSystem:
     graph_and_patterns_id: Any
-    graph: npt.NDArray[numpy.int_]
+    graph: npt.NDArray[numpy.int8]
     basins: tuple[CompletedBasin, ...]
     id: Any = None
 

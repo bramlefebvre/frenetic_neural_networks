@@ -32,7 +32,7 @@ def save_disentangled_system(disentangled_system, filename):
     base_dao.add_single_entry(serialized, filename)
 
 def generate_cycle(number_of_states):
-    graph = -numpy.ones((number_of_states, number_of_states), dtype = int)
+    graph = -numpy.ones((number_of_states, number_of_states), dtype = numpy.int8)
     basins = (CompletedBasin(0, frozenset({0}), frozenset(range(number_of_states))),)
     for vertex in range(number_of_states):
         if vertex == number_of_states - 1:
@@ -54,7 +54,7 @@ def serialize_disentangled_system(disentangled_system):
 
 def deserialize_disentangled_system(serialized):
     graph_and_patterns_id = serialized['graph_and_patterns_id']
-    graph = numpy.array(serialized['graph'], dtype = int)
+    graph = numpy.array(serialized['graph'], dtype = numpy.int8)
     basins = tuple(map(_deserialize_basin, serialized['basins']))
     id = serialized['id']
     return DisentangledSystem(graph_and_patterns_id, graph, basins, id)
