@@ -1,3 +1,19 @@
+'''
+Frenetic steering: implementations of the algorithms described in the paper 'Frenetic steering in a nonequilibrium graph'.
+Copyright (C) 2022-2024 Bram Lefebvre
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General
+Public License as published by the Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+A copy of the GNU General Public License is in the file COPYING. It can also be found at
+<https://www.gnu.org/licenses/>.
+'''
+
 from PIL import Image
 import numpy
 from frenetic_steering.daos import base_dao
@@ -15,25 +31,7 @@ def _state_to_image(state):
     image = Image.new('1', image_size, 0)
     for row in range(image_size[1]):
         for column in range(image_size[0]):
-            index = image_size[0]*(row) + column
+            index = image_size[0]*row + column
             if state[index] == 1:
                 image.putpixel((column, row), 1)
     return image
-
-
-
-# function state_to_image(state, image_size)
-#     (height, width) = image_size
-#     black_white_image = Array{Gray{N0f8}, 2}(undef, height, width)
-#     for row = 1:height
-#         for column = 1:width
-#             index = width*(row - 1) + column
-#             if state[index] == 1
-#                 black_white_image[row, column] = black
-#             else
-#                 black_white_image[row, column] = white
-#             end
-#         end
-#     end
-#     return black_white_image
-# end
