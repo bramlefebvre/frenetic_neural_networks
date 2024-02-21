@@ -40,7 +40,7 @@ def local_steering():
     dynamics = training_result.dynamics
     path = calculate_path(dynamics.rate_matrix, 0, travel_time).path # type: ignore
     last_state_index = path['state'][-1]
-    last_state = local_disentangled_system.index_to_state_map[last_state_index]
+    last_state = local_disentangled_system.index_to_state_function(last_state_index)
     show_image(last_state)
 
 
