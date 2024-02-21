@@ -34,23 +34,8 @@ def find_local_disentangled_system():
     pattern, distance = find_closest_pattern()
     cycle = _find_cycle(pattern)
     input = load_input()
-    start_length_hair = _minimum_length_hair(input, cycle, distance)
-    hair = _find_hair(cycle, input, start_length_hair)
+    hair = _find_hair(cycle, input, distance)
     return _to_local_disentangled_system(cycle, hair)
-
-
-def _minimum_length_hair(input, cycle, distance):
-    pattern = cycle.cycle[0]
-    number_of_flipped_spins = 0
-    for flipped_spin in cycle.flipped_spins:
-        if input[flipped_spin] != pattern[flipped_spin]:
-            number_of_flipped_spins += 1
-    minimum_length_hair = 0
-    if number_of_flipped_spins > 0:
-        minimum_length_hair = distance - number_of_flipped_spins
-    else:
-        minimum_length_hair = distance + 1
-    return minimum_length_hair
 
 @dataclass(frozen = True)
 class Cycle:
@@ -72,7 +57,7 @@ def _to_local_disentangled_system(cycle: Cycle, hair: Hair):
         index_to_state_map[hair_length + i] = cycle.cycle[index_cycle_state]
     number_of_states = hair_length + 4
     graph = _initialize_graph(number_of_states)
-    pattern_vertices = frozenset([key for key, value in index_to_state_map.items() if (value == cycle.cycle[0]).all()])
+    pattern_vertices = frozenset([-hair.index_destination_state_on_cycle % 4 + hair_length])
     completed_basin = CompletedBasin(0, pattern_vertices, frozenset(range(number_of_states)), tuple(range(hair_length, hair_length + 4)))
     disentangled_system = DisentangledSystem(None, graph, (completed_basin, ), None)
     return LocalDisentangledSystem(index_to_state_map, disentangled_system)
@@ -86,23 +71,39 @@ def _initialize_graph(number_of_states):
     graph[number_of_states - 4, number_of_states - 1] = 0
     return graph
 
+def _number_of_flipped_spins(cycle, input):
+    pattern = cycle.cycle[0]
+    number_of_flipped_spins = 0
+    for flipped_spin in cycle.flipped_spins:
+        if input[flipped_spin] != pattern[flipped_spin]:
+            number_of_flipped_spins += 1
+    return number_of_flipped_spins
 
-def _find_hair(cycle, input, start_length_hair):
-    return _find_hair_with_length(cycle, input, start_length_hair)
+def _find_hair(cycle, input, distance):
+    number_of_flipped_spins = _number_of_flipped_spins(cycle, input)
+    return _find_hair_with_minimal_length(cycle, input, number_of_flipped_spins, distance)
 
 
-def _find_hair_with_length(cycle, input, hair_length):
+def _find_hair_with_minimal_length(cycle, input, number_of_flipped_spins, distance):
+    # assume this hair_length works
     hair = []
     hair.append(input)
     state = input
+    remaining_hair_length: int
+    if number_of_flipped_spins == 0:
+        spin_to_flip = random_number_generator.choice(cycle.flipped_spins)
+        state = _flip_spin_of_state(state, spin_to_flip)
+        hair.append(state)
+        remaining_hair_length = distance
+    else:
+        remaining_hair_length = distance - number_of_flipped_spins
     
-    # assume this hair_length works
-    for i in range(1, hair_length):
+    for i in range(remaining_hair_length - 1):
         spins_with_different_value = _spins_with_different_value_excluding_cycle_flipped_spins(cycle, state)
         spin_to_flip = random_number_generator.choice(list(spins_with_different_value))
         state = _flip_spin_of_state(state, spin_to_flip)
         hair.append(state)
-    index_closest_cycle_state = _get_index_closest_state(hair[-1], cycle.cycle[1:3])
+    index_closest_cycle_state = _get_index_closest_state(hair[-1], cycle.cycle[1:3]) + 1
     return Hair(index_closest_cycle_state, hair)
 
 def _get_index_closest_state(state_0, states):
@@ -137,9 +138,9 @@ def _find_cycle(pattern: State):
     cycle.append(pattern)
     state = _flip_spin_of_state(pattern, spin_to_flip_1)
     cycle.append(state)
-    state = _flip_spin_of_state(pattern, spin_to_flip_2)
+    state = _flip_spin_of_state(state, spin_to_flip_2)
     cycle.append(state)
-    state = _flip_spin_of_state(pattern, spin_to_flip_1)
+    state = _flip_spin_of_state(state, spin_to_flip_1)
     cycle.append(state)
     return Cycle((spin_to_flip_1, spin_to_flip_2), cycle)
 
@@ -158,7 +159,8 @@ def _flip_spin_value(spin_value):
         flipped_spin_value = 1
     return flipped_spin_value
         
-
+def _initialize_index_to_state_function():
+    pass
 
 @dataclass(frozen = True)
 class LocalDisentangledSystem:
