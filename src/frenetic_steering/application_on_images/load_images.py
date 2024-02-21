@@ -47,7 +47,7 @@ def load_input():
 
 def _load_image(filename):
     number_of_pixels = image_size[0]*image_size[1]
-    spin_values = numpy.zeros(number_of_pixels, dtype=numpy.int8)
+    spin_values = numpy.zeros(number_of_pixels, dtype=numpy.byte)
     image = Image.open(filename)
     image = image.convert('1')
     image_data = list(image.getdata())

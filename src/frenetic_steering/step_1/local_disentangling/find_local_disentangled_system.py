@@ -64,7 +64,7 @@ def _to_local_disentangled_system(cycle: Cycle, hair: Hair):
 
 
 def _initialize_graph(number_of_states):
-    graph = -numpy.ones((number_of_states, number_of_states), dtype=numpy.int8)
+    graph = -numpy.ones((number_of_states, number_of_states), dtype=numpy.byte)
     for i in range(number_of_states - 1):
         graph[i, i + 1] = 1
         graph[i + 1, i] = 0
