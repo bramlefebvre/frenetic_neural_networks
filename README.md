@@ -10,4 +10,6 @@ The starting point for the implementation of the algorithm for frenetic steering
 
 In the folders analysis_step_1 and analysis_step_2 code can be found that was used to investigate the performance of the algorithms. 
 
+The starting point for the local steering application is in application_on_images/local_steering.py. This application needs to be configured in config.json.
+
 The writer of the program, Bram Lefebvre, can be reached at bramlefebvre@gmail.com.
