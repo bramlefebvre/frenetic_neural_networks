@@ -15,7 +15,9 @@ A copy of the GNU General Public License is in the file COPYING. It can also be 
 '''
 
 from frenetic_steering.application_on_images.local_steering import local_steering
+from frenetic_steering.application_on_images.prepare_patterns import convert_patterns
 
+# convert_patterns()
 
 local_steering()
 
