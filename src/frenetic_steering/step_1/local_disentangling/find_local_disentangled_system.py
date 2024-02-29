@@ -18,25 +18,22 @@ from dataclasses import dataclass
 from typing import Callable
 from frenetic_steering.step_1.data_structures import DisentangledSystem, CompletedBasin
 from frenetic_steering.step_1.local_disentangling.find_closest_pattern import find_closest_pattern
-from frenetic_steering.application_on_images.load_images import load_input
-from frenetic_steering.step_1.local_disentangling.util import number_of_spins_with_different_value
 import numpy
-import copy 
+import copy
 import numpy.typing as npt
 
-from frenetic_steering.application_on_images.show_image import show_image
 
 type State = npt.NDArray[numpy.byte]
 
 random_number_generator = numpy.random.default_rng()
 
 
-def find_local_disentangled_system():
-    pattern, distance = find_closest_pattern()
+def find_local_disentangled_system(input):
+    pattern, distance = find_closest_pattern(input)
     cycle = _find_cycle(pattern)
-    input = load_input()
     hair = _find_hair(cycle, input, pattern, distance)
     return _to_local_disentangled_system(cycle, hair)
+
 
 @dataclass(frozen = True)
 class Cycle:
@@ -103,14 +100,6 @@ def _find_hair_with_minimal_length(cycle, input, pattern, distance):
         spin_flips.append(spin_to_flip)
     return Hair(input, spin_flips)
 
-# def _get_index_closest_state(state_0, states):
-#     distances = []
-#     for state in states:
-#         distances.append(number_of_spins_with_different_value(state, state_0))
-#     minimum_distance = min(distances)
-#     index_minimum = distances.index(minimum_distance)
-#     return index_minimum
-
 def _get_value_of_spin_for_first_state_on_cycle(hair: Hair, spin: int):
     number_of_flips = len([spin_flip for spin_flip in hair.spin_flips if spin_flip == spin]) % 2
     value_of_spin_for_input = hair.input[spin]
@@ -174,16 +163,7 @@ def _initialize_index_to_state_function(cycle: Cycle, hair: Hair, index_first_st
             state = _flip_spin_of_state(state, spin_flips[i])
         return state
     return index_to_state
-    
-    
 
-
-    # flipped_spins = cycle.flipped_spins_for_index[hair.index_destination_state_on_cycle]
-    # state = cycle.pattern
-    # for spin_to_flip in flipped_spins:
-    #     state = _flip_spin_of_state(state, spin_to_flip)
-    
-    # _spins_with_different_value(state, )
     
 def _index_first_state_on_cycle(cycle: Cycle, hair: Hair):
     values_spin_to_flip_0_equal = cycle.pattern_value_flipped_spin_0 == _get_value_of_spin_for_first_state_on_cycle(hair, cycle.flipped_spins[0])
@@ -198,12 +178,6 @@ def _index_first_state_on_cycle(cycle: Cycle, hair: Hair):
         index_first_state_on_cycle = 2
     return index_first_state_on_cycle
 
-# index_to_state_map: dict[int, State] = {}
-# for i, state in enumerate(hair.hair):
-#     index_to_state_map[i] = state
-# for i in range(4):
-#     index_cycle_state = (hair.index_destination_state_on_cycle + i) % 4
-#     index_to_state_map[hair_length + i] = cycle.cycle[index_cycle_state]
 
 @dataclass(frozen = True)
 class LocalDisentangledSystem:

@@ -18,8 +18,7 @@ from frenetic_steering.application_on_images import load_images
 from frenetic_steering.step_1.local_disentangling.util import number_of_spins_with_different_value
 
 
-def find_closest_pattern():
-    input = load_images.load_input()
+def find_closest_pattern(input):
     distances = []
     for i in range(load_images.get_number_of_patterns()):
         pattern = load_images.load_pattern(i)

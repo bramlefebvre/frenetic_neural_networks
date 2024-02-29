@@ -40,18 +40,15 @@ def get_number_of_patterns():
     return len(pattern_filename_list)
 
 def load_pattern(i):
-    return _load_image(pattern_filename_list[i])
+    return load_image(pattern_filename_list[i])
 
-def load_input():
-    return _load_image(input_file)
-
-def _load_image(filename):
+def load_image(filename):
     number_of_pixels = image_size[0]*image_size[1]
-    spin_values = numpy.zeros(number_of_pixels, dtype=numpy.byte)
+    neuron_values = numpy.zeros(number_of_pixels, dtype=numpy.byte)
     image = Image.open(filename)
     image = image.convert('1')
     image_data = list(image.getdata())
     for i, pixel_value in enumerate(image_data):
         if pixel_value == 255:
-            spin_values[i] = 1
-    return spin_values
+            neuron_values[i] = 1
+    return neuron_values
