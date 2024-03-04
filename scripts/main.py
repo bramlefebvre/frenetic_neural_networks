@@ -22,4 +22,4 @@ from frenetic_steering.application_on_images.analysis import analyze_performance
 
 # local_steering()
 
-analyze_performance()
+print(analyze_performance(100))

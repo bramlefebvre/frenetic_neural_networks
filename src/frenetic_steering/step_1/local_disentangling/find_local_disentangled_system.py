@@ -18,6 +18,7 @@ from dataclasses import dataclass
 from typing import Callable
 from frenetic_steering.step_1.data_structures import DisentangledSystem, CompletedBasin
 from frenetic_steering.step_1.local_disentangling.find_closest_pattern import find_closest_pattern
+from frenetic_steering.application_on_images.util import flip_spin_value
 import numpy
 import copy
 import numpy.typing as npt
@@ -105,7 +106,7 @@ def _get_value_of_spin_for_first_state_on_cycle(hair: Hair, spin: int):
     value_of_spin_for_input = hair.input[spin]
     value: int
     if number_of_flips == 1:
-        value = _flip_spin_value(value_of_spin_for_input)
+        value = flip_spin_value(value_of_spin_for_input)
     else:
         value = value_of_spin_for_input
     return value
@@ -133,21 +134,6 @@ def _find_cycle(pattern: State):
     pattern_value_flipped_spin_1 = pattern[spin_to_flip_1]
     return Cycle(pattern_value_flipped_spin_0, pattern_value_flipped_spin_1, (spin_to_flip_0, spin_to_flip_1))
 
-    
-def _flip_spin_of_state(state: State, spin_to_flip):
-    state = copy.copy(state)
-    state[spin_to_flip] = _flip_spin_value(state[spin_to_flip])
-    return state
-
-
-def _flip_spin_value(spin_value):
-    flipped_spin_value = 0
-    if spin_value == 1:
-        flipped_spin_value = 0
-    else:
-        flipped_spin_value = 1
-    return flipped_spin_value
-        
 
 def _initialize_index_to_state_function(cycle: Cycle, hair: Hair, index_first_state_on_cycle: int):
     spin_flips: list[int] = []
@@ -158,9 +144,9 @@ def _initialize_index_to_state_function(cycle: Cycle, hair: Hair, index_first_st
     def index_to_state(index: int):
         if index == 0:
             return hair.input
-        state = hair.input
+        state = copy.copy(hair.input)
         for i in range(index - 1):
-            state = _flip_spin_of_state(state, spin_flips[i])
+            state[spin_flips[i]] = flip_spin_value(state[spin_flips[i]])
         return state
     return index_to_state
 
