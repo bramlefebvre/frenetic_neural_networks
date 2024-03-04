@@ -5,6 +5,7 @@ from frenetic_steering.application_on_images.local_steering import local_steerin
 import numpy
 import numpy.typing as npt
 import copy
+from math import ceil
 
 config = base_dao.read_data("config")
 
@@ -32,7 +33,7 @@ def analyze_performance(n):
 def distort_image(test_pattern):
     distorted_image = copy.copy(test_pattern)
     number_of_neurons = image_size[0]*image_size[1]
-    number_of_neurons_to_flip = error_fraction*number_of_neurons
+    number_of_neurons_to_flip = ceil(error_fraction*number_of_neurons)
     neurons_to_flip = random_number_generator.choice(number_of_neurons, number_of_neurons_to_flip, replace=False)
     for neuron in neurons_to_flip:
         distorted_image[neuron] = flip_spin_value(distorted_image[neuron])
