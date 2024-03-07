@@ -1,8 +1,8 @@
 {
-    "image_width": 500,
-    "image_height": 500,
+    "image_width": 100,
+    "image_height": 100,
     "original_patterns_folder": "/home/user/u0074204/Nextcloud/fysica/work_documents/local_disentangling/version_2/original_patterns",
-    "converted_patterns_folder": "/home/user/u0074204/Nextcloud/fysica/work_documents/local_disentangling/version_2/large/converted_patterns",
-    "input_file": "/home/user/u0074204/Nextcloud/fysica/work_documents/local_disentangling/version_2/large/input.jpg",
-    "test_pattern": "/home/user/u0074204/Nextcloud/fysica/work_documents/local_disentangling/version_2/large/converted_patterns/coffee.jpg"
+    "converted_patterns_folder": "/home/user/u0074204/Nextcloud/fysica/work_documents/local_disentangling/version_2/small/converted_patterns",
+    "input_file": "/home/user/u0074204/Nextcloud/fysica/work_documents/local_disentangling/version_2/small/input.jpg",
+    "test_pattern": "/home/user/u0074204/Nextcloud/fysica/work_documents/local_disentangling/version_2/small/converted_patterns/coffee.jpg"
 }

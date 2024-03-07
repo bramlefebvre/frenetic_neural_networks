@@ -13,13 +13,14 @@ GNU General Public License for more details.
 A copy of the GNU General Public License is in the file COPYING. It can also be found at
 <https://www.gnu.org/licenses/>.
 '''
-
-from frenetic_steering.application_on_images.local_steering import local_steering
+from frenetic_steering.daos import base_dao
+from frenetic_steering.application_on_images.local_steering import local_steering_and_show
 from frenetic_steering.application_on_images.prepare_patterns import convert_patterns
 from frenetic_steering.application_on_images.analysis import analyze_performance
+from frenetic_steering.application_on_images.load_images import load_image
 
 # convert_patterns()
 
-# local_steering()
+local_steering_and_show()
 
-print(analyze_performance(100))
+# print(analyze_performance(100))

@@ -28,13 +28,11 @@ input_file = config["input_file"] # type: ignore
 
 travel_time = 1
 driving_value = 5
-initial_activity_parameter_factor = 100
+initial_activity_parameter_factor = 1000
 learning_rate = 0.5
 desired_residence_time = 0.2
 training_set_size = 100
 algorithm = LearningAlgorithm.LOOK_FORWARD_AND_ONLY_ONCE_PER_ARC
-
-input_file = config["input_file"] # type: ignore
 
 
 def local_steering_and_show():
